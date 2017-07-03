@@ -1,7 +1,7 @@
 <?php
 /*
-	These are the functions that connect us to the Utilities database
-	where the usernames and passwords are stored
+	These database functions are in a seperate class 
+	so we can use a different database to log on to site
 */
 require_once(LIB_PATH.DS.'connect_utilities.php');
 
@@ -88,7 +88,7 @@ class utilities {
 		}
 	}
 
-	public function mysqli_prep($string) {
+	public function sql_prep($string) {
 		$escaped_string = mysqli_real_escape_string($this->connection, $string);
 		return $escaped_string;
 	}
@@ -120,26 +120,6 @@ class utilities {
 		}
 	}
 
-	public function check_acl($user,$program) {
-		// if this returns an empty string, user has access to this utility
-//echo "<pre>"; var_dump($user); echo "</pre>"; die();
-		// need id number of utility
-		$query = "select * from util where name = '{$program}'";
-		$util_set = $this->query($query);
-		if($util = $this->fetch_array($util_set)) {
-			// does this id have access to this utility
-			$query = "select * from acl where userid='" . $user['userid'] . "' and utilid='" . $util['utilid'] . "'";
-			$acl_set = $this->query($query);
-			if($acl = $this->fetch_array($acl_set)) {
-				return "";
-			} else {
-				return "User " . $user['username'] . " does not have access to " . $program;
-			}
-		} else {
-			return "Utility {$program} not found";
-		}
-	}
-
 	public function find_all_users() {
 		$query  = "SELECT * ";
 		$query .= "FROM users ";
@@ -150,8 +130,8 @@ class utilities {
 
 	public function find_user_by_id($id) {
 		$query  = "SELECT * ";
-		$query .= "FROM admins ";
-		$query .= "WHERE id = '{$id}' ";
+		$query .= "FROM users ";
+		$query .= "WHERE userid = '{$id}' ";
 		$query .= "LIMIT 1";
 		$user_set = $this->query($query);
 		if($user = mysqli_fetch_assoc($user_set)) {
@@ -159,14 +139,6 @@ class utilities {
 		} else {
 			return null;
 		}
-	}
-
-	public function find_all_admins() {
-		$query  = "SELECT * ";
-		$query .= "FROM admins ";
-		$query .= "ORDER BY username ASC";
-		$user_set = $this->query($query);
-		return $user_set;
 	}
 
 	public function insert_id() {
