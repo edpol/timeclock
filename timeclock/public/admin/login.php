@@ -28,12 +28,9 @@
 		if ($found_user) {
 			// Username and password worked
 			$program = "timeclock";
-			$message = $utilities->check_acl($found_user,$program); 
-			if (empty($message)) {
-				$session->login($found_user);
-//				log_action('Login', "{$found_user->username} logged in.");
-				redirect_to("menu.php");
-			}
+			$session->login($found_user);
+//			log_action('Login', "{$found_user->username} logged in.");
+			redirect_to("menu.php");
 		} else {
 			// username/password combo was not found in the database
 			$message = "Username/password<br />combination incorrect.";

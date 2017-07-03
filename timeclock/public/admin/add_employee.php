@@ -90,20 +90,20 @@
 						<!-- we don't have employeeid yet  -->
 						<input type="hidden"   name="is_active"  value=0>
 						<input type="checkbox" name="is_active"  value=1 checked /><br />
-						<input type="text"     name="barcode"    value="<?php echo $barcode;    ?>" id="focus"/> <br />
-						<input type="text"     name="fname"      value="<?php echo $fname;      ?>" /> <br />
-						<input type="text"     name="lname"      value="<?php echo $lname;      ?>" /> <br />
-						<input type="email"    name="email"      value="<?php echo $email;      ?>" /> <br />
-						<input type="text"     name="add1"       value="<?php echo $add1;       ?>" /> <br />
-						<input type="text"     name="add2"       value="<?php echo $add2;       ?>" /> <br />
-						<input type="text"     name="city"       value="<?php echo $city;       ?>" /> <br />
+						<input type="text"     name="barcode"    value="<?= $barcode;    ?>" id="focus"/> <br />
+						<input type="text"     name="fname"      value="<?= $fname;      ?>" /> <br />
+						<input type="text"     name="lname"      value="<?= $lname;      ?>" /> <br />
+						<input type="email"    name="email"      value="<?= $email;      ?>" /> <br />
+						<input type="text"     name="add1"       value="<?= $add1;       ?>" /> <br />
+						<input type="text"     name="add2"       value="<?= $add2;       ?>" /> <br />
+						<input type="text"     name="city"       value="<?= $city;       ?>" /> <br />
 						<?php include ("us_states.php"); ?><br />
-						<input type="text"     name="zip"        value="<?php echo $zip;        ?>" maxlength="10" size="10" /><br />
-						<input type="text"     name="phone"      value="<?php echo $phone;      ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
-						<input type="text"     name="social"     value="<?php echo $social;     ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
-						<input type="text"     name="hire_date"  value="<?php echo $hire_date;  ?>" id="datepicker" /> <br />
-						<input type="text"     name="emergency_contact" value="<?php echo $emergency_contact;   ?>" /> <br />
-						<input type="text"     name="emergency_number"  value="<?php echo $emergency_number;    ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
+						<input type="text"     name="zip"        value="<?= $zip;        ?>" maxlength="10" size="10" /><br />
+						<input type="text"     name="phone"      value="<?= $phone;      ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
+						<input type="text"     name="social"     value="<?= $social;     ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
+						<input type="text"     name="hire_date"  value="<?= $hire_date;  ?>" id="datepicker" /> <br />
+						<input type="text"     name="emergency_contact" value="<?= $emergency_contact;   ?>" /> <br />
+						<input type="text"     name="emergency_number"  value="<?= $emergency_number;    ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
 						<select name="grp">
 							<?= $database->group_list() ; ?>
 						</select>
@@ -123,7 +123,7 @@
 				<br clear="all" />
 				<div class="get_barcode">To generate <a href="http://generator.barcoding.com/" target="_blank">barcode jpg</a></div>
 			</span>
-			<?php echo $session->message(); ?>
+			<?= $session->message(); ?>
 		</form>
 	</h2>
 </div>
