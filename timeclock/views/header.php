@@ -30,5 +30,5 @@
 	body element. But instead a fixed position div with 100% width and height.
 */
 ?>
-	<!-- header.php -->
 </head>
+<!-- view: header.php -->
