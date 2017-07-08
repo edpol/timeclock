@@ -49,15 +49,15 @@
 <div id="back">
 	<h2>
 		<span class="employee">
+			<div class="whitebox">
+				<form id="form1" action="login.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
 
-			<form id="form1" action="login.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
-
-				<!-- Login -->
-				<div style="display:inline-block;"> <!-- so the time is centered on username password, not buttons -->
-				<div align="center">
-					<span id="time"></span><br />
-					<?= show_date(); ?>
-				</div>
+					<!-- Login -->
+					<div style="display:inline-block;"> <!-- so the time is centered on username password, not buttons -->
+					<div align="center">
+						<span id="time"></span><br />
+						<?= show_date(); ?>
+					</div>
 					<div class="labels">
 						<p>username: </p> 
 						<p>password: </p> 
@@ -67,15 +67,15 @@
 						<input type="password" name="password" value="" /><br />
 					</div>
 					<br clear="all" />
-				</div>
 
-				<!-- Buttons -->
-				<div align="center" style="padding-top:20px;">
-					<a style=" padding:14px 65px;" href="../index.php" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'">back</a>
-					<input type="submit" name="submit" value="submit" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
-				</div>
-				<?= $message; ?>
-			</form>
+					<!-- Buttons -->
+					<div align="center" style="padding-top:20px;">
+						<a style=" padding:14px 65px;" href="../index.php" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'">back</a>
+						<input type="submit" name="submit" value="submit" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
+					</div>
+					<?= $message; ?>
+				</form>
+			</div>
 		</span>
 	</h2>
 </div>

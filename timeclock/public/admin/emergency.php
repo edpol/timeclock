@@ -7,7 +7,7 @@
 	}
 
 	$output  = "<table align='center'>\n";
-	$output .= "<tr><th>Employee</th><th>Phone</th><th>Emergency<br />Contact</th><th>Emergency<br />Phone</th></tr>\n";
+	$output .= "<tr><th>Employee</th><th>Phone</th><th>Emergency<br />Contact</th><th>Emergency<br />Phone</th><th>email</th></tr>\n";
 	$sql = "select * from employee order by lname";
 	$result=$db->query($sql);
 	while ($row = $db->fetch_array($result)) {
@@ -20,6 +20,7 @@
 			$output .= "<td>" . phonef($phone) . "</td>";
 			$output .= "<td>{$contact}</td>";
 			$output .= "<td>" . phonef($emergency_number) . "</td>";
+			$output .= "<td>{$email}</td>";
 			$output .= "</tr>\n";
 		}
 	}
@@ -31,7 +32,7 @@
 <head>
 <title>Emergency List</title>
 <style>
-body {font-family:Arial, Helvetica, sans-serif; font-size:16px; }
+body {font-family:Arial, Helvetica, sans-serif; font-size:16px; color:white; background-color:black;}
 td {
     width: 1px;
     white-space: nowrap;

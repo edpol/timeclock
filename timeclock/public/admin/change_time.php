@@ -41,7 +41,7 @@
 
 	if (isset($_POST["submit"])) {
 		// Add
-		if ($_POST["submit"]=="add" && !empty($_POST["time"])) {
+		if ($_POST["submit"]=="$result" && !empty($_POST["time"])) {
 //			$punch = $target_date . " " . $_POST["hour"] . ":" . $_POST["minute"] . ":00 " . $_POST["am_pm"]; 
 
 			$time = strtolower(trim($_POST["time"]));
@@ -97,7 +97,7 @@
 					<input type="hidden" name="calling_url" value="admin/change_time.php" />
 				</div>
 				<br clear="all" />
-				<div style="padding-top:20px; text-align:center;">
+				<div style="p$resulting-top:20px; text-align:center;">
 					<input type="button" tabindex=3 name="submit" value="menu"   <?= $admin; ?> onClick="parent.location='menu.php'" />
 					<input type="submit" tabindex=4 name="submit" value="submit" <?= $admin; ?> />
 				</div>
@@ -113,20 +113,20 @@
 						<p>Date</p>
 					</div>
 					<div class="info" style="float:left;">
-<?php	 				echo "\t\t" . $timeclock->name . "<br />\n";
-						echo "\t\t" . strftime("%A %m/%d/%Y", strtotime($target_date) ) . "<br />\n";
-?>					</div>
+<?=	 					"\t\t\t\t\t\t" . $timeclock->name . "<br />\n"; ?>
+<?=						"\t\t\t\t\t\t" . strftime("%A %m/%d/%Y", strtotime($target_date) ) . "<br />\n"; ?>
+					</div>
 					<br clear="all" />
 
 					<!-- Add Time -->
-					<div style="padding-top:20px; padding-bottom:20px;">
-<?php			 		echo $timeclock->input_time_setup($target_date); ?>
+					<div style="padding-top:10px; padding-bottom:10px;">
+<?=				 		$timeclock->input_time_setup($target_date); ?>
 					</div>
 
 					<!-- List/Delete Time -->
-<?php 				echo $existing_entries;	?>
+<?=					$existing_entries;	?>
 					<span class="employee">
-<?php  					echo $session->message(); ?>
+<?=						$session->message(); ?>
 					</span>
 				</form>
 			</div>

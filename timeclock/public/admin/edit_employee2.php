@@ -165,8 +165,8 @@
 					</div>
 					<br clear="all" />
 					<div align="center">
-						<input type="button" name="submit" value="back"   class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" onClick="parent.location='menu.php'" />
-						<input type="submit" name="submit" value="submit" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
+						<input type="button" name="submit" value="back"   class="admin_up" onClick="parent.location='menu.php'" />
+						<input type="submit" name="submit" value="submit" class="admin_up" />
 					</div>
 				</span>
 				<div class="labels">
