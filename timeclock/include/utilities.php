@@ -34,7 +34,7 @@ class utilities {
 
 	private function confirm_query($result) {
 		if (!$result) {
-			$output = "Database query failed: " . mysqli_error() . "<br /><br />";
+			$output = "Database query failed: " . mysqli_error($this->connection) . "<br /><br />";
 			$output .= "Last SQL query: " . $this->last_query;
 			die( $output );
 		}
@@ -74,20 +74,6 @@ class utilities {
 		return $value;
 	}
 
-	public function find_user_by_username($username) {	
-		$safe_username = $this->escape_value($username);
-		$query  = "SELECT * ";
-		$query .= "FROM users ";
-		$query .= "WHERE username = '{$safe_username}' ";
-		$query .= "LIMIT 1";
-		$user_set = $this->query($query);
-		if($user = $this->fetch_array($user_set)) {
-			return $user;
-		} else {
-			return null;
-		}
-	}
-
 	public function sql_prep($string) {
 		$escaped_string = mysqli_real_escape_string($this->connection, $string);
 		return $escaped_string;
@@ -120,6 +106,122 @@ class utilities {
 		}
 	}
 
+	private function generate_salt($length) {
+		// Not 100% unique, not 100% random, but good enough for a salt
+		// MD5 returns 32 characters
+		$unique_random_string = md5(uniqid(mt_rand(), true));
+
+		// Valid characters for a salt are [a-zA-Z0-9./]
+		$base64_string = base64_encode($unique_random_string);
+
+		// But not '+' which is valid in base64 encoding
+		$modified_base64_string = str_replace('+', '.', $base64_string);
+
+		// Truncate string to the correct length
+		$salt = substr($modified_base64_string, 0, $length);
+
+		return $salt;
+	}
+
+	private function password_encrypt($password) {
+		$hash_format = "$2y$10$";   // Tells PHP to use Blowfish with a "cost" of 10
+		$salt_length = 22; 			// Blowfish salts should be 22-characters or more
+		$salt = $this->generate_salt($salt_length);
+		$format_and_salt = $hash_format . $salt;
+		$hash = crypt($password, $format_and_salt);
+		return $hash;
+	}
+
+	public function password_update($password, $userid) {
+		$hashed_password = $this->password_encrypt($password);
+		$query  = "UPDATE users SET ";
+		$query .= "hashed_password = '{$hashed_password}' ";
+		$query .= "WHERE userid = {$userid} ";
+		$query .= "LIMIT 1";
+		$result = $this->query($query);
+
+		if ($result && $this->affected_rows() == 1) {
+			// Success
+			$_SESSION["message"] = "User ID {$userid} Password updated.";
+			return true;
+		} else {
+			// Failure
+			$_SESSION["message"] = "password_update for user id {$userid} failed.";
+			return false;
+		}
+	}
+
+	public function user_add($array) {
+		extract($array);
+		$hashed_password = $this->password_encrypt($password);
+		$sql  = "INSERT INTO users ( username, hashed_password, fname, lname ) VALUES ";
+		$sql .= "('{$username}',  '{$hashed_password}', '{$fname}', '{$lname}') ";
+		$result = $this->query($sql);
+		if ($result && $this->affected_rows() == 1) {
+			$message ="Added username {$username} {$fname} {$lname} ";
+		} else {
+			$message ="user_add failed - username {$username} {$fname} {$lname} ";
+		}
+		return $message;
+/*
+		i need a view that will ask for the information.
+		it is just like update except that username and password are requirements
+*/
+	}
+
+	// mysqli_query returns FALSE on failure
+	public function delete_user($userid) {
+		$query  = "DELETE FROM USERS WHERE userid = '{$userid}' LIMIT 1";
+		$result = $this->query($query);
+		if ($result && $this->affected_rows() == 1) {
+			$message = "Deleted User " . $userid . "<br />\n";
+		} else {
+			$message = "Deleting User " . $userid . " <u>FAILED<u> <br />\n";
+		}
+		return $message;
+	}
+
+	public function user_update($array) {
+		extract($array);
+		$row = $this->find_user_by_id($userid);
+
+		$message = "";
+		if ($fname <> $row["fname"] || $lname <> $row["lname"]) {
+			$sql = "update users set fname='" . $fname . "', lname='" . $lname . "' where userid=" . $userid;
+			$result = $this->query($sql);
+
+			if ($result && $this->affected_rows() == 1) {
+				$message .= "User ID {$userid} Name updated.<br />\n";
+			} else {
+				$message .= "user_update for user id {$userid} failed.<br />\n";
+			}
+		}
+
+		if (isset($password) && !empty($password)) {
+			$hashed_password = $this->password_encrypt($password);
+			if ($hashed_password <> $row["hashed_password"]) {
+				$this->password_update($password, $userid);
+				$message .= $_SESSION["message"];
+				unset ($_SESSION["message"]);
+			}
+		}
+		return $message;
+	}
+
+	public function find_user_by_username($username) {	
+		$safe_username = $this->escape_value($username);
+		$query  = "SELECT * ";
+		$query .= "FROM users ";
+		$query .= "WHERE username = '{$safe_username}' ";
+		$query .= "LIMIT 1";
+		$user_set = $this->query($query);
+		if($user = $this->fetch_array($user_set)) {
+			return $user;
+		} else {
+			return null;
+		}
+	}
+
 	public function find_all_users() {
 		$query  = "SELECT * ";
 		$query .= "FROM users ";
@@ -134,11 +236,38 @@ class utilities {
 		$query .= "WHERE userid = '{$id}' ";
 		$query .= "LIMIT 1";
 		$user_set = $this->query($query);
-		if($user = mysqli_fetch_assoc($user_set)) {
+		if($user = $this->fetch_array($user_set)) {
 			return $user;
 		} else {
 			return null;
 		}
+	}
+
+
+	/*
+	 *    list all users with manage choice and add choice and delete choice
+	 */
+	public function user_table ($title="Manage Users",$edit_page="",$delete_page="") {
+		$result = $this->find_all_users();
+		$output  = "<table border=1>\n";
+		$output .= "\t\t\t\t\t\t\t<caption>{$title}</caption>\n";
+		$output .= "\t\t\t\t\t\t\t<tr>\n";
+		$output .= "\t\t\t\t\t\t\t\t<th style='text-align:center;'>Name</th>\n";
+		$output .= "\t\t\t\t\t\t\t\t<th style='text-align:center;'>Username</th>\n";
+		$output .= "\t\t\t\t\t\t\t\t<th colspan='2' style='text-align:center;'>Actions</th>\n";
+		$output .= "\t\t\t\t\t\t\t</tr>\n";
+
+		while($user = $this->fetch_array($result)) { 
+			$name = trim($user["fname"]) . " " . trim($user["lname"]);
+			$output .= "\t\t\t\t\t\t\t<tr>\n";
+			$output .= "\t\t\t\t\t\t\t\t<td>" . htmlentities($name) . "</td>\n";
+			$output .= "\t\t\t\t\t\t\t\t<td>" . htmlentities($user["username"]). "</td>\n";
+			$output .= "\t\t\t\t\t\t\t\t<td><button type='submit' class='edit_up' name='edit'   value='" . urlencode($user["userid"]) . "' formaction='{$edit_page}'>Edit</button></td>\n";
+			$output .= "\t\t\t\t\t\t\t\t<td><button type='submit' class='del_up'  name='delete' value='" . urlencode($user["userid"]) . "' formaction='{$delete_page}'>X</button></td>\n";
+			$output .= "\t\t\t\t\t\t\t</tr>\n";
+		}
+		$output .= "\t\t\t\t\t\t</table>\n";
+		return $output;
 	}
 
 	public function insert_id() {

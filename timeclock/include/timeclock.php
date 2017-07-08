@@ -320,10 +320,9 @@ class timeclock {
 	}
 
 	public function input_time_setup($target_date) {
-		$output  = "\t\t" . '<input type="submit" name="submit" value="add" class="admin_up" onMouseUp="this.className';
-		$output .= "'admin_up'" . '" onMouseDown="this.className=' . "'admin_down'" . '" />' . "\n";
-		$output .= '<input type="text"  name="time" value="" />';
-		$output .= "\t\t<input type='hidden' name='target_date' value='{$target_date}' />\n";
+		$output  = "\t\t\t\t\t\t<input type='submit' name='submit'      value='add' class='edit_up' />\n";
+		$output .= "\t\t\t\t\t\t<input type='text'   name='time'        value='' />\n";
+		$output .= "\t\t\t\t\t\t<input type='hidden' name='target_date' value='{$target_date}' />\n";
 		return $output;
 	}
 

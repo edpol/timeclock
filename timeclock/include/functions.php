@@ -12,17 +12,22 @@
 		echo "<pre>"; print_r($target); echo "</pre>";
 	}
 
-//$text = 'This is a test';
-//         012345
-//              12345678
-//              is a tes
-//echo substr_count($text, 'is', 5, 8);  
+/*
+PUBLIC_ROOT C:\wamp64\www\P4BH\p4bh\timeclock\public $c = 6
+SITE_ROOT   C:\wamp64\www\P4BH\p4bh\timeclock        $c = 5
+so $levels = "../"
+*/
+	function count_levels ($dir, $adjust=0) {
+		$c = substr_count($dir, DS) - substr_count(PUBLIC_ROOT, DS) - $adjust;
+		$levels = "";
+		$levels = str_repeat("../", $c);
+		return $levels;
+	}
 
 	function render($template, $dir, $data = array()) {
 //		$path = __DIR__ . '/../views/' . $template . '.php';
 		$path = SITE_ROOT . DS . 'views' . DS . $template . '.php';
-		$c = substr_count($dir, DS) - substr_count(PUBLIC_ROOT, DS);
-		$levels = str_repeat("../", $c);
+		$levels = count_levels($dir);
 		if (file_exists($path)) {
 			extract($data);
 			require($path);
