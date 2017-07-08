@@ -43,7 +43,7 @@
 <body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
 	<div id="back">
 		<h2>
-<?= $display; ?>
+<?= 		$display; ?>
 			<div class="bluebox">
 				<div align="center">
 					<span id="time"></span><br />
@@ -64,7 +64,7 @@
 						<button type="submit" name="login"   class="blue_up" formaction="admin/login.php">Sign In</button>
 						<button type="submit" name="inquire" class="blue_up" formaction="inquire.php"    >Inquire</button>
 					</div>
-<?php 				echo $message; ?>
+<?=					$message; ?>
 				</form>
 			</div>
 		</h2>

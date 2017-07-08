@@ -1,6 +1,5 @@
 <?php
 	require_once("../include/initialize.php");
-
 /* 	all this script does is get the record number of the employee 
 	we need this function for the inquire page so we cant check for logged in
 	if(!$session->is_logged_in()) {

@@ -1,19 +1,3 @@
-/*
-	jQuery(
-		function() {
-			jQuery('#test1').datepicker();
-  
-			jQuery('#test2').datepicker(  {
-					onSelect: function () { $(this).change(); }
-				}
-			);
-  
-			jQuery("input").on("change", 
-				function(){ console.log("change detected"); }
-			);
-		}
-	);
-*/
 
 	function submitForm(action) {
 		document.getElementById('form1').action = action;
@@ -34,28 +18,6 @@
 	$(function() {
 		$( "#datepicker, #datepicker2" ).datepicker();
 	});
-
-/* 
-	top.consoleRef = new Object();
-	top.consoleRef.closed = true;
-
-	function writeConsole(content) {
-		if (consoleRef.closed)
-			top.consoleRef=window.open('blank.htm','myconsole', 'width=350,height=450'+',menubar=0'+',toolbar=1'+',status=0'+',scrollbars=1'+',resizable=1')
-		else 
-			top.consoleRef.document.open("text/html","replace");
-			//use "replace" to prevent back/forward history
-			//top.consoleRef.document.open("text/html","replace");
-			top.consoleRef.document.writeln(
-				'<html><head><title>Console</title></head>'
-				+'<body bgcolor=black onLoad="self.focus()" style="color:white;">'
-				+'<pre>'+content+'</pre>'
-				+'</body></html>'
-			)
-		top.consoleRef.document.close()
-		setTimeout(function(){ top.consoleRef.close() }, 90000);
-	}
-*/
 
    /*
 	*	This diplays the time 
@@ -182,6 +144,32 @@
 		}
 	}
 
+// handle the form submit event
+function prepareEventHandlers() {
+	document.getElementById("frmContact").onclick = function() {
+        var result = false;
+		// prevent a form from submitting if no email.
+		if (document.getElementById("mandatoryUsername").value == "") {
+			document.getElementById("errorUsername").innerHTML = "Username is mandatory";
+			// to STOP the form from submitting
+			result = false;
+		} else {
+			// reset and allow the form to submit
+			document.getElementById("errorUsername").innerHTML = "";
+			result = true;
+		}
+		if (document.getElementById("mandatoryPassword").value == "") {
+			document.getElementById("errorPassword").innerHTML = "Password is mandatory";
+			result = false;
+		} else {
+			document.getElementById("errorPassword").innerHTML = "";
+			result = true;
+		}
+
+		return result;
+	};
+}
+
 	window.onload = function () {
 
 		// if there is an element with id time start the clock
@@ -194,7 +182,12 @@
 			document.getElementById('focus').focus();
 		}
 
+		buttonSetup("del");
+		buttonSetup("edit");
 		buttonSetup("blue");
 		buttonSetup("pink");
 		buttonSetup("admin");
+
+        prepareEventHandlers();
+
 	}
