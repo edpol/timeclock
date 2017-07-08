@@ -60,7 +60,8 @@ h2 {text-align:left;}
 
 .col  {float:left; width:92px; text-align:center;}
 
-input, select { width:160px; text-align:center; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:18px; background-color:#DDD; color:black; margin-top:4px; margin-bottom:3px; }
+input, select, button {margin-top:4px; margin-bottom:3px; }
+input, select { width:160px; text-align:center; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:18px; background-color:#DDD; color:black; }
 input:focus, select:focus   { background-color: #F00 #00F #0F0 #0FF; }
 select {margin-top:4px; margin-bottom:3px; width:186px; }
 input[type='checkbox'] { margin-top:12px;}
@@ -70,14 +71,16 @@ input[type='radio'],input[type='checkbox'] { width:10px; }
 .info {line-height:1.48em;}
 
 table {color:black; font-size:12px;}
-
+td, th, caption {font-size:24px; color:white; text-align:left; padding:6px; }
+caption {text-align:center;}
+.labels td, .labels th {font-size:24px; color:white; text-align:left; width:160px; }
 .labels { float:left; color:#EEEEEE; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:24px; padding:0px 8px 0 0;}
 .labels p { padding:0px; margin:0px; line-height:1.52em; }
-td, th {font-size:24px; color:white; text-align:left; width:160px; }
-.labels td, .labels th {font-size:24px; color:white; text-align:left; width:160px; }
-.employee { margin-left:5%; display:table; vertical-align:middle; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; }
 
+.employee { margin-left:5%; display:table; vertical-align:middle; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; }
 .employee input, .employee select {margin-bottom:8px; }
+
+#date_time { text-align:center; padding-bottom:10px; }
 
 /*
  *	Buttons
@@ -85,8 +88,8 @@ td, th {font-size:24px; color:white; text-align:left; width:160px; }
 
 form {display:inline;}
 
-.red_up, .red_down, .green_up, .green_down, .blue_up, .blue_down, .pink_up, .pink_down, .admin_up, .admin_down, .del_up, .del_down {
-	min-width:160px;
+.red_up, .red_down, .green_up, .green_down, .blue_up, .blue_down, .pink_up, .pink_down, .admin_up, .admin_down, .del_up, .del_down, .edit_up, .edit_down {
+	min-width:190px;
 	padding:12px 20px; 
 	font-size:18px; 
 	border-radius:24px; 
@@ -97,8 +100,6 @@ form {display:inline;}
 	text-decoration:none; 
 /*	letter-spacing:.1em;  */
 }
-.admin_up, .admin_down { width:180px; }
-.pink_up,  .pink_down  { width:220px; }
 
 .red_up     { background-image:linear-gradient(to bottom, #FF8888 0%, #CC3333 100%); }
 .red_down   { background-image:linear-gradient(to bottom, #CC3333 0%, #FF8888 100%); }
@@ -110,18 +111,21 @@ form {display:inline;}
 .pink_down  { background-image:linear-gradient(to bottom, #FF66FF 0%, #FFBBFF 100%); }
 .del_up     { background-image:linear-gradient(to bottom, #FF8888 0%, #CC3333 100%); }
 .del_down   { background-image:linear-gradient(to bottom, #CC3333 0%, #FF8888 100%); }
+.edit_up,
 .admin_up   { background-image:linear-gradient(to bottom, #6F735A 0%, #070D0D 100%); }
+.edit_down,
 .admin_down { background-image:linear-gradient(to bottom, #070D0D 0%, #6F735A 100%); }
-/*
-.admin_up   { background-image:linear-gradient(to bottom, #458575 0%, #013133 100%); }
-.admin_down { background-image:linear-gradient(to bottom, #013133 0%, #458575 100%); }
-*/
+
+.pink_up,  .pink_down  { width:220px; }
+.admin_up, .admin_down { width:190px; }
+.edit_up,  .edit_down  { min-width:110px; }
+
 a.blue_up, a.blue_down, a.pink_up, a.pink_down {
 	padding:12px 50px; 
 }
 .del_up, .del_down {
 	min-width:28px;
-	padding:8px 0px; 
+	padding:6px 0px; 
 	font-size:11px; 
 }
 
@@ -131,7 +135,7 @@ a.blue_up, a.blue_down, a.pink_up, a.pink_down {
 }
 .whitebox {
 	padding:20px; border-radius:20px; display: inline-block;
-	background:rgba(255, 255, 255, 0.5);
+	background:rgba(255, 255, 255, 0.3);
 }
 .bluebox {
 	padding:20px; border-radius:20px; display: inline-block;
