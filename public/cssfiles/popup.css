@@ -1,0 +1,138 @@
+a#login_pop:hover, a#window_pop:hover {
+	border-color: #eee;
+}
+
+.overlay {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	cursor: default;
+	position: fixed;
+	visibility:visible;
+	opacity:1;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 1;
+
+    -webkit-transition: opacity .5s;
+       -moz-transition: opacity .5s;
+        -ms-transition: opacity .5s;
+         -o-transition: opacity .5s;
+            transition: opacity .5s;
+}
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup, .popup h1, .popup h2 { color: #000; }
+#showup    { top:50%; left:50%;  }
+#showupinq { top:40%; left:50%;  }
+.popup     { top:40%; left:50%;  }
+.popup { 
+	display: inline-block;
+	position: fixed;
+	z-index: 10;
+	visibility:visible;
+	opacity: 1;
+	background-color: #fff;
+	text-align: justify;
+	font-family: Tahoma, Geneva, sans-serif;  /* "Trebuchet MS", Arial, Helvetica, sans-serif; */
+	border: 3px solid #fff;
+	padding: 15px;
+
+	-webkit-transform: translate(-50%, -50%);
+	   -moz-transform: translate(-50%, -50%);
+	    -ms-transform: translate(-50%, -50%);
+	     -o-transform: translate(-50%, -50%);
+	        transform: translate(-50%, -50%);
+
+	-webkit-border-radius: 10px;
+	   -moz-border-radius: 10px;
+	    -ms-border-radius: 10px;
+	     -o-border-radius: 10px;
+	        border-radius: 10px;
+
+	-webkit-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+	   -moz-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+	    -ms-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+	     -o-box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+	        box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+
+	-webkit-transition: opacity .5s, top .5s;
+	   -moz-transition: opacity .5s, top .5s;
+	    -ms-transition: opacity .5s, top .5s;
+	     -o-transition: opacity .5s, top .5s;
+	        transition: opacity .5s, top .5s;
+}
+
+.overlay:target+.popup {
+    top: 50%;
+    opacity: 1;
+    visibility: visible;
+}
+.close {
+    top: -15px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    -webkit-border-radius: 15px;
+       -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+         -o-border-radius: 15px;
+            border-radius: 15px;
+}
+.close:before {
+    color: rgba(255, 255, 255, 0.9);
+    content: "X";
+    font-size: 24px;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
+}
+.close:hover {
+    background-color: rgba(64, 128, 128, 0.8);
+}
+.popup p, .popup div {
+    margin-bottom: 10px;
+}
+.popup label {
+    display: inline-block;
+    text-align: left;
+    width: 120px;
+}
+.popup input[type="text"], .popup input[type="password"] {
+    border: 1px solid;
+    border-color: #999 #ccc #ccc;
+    margin: 0;
+    padding: 2px;
+
+    -webkit-border-radius: 2px;
+       -moz-border-radius: 2px;
+        -ms-border-radius: 2px;
+         -o-border-radius: 2px;
+            border-radius: 2px;
+}
+.popup input[type="text"]:hover, .popup input[type="password"]:hover {
+    border-color: #555 #888 #888;
+}
+
+.two_weeks .spacer {border-color:white; background-color:white; height:5px; border:none;}
+.two_weeks th, .two_weeks td {border:black solid thin; border-radius:2px; color:black; font-size:12px; font-weight:normal;}
+.two_weeks th, .one_day   th {text-align:center; background-color:#CCC;}
+.two_weeks td, .one_day   td {text-align:right;  background-color:#FFF; vertical-align:top;}
+.two_weeks .one_day {border-color:#003399; border-width:thick; }
+.one_day   th, .one_day   td {border:none; color:black; font-size:12px; }
+.one_day table { border: 1px solid black;}
+.two_weeks .grand {vertical-align:bottom;  border:none;}
+
+.divScrollAuto {  
+	height: 400px;  
+	width: 300px;  
+	overflow: auto;  
+	white-space: nowrap;  
+}  

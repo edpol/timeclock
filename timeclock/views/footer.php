@@ -1,3 +1,0 @@
-<!-- view: footer -->
-	<footer>
-    </footer>
