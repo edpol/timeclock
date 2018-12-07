@@ -1,6 +1,6 @@
 <?php
 
-	function redirect_to( $location = NULL ) {
+	function redirectTo( $location = NULL ) {
 		if ($location != NULL) {
 // echo "<br /><pre>\$_SESSION "; print_r($_SESSION); echo $location . "</pre>"; 
 			header("Location: {$location}");
@@ -8,7 +8,7 @@
 		}
 	}
 
-	function print_array ($target) {
+	function printArray ($target) {
 		echo "<pre>"; print_r($target); echo "</pre>";
 	}
 
@@ -17,7 +17,7 @@ PUBLIC_ROOT C:\wamp64\www\P4BH\p4bh\timeclock\public $c = 6
 SITE_ROOT   C:\wamp64\www\P4BH\p4bh\timeclock        $c = 5
 so $levels = "../"
 */
-	function count_levels ($dir, $adjust=0) {
+	function countLevels ($dir, $adjust=0) {
 		$c = substr_count($dir, DS) - substr_count(PUBLIC_ROOT, DS) - $adjust;
 		$levels = "";
 		$levels = str_repeat("../", $c);
@@ -27,14 +27,14 @@ so $levels = "../"
 	function render($template, $dir, $data = array()) {
 //		$path = __DIR__ . '/../views/' . $template . '.php';
 		$path = SITE_ROOT . DS . 'views' . DS . $template . '.php';
-		$levels = count_levels($dir);
+		$levels = countLevels($dir);
 		if (file_exists($path)) {
 			extract($data);
 			require($path);
 		}
 	}
 
-	function show_date() {
+	function showDate() {
 		//strftime('m/%d/%y %I:%H:%S %p');
 		return strftime('%A &nbsp; %m-%d-%Y', time());	
 	}

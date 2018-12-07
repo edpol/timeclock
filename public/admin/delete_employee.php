@@ -2,17 +2,17 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? 
-	if(!$session->is_logged_in()) {
-		redirect_to("login.php");
+	if(!$session->isLoggedIn()) {
+		redirectTo("login.php");
 	}
 
 	if (isset($_SESSION["employeeid"])) {
 		$employeeid = $_SESSION["employeeid"];
 		unset($_SESSION["employeeid"]);
-		$tc = new timeclock();
-		$tc->set_inactive($employeeid);
+//		$tc = new Timeclock();
+		$database->setInactive($employeeid);
 //		reload the page so session gets updated, or just call the updating method
-//		redirect_to("delete_employee.php");  
+//		redirectTo("delete_employee.php");  
 	} else {
 		$_SESSION["calling_url"] = "admin/delete_employee.php";
 	}
@@ -50,7 +50,7 @@
 				</form>
 			</span>
 			<span class="employee">
-				<?php $session->check_message();
+				<?php $session->checkMessage();
 					  echo $session->message(); ?>
 			</span>
 		</h2>

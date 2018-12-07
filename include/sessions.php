@@ -5,7 +5,7 @@
 // Keep in mind when working with sessions that it is generally 
 // inadvisable to store DB-related objects in sessions
 
-class session {
+class Session {
 
 	private $logged_in=false;
 	public $user_name;
@@ -14,8 +14,8 @@ class session {
 
 	function __construct() {
 		session_start();
-		$this->check_message();
-		$this->check_login();
+		$this->checkMessage();
+		$this->checkLogin();
 		if($this->logged_in) {
 			// actions to take right away if user is logged in
 		} else {
@@ -23,7 +23,7 @@ class session {
 		}
 	}
 
-	public function is_logged_in() {
+	public function isLoggedIn() {
 		return $this->logged_in;
 	}
 
@@ -42,7 +42,7 @@ class session {
 		$this->logged_in = false;
 	}
 
-	private function check_login() {
+	private function checkLogin() {
 		if(isset($_SESSION['user_id'])) {
 			$this->user_id = $_SESSION['user_id'];
 			$this->logged_in = true;
@@ -66,7 +66,7 @@ class session {
 		}
 	}
 
-	public function check_message() {
+	public function checkMessage() {
 		// Is there a message stored in the session?
 		if(isset($_SESSION['message'])) {
 			// Add it as an attribute and erase the stored version
@@ -79,7 +79,7 @@ class session {
 
 }
 
-$session = new session();
+$session = new Session();
 $message = $session->message();
 
 ?>

@@ -2,8 +2,8 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? 
-	if(!$session->is_logged_in()) {
-		redirect_to("../login.php");
+	if(!$session->isLoggedIn()) {
+		redirectTo("../login.php");
 	}
 
 	unset($_SESSION["list_all"]);
@@ -31,17 +31,17 @@
 		}
 	}
 
-	$timeclock = new timeclock();
+	$timeclock = new Timeclock();
 
 	if (isset($_POST["delete"])) {
-		$idx = $_POST["delete"];
-		$timeclock->delete($idx);
+		$id = $_POST["delete"];
+		$timeclock->delete($id);
 		unset($_POST["delete"]);
 	}
 
 	if (isset($_POST["submit"])) {
 		// Add
-		if ($_POST["submit"]=="$result" && !empty($_POST["time"])) {
+		if ($_POST["submit"]=="add" && !empty($_POST["time"])) {
 //			$punch = $target_date . " " . $_POST["hour"] . ":" . $_POST["minute"] . ":00 " . $_POST["am_pm"]; 
 
 			$time = strtolower(trim($_POST["time"]));
@@ -57,16 +57,16 @@
 			// comes back empty if it fails
 			if (isset($time_seconds) && !empty($time_seconds)) {
 				$punch = strftime('%Y-%m-%d %H:%M:00',strtotime($punch));
-				$timeclock->punch_in($employeeid, $punch);
+				$timeclock->punchIn($employeeid, $punch);
 			}
 			unset($_POST["submit"]);
 		}
 	}
 
 	if (isset($employeeid) && !empty($employeeid)) {
-		$employee_data   = $timeclock->get_employee_data($employeeid);
-		$target_array    = $timeclock->build_todays_array($employeeid,$target_date);
-		$existing_entries= $timeclock->display_change_time($target_array);
+		$employee_data   = $timeclock->getEmployeeData($employeeid);
+		$target_array    = $timeclock->buildTodaysArray($employeeid,$target_date);
+		$existing_entries= $timeclock->displayChangeTime($target_array);
 		$lastname        = $timeclock->lastname;
 	} else {
 		$existing_entries = "";
@@ -97,7 +97,7 @@
 					<input type="hidden" name="calling_url" value="admin/change_time.php" />
 				</div>
 				<br clear="all" />
-				<div style="p$resulting-top:20px; text-align:center;">
+				<div style="padding-top:20px; text-align:center;">
 					<input type="button" tabindex=3 name="submit" value="menu"   <?= $admin; ?> onClick="parent.location='menu.php'" />
 					<input type="submit" tabindex=4 name="submit" value="submit" <?= $admin; ?> />
 				</div>
@@ -120,7 +120,7 @@
 
 					<!-- Add Time -->
 					<div style="padding-top:10px; padding-bottom:10px;">
-<?=				 		$timeclock->input_time_setup($target_date); ?>
+<?=				 		$timeclock->inputTimeSetup($target_date); ?>
 					</div>
 
 					<!-- List/Delete Time -->

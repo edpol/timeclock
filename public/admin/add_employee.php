@@ -2,22 +2,22 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? Go to menu
-	if(!$session->is_logged_in()) {
-		redirect_to("login.php");
+	if(!$session->isLoggedIn()) {
+		redirectTo("login.php");
 	}
 
-	$list = $database->columns["employee"];
+	$list = $database->columns["employees"];
 
 	$error = array();
 	if (isset($_POST["submit"]) && $_POST["submit"]=="submit") {
 		foreach ($_POST as $key =>$value) {
-			$$key = $database->escape_value(strtoupper($value));
+			$$key = $database->escapeValue(strtoupper($value));
 		}
 
-		if (!isset($barcode) || empty($barcode))     { $error["barcode"] = "Barcode can't be blank"; }
-		if (strlen($barcode) <> 12)                  { $error["barcode"] = "Barcode must be 12 characters"; }
-		if (!$database->is_barcode_unique($barcode)) { $error["barcode"] = "This Barcode already exists"; }
-		if (!isset($lname) || empty($lname))         { $error["lname"]   = "Last Name can't be blank"; }
+		if (!isset($barcode) || empty($barcode))   { $error["barcode"] = "Barcode can't be blank"; }
+		if (strlen($barcode) <> 12)                { $error["barcode"] = "Barcode must be 12 characters"; }
+		if (!$database->isBarcodeUnique($barcode)) { $error["barcode"] = "This Barcode already exists"; }
+		if (!isset($lname) || empty($lname))       { $error["lname"]   = "Last Name can't be blank"; }
 
 		// hire date might need to be reformatted from mm/dd/yyyy to yyyy-mm-dd
 		if (empty($hire_date)) {
@@ -29,17 +29,17 @@
 		if (empty($error)) { 
 
 			// before you save to database... escape value
-			$sql  = "insert into employee ";
-			$sql .= "(  barcode,   fname,   lname,   email,   add1,   add2,   city,   st,   zip,   phone,   social,   hire_date,    emergency_contact,    emergency_number,    grp)  ";
+			$sql  = "insert into employees ";
+			$sql .= "(  barcode,   fname,   lname,   email,   add1,   add2,   city,   st,   zip,   phone,   social,   hire_date,    emergency_contact,    emergency_number,    group_id)  ";
 			$sql .= "values ";
-			$sql .= "('$barcode','$fname','$lname','$email','$add1','$add2','$city','$st','$zip','$phone','$social','$hire_date', '$emergency_contact', '$emergency_number', '$grp') ";
+			$sql .= "('$barcode','$fname','$lname','$email','$add1','$add2','$city','$st','$zip','$phone','$social','$hire_date', '$emergency_contact', '$emergency_number', '$group_id') ";
 
 			/* SUCCESS */
-			if ($result = $database->query($sql)) {
+			if ($result = $database->q($sql)) {
 				$session->message("New employee entered successfully ");
 
 				// the variables should be cleared
-				foreach ($database->columns["employee"] as $key => $value) { 
+				foreach ($database->columns["employees"] as $key => $value) { 
 					$$value = ""; 
 				}
 			}
@@ -67,8 +67,10 @@
 
 					<div class="labels">
 						<p>Active:     </p>
+
 						<?php echo (isset($error["barcode"])) ? "<p style='color:red'>" : "<p>"; ?>
 						Barcode:<font color="#FF0000">*</font></p>
+
 						<p>First Name: </p>
 						<?php echo (isset($error["lname"])) ? "<p style='color:red'>" : "<p>"; ?>
 						Last Name:<font color="#FF0000">*</font></p>
@@ -104,8 +106,8 @@
 						<input type="text"     name="hire_date"  value="<?= $hire_date;  ?>" id="datepicker" /> <br />
 						<input type="text"     name="emergency_contact" value="<?= $emergency_contact;   ?>" /> <br />
 						<input type="text"     name="emergency_number"  value="<?= $emergency_number;    ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
-						<select name="grp">
-							<?= $database->group_list() ; ?>
+						<select name="group_id">
+							<?= $database->groupList() ; ?>
 						</select>
 					</div>
 					<br clear="all" />

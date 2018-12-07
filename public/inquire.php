@@ -7,20 +7,20 @@
 		$employeeid = $_SESSION["employeeid"];
 		unset ($_SESSION["employeeid"]);
 		$today = strftime('%Y-%m-%d 00:00:00',time());
-		$tc = new timeclock();
+		$tc = new Timeclock();
 /*
 		$_SESSION['calling_url'] = "index.php";  // dont want to return to inqure
 		$_SESSION["timeout"] ="id=showupinq";
-		$_SESSION["output"] = $tc->build_2weeks($employeeid,$today);
-		redirect_to("popup.php");
+		$_SESSION["output"] = $tc->build2Weeks($employeeid,$today);
+		redirectTo("popup.php");
 */
 		$display  = '<div id="showupinq" class="popup">';
-		$display .= $tc->build_2weeks($employeeid,$today);
+		$display .= $tc->build2Weeks($employeeid,$today);
 		$display .= '<a class="close"   href="' . $calling_url . '"></a>';
 		$display .= "</div>\n";
 //		$display .= '<a class="overlay" href="' . $calling_url . '">' . "</a>\n";
 		$_SESSION["display"] = $display;
-		redirect_to("index.php");
+		redirectTo("index.php");
 
 	} else {
 		$_SESSION['calling_url'] = "inquire.php";  // find_id will send you back to this page
@@ -42,7 +42,7 @@
 			<div class="bluebox">
 				<div align="center">
 					<span id="time"></span><br />
-					<?= show_date(); ?>
+					<?= showDate(); ?>
 				</div>
 				<form id="form2" action="find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
 					<div class="labels">

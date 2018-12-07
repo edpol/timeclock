@@ -2,18 +2,18 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? Go to menu
-	if(!$session->is_logged_in()) {
-		redirect_to("login.php");
+	if(!$session->isLoggedIn()) {
+		redirectTo("login.php");
 	}
 
 
 	$sql = "select * from groups";
-	if ($result=$database->query($sql)) {
+	if ($result=$database->q($sql)) {
 		$list = "";
-		while ($row = $database->fetch_array($result)) {
+		while ($row = $database->fetchArray($result)) {
 			extract ($row);
-//			$list .= "{$idx} {$groupname} <br />";
-			$list .= "{$idx} <input type='text' value={$groupname} /><br />\n"; 
+//			$list .= "{$id} {$groupname} <br />";
+			$list .= "{$id} <input type='text' value={$groupname} /><br />\n"; 
 		}
 	}
 

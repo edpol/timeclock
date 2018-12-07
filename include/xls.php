@@ -5,7 +5,7 @@
 	It's the same as the text one?
 
  */
-class excelReport {
+class ExcelReport {
 
 	public $objPHPExcel;
 

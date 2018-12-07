@@ -14,6 +14,7 @@ GRANT ALL PRIVILEGES ON mdr_clock.* TO 'timemaster'@'localhost' IDENTIFIED BY 'p
  *    The file timeclock/include/connect_utilities.php is for the admin users that run the site.
  *    The 2 are seperate classes so you can have the admins users in another database if you wish.
  *
+ *    Engine for table employee must be MyISAM if MySQL version is < 5.6
  *
  *    ### Table 1 - employee
  *    This table contains all of the employee information
@@ -35,21 +36,24 @@ create table employee(
   phone       varchar(10),
   social      varchar(10),
   hire_date   timestamp         not null   default now(),
+  group_id    varchar(30)       DEFAULT NULL,
+  emergency_number  varchar(10) DEFAULT NULL,
+  emergency_contact varchar(50) DEFAULT NULL,
   primary key(employeeid),
   unique key (barcode)
-) ENGINE=Innodb DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*
- *    ### Table 2 - timeclock
+ *    ### Table 2 - stamp
  *    This table contains all of the timestamps.
  *    This is populated by program unless you have some history to add.
  */
-drop table if exists timeclock;
-create table timeclock(
-  idx           bigint  unsigned  not null  auto_increment,
+drop table if exists stamp;
+create table stamp (
+  id            bigint  unsigned  not null  auto_increment,
   employeeid    integer unsigned  not null,
   punch         timestamp         not null  default now(),
-  primary key(idx),
+  primary key(id),
   index(employeeid),
   index(punch),
   CONSTRAINT FK_id FOREIGN KEY (employeeid) REFERENCES employee(employeeid) 
@@ -62,9 +66,9 @@ create table timeclock(
  */
 drop table if exists groups;
 create table groups(
-  idx           integer unsigned     not null     auto_increment,
+  id            integer unsigned     not null     auto_increment,
   groupname     varchar(30)          not null,
-  primary key(idx),
+  primary key(id),
   index(groupname)
 ) ENGINE=Innodb DEFAULT CHARSET=utf8;
 

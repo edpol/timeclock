@@ -2,8 +2,8 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? Go to menu
-	if(!$session->is_logged_in()) {
-		redirect_to("login.php");
+	if(!$session->isLoggedIn()) {
+		redirectTo("login.php");
 	}
 
 	// Create and set variables from columns for employee table
@@ -16,7 +16,7 @@
 		 */
 
 		// here we get all the values from $_POST
-		$list = $database->columns["employee"];
+		$list = $database->columns["employees"];
 		unset($list["is_active"]); // get rid of flag, can't use the quotes around new value
 
 		foreach ($list as $key => $value) {
@@ -25,21 +25,21 @@
 				$x = $_POST[$value];
 				switch (gettype($x)) {
 				case "string":
-					$$value = $database->escape_value(strtoupper($_POST[$value]));
+					$$value = $database->escapeValue(strtoupper($_POST[$value]));
 					break;
 				case "integer":
-					$$value = $database->escape_value(intval($_POST[$value]));
+					$$value = $database->escapeValue(intval($_POST[$value]));
 					break;
 				default:
-					$$value = $database->escape_value($_POST[$value]);
+					$$value = $database->escapeValue($_POST[$value]);
 				}
 			} else {
 				$$value = "";
 			}
 /*			if (gettype($value)== "string")
-				$$value = isset($_POST["$value"]) ? $database->escape_value(strtoupper($_POST[$value])) : "";
+				$$value = isset($_POST["$value"]) ? $database->escapeValue(strtoupper($_POST[$value])) : "";
 			if (gettype($value)== "integer")
-				$$value = isset($_POST["$value"]) ? $database->escape_value(intval($_POST[$value])) : "";
+				$$value = isset($_POST["$value"]) ? $database->escapeValue(intval($_POST[$value])) : "";
 */
 		}
 //die();
@@ -54,7 +54,7 @@
 
 		$temp = array_shift($list); // get rid of employeeid, don't want to update that
 
-		$sql  = "update employee set ";
+		$sql  = "update employees set ";
 		foreach ($_POST as $key => $value) {
 			if (in_array($key, $list)) {
 				$sql .= "{$key}='" . $value . "', ";
@@ -66,13 +66,13 @@
 
 		$name = trim($fname . " " . $lname);
 		$name = preg_replace('/\s+/', ' ', $name); // Remove multipleblanks
-		if ($result=$database->query($sql)) {
+		if ($result=$database->q($sql)) {
 			$session->message("Updated " . $name . " Successfully "); // . "<br />" . $sql);
 		} else {
 			$session->message("Error Updating Record ");
 		}
 		unset($_SESSION["employeeid"]);
-		redirect_to("edit_employee.php");
+		redirectTo("edit_employee.php");
 
 	} else {
 		/*
@@ -86,8 +86,8 @@
 			$employeeid = 0;
 		}
 
-		$timeclock = new timeclock();
-		$row = $timeclock->get_employee_data($employeeid);
+		$timeclock = new Timeclock();
+		$row = $timeclock->getEmployeeData($employeeid);
 
 		if ($row) {
 
@@ -105,7 +105,7 @@
 			}
 		} else {
 			$session->message("I don't know what happened, start over");
-			redirect_to("edit_employee.php");
+			redirectTo("edit_employee.php");
 		}
 	}
 
@@ -159,8 +159,8 @@
 						<input type="text"     name="hire_date"  value="<?php echo $hire_date;  ?>" id="datepicker" /> <br />
 						<input type="text"     name="emergency_contact" value="<?php echo $emergency_contact; ?>"   /> <br />
 						<input type="tel"      name="emergency_number"  value="<?php echo $emergency_number;  ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
-						<select name="grp">
-							<?= $database->group_list($grp) ; ?>
+						<select name="group_id">
+							<?= $database->groupList($group_id) ; ?>
 						</select>
 					</div>
 					<br clear="all" />

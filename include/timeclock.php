@@ -1,6 +1,6 @@
 <?php
 
-class timeclock {
+class Timeclock {
 
 	public $name="";
 	public $lastname;
@@ -30,27 +30,15 @@ class timeclock {
 		$this->ff  = "\page" . $this->eol;
 	}
 
-	public function set_inactive($employeeid) {
+	public function getName($id) {
 		global $database;
-		global $session;
-		$sql = "update employee set is_active = 0 where employeeid='{$employeeid}'";
-		if ($result=$database->query($sql)) {
-			$session->message("User " . $_SESSION["employee_name"] . " no longer active {$employeeid}"); // . "<br />" . $sql;
-		} else {
-			$session->message("Did not work <br />");
-		}
-	}
-
-	public function get_name($employeeid) {
-		global $database;
-		$sql = 'select * from employee where employeeid="' . $employeeid  . '"';
-		$result = $database->query($sql);
-		$this->num_rows = $database->num_rows($result);
+		$result = $database->getEmployee($id);
+		$this->num_rows = $database->numRows($result);
 		if ($this->num_rows == 0) {
 			$_SESSION["message"] = "Employee Record Not Found";
 		}
 		if ($this->num_rows == 1) {
-			$row = $database->fetch_array($result);
+			$row = $database->fetchArray($result);
 			$_SESSION["employee_name"] = trim($row["fname"]) . " " . trim($row["lname"]);
 			$this->name = $_SESSION["employee_name"];
 		}
@@ -58,33 +46,32 @@ class timeclock {
 	}
 
 	/* find employeeid with lastname or barcode */
-	public function get_id (&$lastname, &$barcode="", $list_all=TRUE) {
+	public function getId(&$lastname, &$barcode="", $list_all=TRUE) {
 		global $database;
 
 		$employeeid=0;
+		$result = NULL;
 		if ($barcode<>"") {
-			$sql = 'select * from employee where barcode="' . $barcode  . '"';
+			$result = $database->findBarcode($barcode);
 		} else {
 			if ($list_all) {
-				$sql = 'select * from employee where lname like "' . $lastname . '%" order by lname';
+				$result = $database->findLikeLastName($lastname);
 			} else {
 				if (!empty($lastname)) {
-					$sql = 'select * from employee where lname ="' . $lastname . '"';
+					$result = $database->findLastName($lastname);
 				} else {
 					$_SESSION["message"] = "No Last Name, no Bar Code";
-					$sql = "";
 				}
 			}
 		}
 
-		if ($sql <> "") {
-			$result = $database->query($sql);
-			$this->num_rows = $database->num_rows($result);
+		if ($result!==NULL) {
+			$this->num_rows = $database->numRows($result);
 			if ($this->num_rows == 0) {
 				$_SESSION["message"] = "Record Not Found";
 			}
 			if ($this->num_rows == 1) {
-				$row = $database->fetch_array($result);
+				$row = $database->fetchArray($result);
 				$lastname = $row['lname'];
 				$barcode = $row['barcode'];
 				$employeeid = $row["employeeid"];
@@ -92,14 +79,14 @@ class timeclock {
 				$this->name = $_SESSION["employee_name"];
 			}
 			if ($this->num_rows > 1) {
-				$this->select_employee = $this->build_select_employee($result);
+				$this->select_employee = $this->buildSelectEmployee($result);
 				return $this->select_employee;
 			}
 		}
 		return (int) $employeeid;
 	}
 
-	protected function build_select_employee($result) {
+	protected function buildSelectEmployee($result) {
 	   /*
 		*	so we have more than one match on last name, 
 		*	create a list with radio buttons so the user can select their name and return the barcode
@@ -111,7 +98,7 @@ class timeclock {
 		$output .= "\t\t<h1>Select Employee</h1><br />\n";
 		if ($this->num_rows>10) $output .= "\t\t<div class='divScrollAuto'> \n";
 		for ($i=1; $i<=$this->num_rows; $i++) {
-			$row = $database->fetch_array($result);
+			$row = $database->fetchArray($result);
 			$barcode = $row['barcode'];
 			$employeeid = $row["employeeid"];
 			$this->name = trim($row["fname"]) . " " . trim($row["lname"]);
@@ -126,20 +113,20 @@ class timeclock {
 		return $output;
 	}
 
-	public function delete ($idx) {
+	public function delete($id) {
 		global $database;
-		$sql = "delete from timeclock where idx={$idx} limit 1 ";
-		$result = $database->query($sql);
+		$sql = "delete from stamp where id={$id} limit 1 ";
+		$result = $database->q($sql);
 	}
 
-	public function seconds_2_hour_minutes($sec) {
+	public function seconds2HourMinutes($sec) {
 		$min = floor($sec/60);
 		$hr  = floor($min/60);
 		$min = $min - ($hr*60);
 		return sprintf("%02d:%02d", $hr, $min);
 	}
 
-	public function get_weekday($today="") {
+	public function getWeekday($today="") {
 		// strtotime uses string $today and returns type integer in seconds
 		// getdate uses time in seconds and returns array 
 		if ($today=="") { 
@@ -153,63 +140,63 @@ class timeclock {
 		return $weekday;
 	}
 
-	public function am_pm_format($time) {
+	public function formatAmPm($time) {
 		$string = strtolower(strftime('%I:%M %p', $time));  	// for display
 		$string = str_replace(' ', '', $string);
 		$string = str_replace('m', '', $string);
 		return $string;
 	}
 
-	protected function get_data($row,$result) {
+	protected function getData($row,$result) {
 		global $database;
 
-		$idx_in = $row["idx"];
+		$id_in = $row["id"];
 		$punch1  = strtotime($row["punch"]);		// for math
-		$punch_in = $this->am_pm_format($punch1);  	// for display
-		$row = $database->fetch_array($result);
+		$punch_in = $this->formatAmPm($punch1);  	// for display
+		$row = $database->fetchArray($result);
 		if (isset($row)) {
-			$idx_out = $row["idx"];
+			$id_out = $row["id"];
 			$punch2 = strtotime($row["punch"]);
-			$punch_out  = $this->am_pm_format($punch2);
+			$punch_out  = $this->formatAmPm($punch2);
 			$delta_seconds = $punch2 - $punch1;
 		} else {
-			$idx_out = 0;
+			$id_out = 0;
 			$punch_out = "";
 			$delta_seconds = 0;
 		}
-		$delta_string = $this->seconds_2_hour_minutes($delta_seconds);
+		$delta_string = $this->seconds2HourMinutes($delta_seconds);
 
 		$x = array ("in"=>$punch_in, "out"=>$punch_out, "delta_string"=>$delta_string, "delta_seconds"=>$delta_seconds);
-		$x["idx_in"]  = $idx_in;
-		$x["idx_out"] = $idx_out;
+		$x["id_in"]  = $id_in;
+		$x["id_out"] = $id_out;
 		return $x;
 	}
 
-	public function select_today($employeeid, $today) {
+	public function selectToday($employeeid, $today) {
 		global $database;
 		if ($today=="") { 
-			$today = strftime('%Y-%m-%d 00:00:00',time()); 
+			$today = strftime('%Y-%m-%d 00:00:00', time()); 
 		} else {
 			$today = strftime('%Y-%m-%d 00:00:00', strtotime($today));
 		}
 		$tomorrow  = strftime('%Y-%m-%d 00:00:00', strtotime($today . ' + 1 day'));
-		$sql = "select * from timeclock where employeeid='{$employeeid}' and punch>='{$today}' and punch<'{$tomorrow}' order by punch\n";
-		$result = $database->query($sql);
-		$this->num_rows = $database->num_rows($result);
+		$sql = "select * from stamp where employeeid='{$employeeid}' and punch>='{$today}' and punch<'{$tomorrow}' order by punch\n";
+		$result = $database->q($sql);
+		$this->num_rows = $database->numRows($result);
 		return $result;
 	}
 
-	public function build_todays_array($employeeid,&$today="") {
+	public function buildTodaysArray($employeeid,&$today="") {
 		global $database;
 
-		$result = $this->select_today($employeeid, $today);
+		$result = $this->selectToday($employeeid, $today);
 
 //		$t = array("todays_total" => 0);
 		$todays_total = 0;
 		$t = array ();
 		if ($this->num_rows>0) {
-			while ($row = $database->fetch_array($result)) {
-				$x = $this->get_data($row,$result);
+			while ($row = $database->fetchArray($result)) {
+				$x = $this->getData($row,$result);
 				$todays_total += $x["delta_seconds"];
 				$t[] = $x;
 			}
@@ -221,19 +208,19 @@ class timeclock {
 	}
 
 
-	public function build_today($employeeid,$target_date="",$add_name=false) {
+	public function buildToday($employeeid,$target_date="",$add_name=false) {
 
 		if ($target_date=="") {$target_date=strftime('%Y-%m-%d 00:00:00',time());}
 		$target_date_total = 0;
 
 		$output = "";
 		if ($add_name) {
-			$output .= "<div align='center' style='color:black; background-color:white;'>" . $this->get_name($employeeid) . "</div>\n";
+			$output .= "<div align='center' style='color:black; background-color:white;'>" . $this->getName($employeeid) . "</div>\n";
 		}
 		$output .= "\t\t<table class='one_day' style='max-width:200px;'>\n";
-		$output .= "\t\t\t<tr><th colspan='5'>" . $this->get_weekday($target_date) . "<br >" . strftime("%m/%d",strtotime($target_date)) . "</th></tr>\n";
+		$output .= "\t\t\t<tr><th colspan='5'>" . $this->getWeekday($target_date) . "<br >" . strftime("%m/%d",strtotime($target_date)) . "</th></tr>\n";
 
-		$this->todays_array = $this->build_todays_array($employeeid,$target_date);
+		$this->todays_array = $this->buildTodaysArray($employeeid,$target_date);
 
 		$output .= "\t\t\t<tr><td style='text-align:center'>IN</td><td> </td><td style='text-align:center'>OUT</td><td> </td><td style='text-align:center'>SUM</td></tr>\n";
 		if (is_array($this->todays_array)) {
@@ -244,18 +231,18 @@ class timeclock {
 				}
 			}
 		}
-		$delta = $this->seconds_2_hour_minutes($target_date_total);
+		$delta = $this->seconds2HourMinutes($target_date_total);
 		$output .= "\t\t\t<tr><td colspan=5>{$delta}</td></tr>\n";
 		$output .= "\t\t</table>\n";
 		if ($add_name) {
-			$seconds_since_sunday = $this->since_sunday($employeeid);
-			$week_total = "Week Total " . $this->seconds_2_hour_minutes($seconds_since_sunday);
+			$seconds_sinceSunday = $this->sinceSunday($employeeid);
+			$week_total = "Week Total " . $this->seconds2HourMinutes($seconds_sinceSunday);
 			$output .= "<div align='center' style='color:black; background-color:white;'>" . $week_total . "</div>\n";
 		}
 		return $output;
 	}
 
-	public function build_2weeks($employeeid,$today="") {
+	public function build2Weeks($employeeid,$today="") {
 		if ($today=="") { $today = strftime('%Y-%m-%d 00:00:00',time()); }
 		$t = getdate();
 		$adjust = -1 * $t["wday"] - 7; // Sunday=0 .. Saturday=6
@@ -265,7 +252,7 @@ class timeclock {
 			if (isset($_SESSION["employee_name"])) { 
 				$this->name = $_SESSION["employee_name"]; 
 			} else {
-				$this->name = $this->get_name($employeeid);
+				$this->name = $this->getName($employeeid);
 			}
 		}
 		$spacer = "<tr><td class='spacer' colspan='8'></td></tr>\n";
@@ -275,58 +262,58 @@ class timeclock {
 			$week_total = 0;
 			$two_weeks .= "<tr>\n";
 			for ($i=1; $i<=7; $i++) {
-				$output = $this->build_today($employeeid,$target);
+				$output = $this->buildToday($employeeid,$target);
 				$week_total  += $this->todays_array["todays_total"];
 				$two_weeks .= "\t<td>\n" . $output . "\t</td>\n";
 				$target = strftime('%Y-%m-%d 00:00:00', strtotime($target . '+1 day'));
 			}
 			$grand_total += $week_total;
-			$delta = $this->seconds_2_hour_minutes($week_total);
+			$delta = $this->seconds2HourMinutes($week_total);
 			$two_weeks .= "\t<td>\n\t\t<table>\n\t\t\t<tr><th>Week<br />Total</th></tr>\n\t\t\t<tr><td style='vertical-align:bottom; height:100px; border:none;'>" . $delta . "</td></tr>\n\t\t</table>\n\t</td>\n";
 			$two_weeks .= "</tr>\n";
 			$two_weeks .= $spacer;
 		}
 
 		//then we want one more row totaling BOTH week_totals
-		$delta = $this->seconds_2_hour_minutes($grand_total);
+		$delta = $this->seconds2HourMinutes($grand_total);
 		$two_weeks .= "<tr><td colspan='8'>{$delta}</td>\n</tr>\n";
 		$two_weeks .= "</table>\n";
 		return $two_weeks;
 	}
 
-	public function since_sunday($employeeid) {
+	public function sinceSunday($employeeid) {
 		$today = strftime("%Y-%m-%d 00:00:00", time());
 		$today_sec = strtotime($today);
 		$date  = strftime("%Y-%m-%d 00:00:01", strtotime("last Sunday"));
 		$date_sec = strtotime($date); //plus 1 second, just to be sure
 		$week_total = 0;
 		while ($date <= $today) {
-			$this->todays_array = $this->build_todays_array($employeeid,$date);
+			$this->todays_array = $this->buildTodaysArray($employeeid,$date);
 			$week_total += $this->todays_array["todays_total"];
 			$date = strftime("%Y-%m-%d 00:00:00", strtotime($date . " + 1 day"));
 		}
 		return $week_total;
 	}
 
-	public function punch_in ($employeeid, $punch="") {
+	public function punchIn($employeeid, $punch="") {
 		global $database;
 		if ($punch=="") { 
 			$punch = strftime('%Y-%m-%d %H:%M:00',time());
 		} else {
 			$punch = strftime('%Y-%m-%d %H:%M:00',strtotime($punch));
 		}
-		$sql = "insert into timeclock (employeeid, punch) value ({$employeeid}, '{$punch}')";
-		$result = $database->query($sql);
+		$sql = "insert into stamp (employeeid, punch) value ({$employeeid}, '{$punch}')";
+		$result = $database->q($sql);
 	}
 
-	public function input_time_setup($target_date) {
+	public function inputTimeSetup($target_date) {
 		$output  = "\t\t\t\t\t\t<input type='submit' name='submit'      value='add' class='edit_up' />\n";
 		$output .= "\t\t\t\t\t\t<input type='text'   name='time'        value='' />\n";
 		$output .= "\t\t\t\t\t\t<input type='hidden' name='target_date' value='{$target_date}' />\n";
 		return $output;
 	}
 
-	public function input_time_setup2($target_date) {
+	public function inputTimeSetup2($target_date) {
 		$output  = "\t\t" . '<input type="submit" name="submit" value="add" class="admin_up" onMouseUp="this.className';
 		$output .= "'admin_up'" . '" onMouseDown="this.className=' . "'admin_down'" . '" />' . "\n";
 
@@ -353,38 +340,42 @@ class timeclock {
 		return $output;
 	}
 
-	public function build_delete_button ($idx) {
+	public function buildDeleteButton($id) {
 		$del  = '<button onClick="submitForm(' . "'change_time.php'" . ')" ';
-		$del .= "name='delete' value='{$idx}' class='del_up' ";
+		$del .= "name='delete' value='{$id}' class='del_up' ";
 		$del .= 'onMouseUp="this.className=' . "'del_up'" . '" ';
 		$del .= 'onMouseDown="this.className=' . "'del_down'" . '">del</button>';
 		return $del;
 	}
 
-	public function display_change_time ($target_array) {
-		$del_img  = '<img width="20px" src="../images/delete.gif" />'; 
+	public function displayChangeTime($target_array) {
+		$del_img = '<img width="20px" src="../images/delete.gif" />'; 
 
-		$count = count($target_array) - 1;
+		if ($target_array==false) {
+			$count = 0;
+		} else {
+			$count = count($target_array) - 1;
+		}
 		$todays_total_seconds = 0;
 
 		$output = "<table border='0' class='default' style='width:85%;'>\n";
 		for ($i=0; $i<$count; $i++) {
 			$in  = $target_array[$i]["in"];
 			$out = $target_array[$i]["out"];
-			$idx = $target_array[$i]["idx_in"];
-			$del = $this->build_delete_button($idx);
+			$id  = $target_array[$i]["id_in"];
+			$del = $this->buildDeleteButton($id);
 
 			$output .= "<tr>\n\t<td style='text-align:right;'>" . $del . "</td>\n\t<td>" . $in ."&nbsp;</td>\n\t<td style='text-align:right;'>"; 
 			if (!empty($target_array[$i]["out"])) { 
-				$idx = $target_array[$i]["idx_out"];
-				$del = $this->build_delete_button($idx);
+				$id = $target_array[$i]["id_out"];
+				$del = $this->buildDeleteButton($id);
 				$output .= $del . "</td>\n\t<td>" . $out . "&nbsp;"; 
 			} else {
 				$output .= "</td>\n\t<td>"; 
 			}
 			$output .= "</td>\n\t<td style='text-align:right;'>&nbsp;" . $target_array[$i]["delta_string"] . "&nbsp;</td>\n</tr>\n";
 		}
-		$time = $this->seconds_2_hour_minutes($target_array["todays_total"]); 
+		$time = $this->seconds2HourMinutes($target_array["todays_total"]); 
 		$output .= "<tr><td colspan='4'></td><td style='text-align:right; border-top:yellow solid thin;'>$time&nbsp;</td>\n</tr>\n</table>\n";
 		return $output;
 	}
@@ -393,31 +384,30 @@ class timeclock {
  *	Printing Time Cards
  */
 
-	public function print_report($start_date,$end_date,$grp,$employeeid="") {
+	public function printReport($start_date,$end_date,$group_id,$employeeid="") {
 		global $database;
-		$connection = $this->open_file($this->file_name);
-		fwrite($connection, $this->file_header());
-		if ($employeeid<>"") $grp="";
-		$this->column_headings = $this->page_header_prep($start_date,$end_date,$grp);
-		$x = (!empty($employeeid)) ? "and employeeid='{$employeeid}' " : "and grp='{$grp}' ";
-		$sql = "select * from employee where is_active=true {$x} order by lname";
+		$connection = $this->openFile($this->file_name);
+		fwrite($connection, $this->fileHeader());
+		if ($employeeid<>"") $group_id="";
+		$this->column_headings = $this->pageHeaderPrep($start_date,$end_date,$group_id);
 
-		$result = $database->query($sql);
-		while ($row=$database->fetch_array($result)) {
+		$result = $database->findEmployees($group_id, $employeeid);
+
+		while ($row=$database->fetchArray($result)) {
 			$this->name = trim($row["fname"]) . " " . trim($row["lname"]);
-			$temp = $this->print_one_employee( $row["employeeid"], $start_date, $end_date ) ;
+			$temp = $this->printOneEmployee( $row["employeeid"], $start_date, $end_date ) ;
 			fwrite($connection, $temp . $this->eol);
 		}
-		fwrite($connection, $this->file_footer() );
+		fwrite($connection, $this->fileFooter());
 
-		$this->close_file($connection,$this->file_name);
+		$this->closeFile($connection,$this->file_name);
 	}
 
-	protected function open_file($file_name) {
+	protected function openFile($file_name) {
 		$connection = fopen($file_name, 'w') or die("Unable to open file {$file_name}!");
 		return $connection;
 	}
-	protected function close_file($connection,$file_name) {
+	protected function closeFile($connection,$file_name) {
 		global $session;
 		fclose($connection);
 		$session->message("Download <a href='{$file_name}'>Report</a>");
@@ -425,7 +415,7 @@ class timeclock {
 
 
 	// pad to center text
-	protected function center ($line) {
+	protected function center($line) {
 		$blanks = str_repeat(" ", floor(($this->columns-strlen($line))/2));
 		$output = $blanks . $line . $this->eol;
 		return $output;
@@ -440,11 +430,11 @@ class timeclock {
 		return $output;
 	}
 
-	protected function page_header_prep($start_date,$end_date,$grp="") {
+	protected function pageHeaderPrep($start_date,$end_date,$group_id="") {
 		$date1 = strftime('%m/%d/%y', strtotime($start_date)) . "-" . date('m/d/y', strtotime($end_date));
 		$date2 = strftime('%m/%d/%y', time());
 
-		$output  = $this->center("EMPLOYEE TIMECARD REPORT " . $grp);
+		$output  = $this->center("EMPLOYEE TIMECARD REPORT " . $group_id);
 		$output .= $this->eol;
 		$output .= $this->justify("Date Range: {$date1}", "Run Date: {$date2}");
 
@@ -470,15 +460,14 @@ class timeclock {
 		return $output;
 	}
 
-	public function get_employee_data($employeeid) {
+	public function getEmployeeData($id) {
 		global $database;
-		$sql = "select * from employee where employeeid='{$employeeid}'";
-		$result = $database->query($sql);
-		$this->num_rows=$database->num_rows($result);
+		$result = $database->getEmployee($id);
+		$this->num_rows=$database->numRows($result);
 		if ($this->num_rows==0) {
 			$row = false;
 		} else {
-			$row=$database->fetch_array($result);
+			$row=$database->fetchArray($result);
 			$this->firstname = trim($row["fname"]);
 			$this->lastname  = trim($row["lname"]);
 			$this->name =  $this->firstname . " " . $this->lastname;
@@ -486,7 +475,7 @@ class timeclock {
 		return $row;
 	}
 
-	public function print_one_employee( $employeeid, $start, $end ) {
+	public function printOneEmployee($employeeid, $start, $end) {
 		global $database;
 		$start = strftime('%Y-%m-%d 00:00:00 ', strtotime($start));
 		$end   = strftime('%Y-%m-%d 00:00:00 ', strtotime($end));
@@ -508,7 +497,7 @@ class timeclock {
 		$output .= $this->in_out . $this->eol;
 
 		while (strtotime($target)<$cutoff) {
-			$this->todays_array = $this->build_todays_array($employeeid,$target);
+			$this->todays_array = $this->buildTodaysArray($employeeid,$target);
 
 			$days_total_sec = $this->todays_array["todays_total"];
 
@@ -528,7 +517,7 @@ class timeclock {
 					$output .= substr($one_line,0,$this->limit) . $this->eol;
 					$one_line = $this->margin . $this->date_and_2_spaces . trim(substr($one_line,$this->limit+1));
 				}
-				$days_total = $this->seconds_2_hour_minutes($days_total_sec);
+				$days_total = $this->seconds2HourMinutes($days_total_sec);
 				$blanks = str_repeat(" ",$this->columns - strlen($one_line) - strlen($days_total) - $this->padding);
 				$one_line .= $blanks . $days_total;
 
@@ -537,7 +526,7 @@ class timeclock {
 			$target = strftime('%Y-%m-%d 00:00:00', strtotime($start . $adjust++ . ' day'));
 		}
 
-		$grand_total = $this->seconds_2_hour_minutes($grand_total_sec);
+		$grand_total = $this->seconds2HourMinutes($grand_total_sec);
 		$one_line = $this->margin . "Grand Total ";
 		$blanks = str_repeat(" ",$this->columns - strlen($one_line) - strlen($grand_total) - $this->padding);
 		$one_line .= $blanks . $grand_total;
@@ -546,7 +535,7 @@ class timeclock {
 		return $output;
 	}
 
-	protected function file_header () {
+	protected function fileHeader() {
 		$output  = '{\rtf1\ansi\deff0 {\fonttbl {\f0 Courier New;}}' . PHP_EOL;
 //		$output .= '{\colortbl;\red0\green0\blue0;\red255\green0\blue0;}' . PHP_EOL;
 //		$output .= '\paperw15840\paperh12240';
@@ -557,7 +546,7 @@ class timeclock {
 		return $output;
 	}
 
-	protected function file_footer () {
+	protected function fileFooter() {
 		$output  = '}' . PHP_EOL;
 		return $output;
 	}

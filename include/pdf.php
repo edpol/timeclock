@@ -2,7 +2,7 @@
 
 require(LIB_PATH.DS.'fpdf.php');
 
-class pdf extends timeclock {
+class PDF extends Timeclock {
 
 	protected $file_name = "reports/report.pdf"; // or send to new tab?
 
@@ -27,23 +27,20 @@ class pdf extends timeclock {
 		return $output;
 	}
 
-	public function print_report($start_date,$end_date,$grp,$employeeid="") {
+	public function printReport($start_date,$end_date,$group_id,$employeeid="") {
 		global $database;
-		$connection = $this->open_file($this->file_name); 
-//		fwrite($connection, $this->file_header()); // rtf formatting
-		if ($employeeid<>"") $grp="";
-		$this->column_headings = $this->page_header_prep($start_date,$end_date,$grp);
-		$x = (!empty($employeeid)) ? "and employeeid='{$employeeid}' " : "and grp='{$grp}' ";
-		$sql = "select * from employee where is_active=true {$x} order by lname";
+		$connection = $this->openFile($this->file_name); 
+//		fwrite($connection, $this->fileHeader()); // rtf formatting
+		if ($employeeid<>"") $group_id="";
+		$this->column_headings = $this->pageHeaderPrep($start_date,$end_date,$group_id);
 
-		$result = $database->query($sql);
-
+		$result = $database->findEmployees($group_id, $employeeid);
 		$fpdf = new FPDF();
 		$fpdf->SetFont('Courier','',11);
 
-		while ($row=$database->fetch_array($result)) {
+		while ($row=$database->fetchArray($result)) {
 			$this->name = trim($row["fname"]) . " " . trim($row["lname"]);
-			$temp = $this->print_one_employee( $row["employeeid"], $start_date, $end_date ) ;
+			$temp = $this->printOneEmployee( $row["employeeid"], $start_date, $end_date ) ;
 
 			$myArray = explode(',', $temp);
 			$myArray[0] = trim($myArray[0]);

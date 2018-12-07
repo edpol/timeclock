@@ -10,7 +10,7 @@
 				<div>
 					<form method="post">
 						<div class="labels">
-							<p>username:   </p>
+							<p>Username:   </p>
 							<p>First Name: </p>
 							<p>Last Name:  </p>
 							<p>Password:   </p>
@@ -21,7 +21,7 @@
 	$lname    = isset($_POST["lname"])    ? $_POST["lname"]    : "";
 ?>
 						<div class="info" style="float:left;" >
-							<input type='text'     name='username' value='<?= $username; ?>' id="mandatoryUsername" /> <span id="errorUsername"></span> <br />
+							<input type='text'     name='username' value='<?= $username; ?>' id="mandatoryUsername" autofocus /> <span id="errorUsername"></span> <br />
 							<input type='text'     name='fname'    value='<?= $fname;    ?>' /> <br />
 							<input type='text'     name='lname'    value='<?= $lname;    ?>' /> <br />
 							<input type='password' name='password' value=''                  id="mandatoryPassword" /> <span id="errorPassword"></span><br />

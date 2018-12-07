@@ -5,10 +5,12 @@ defined('SITE_ROOT')     ? null : define('SITE_ROOT',     substr(LIB_PATH,  0, s
 defined('SERVER_ROOT')   ? null : define('SERVER_ROOT',   substr(SITE_ROOT, 0, strrpos(SITE_ROOT, DS)));
 defined('VIEWS')		 ? null : define('VIEWS',         SITE_ROOT . DS . "views");
 defined('PUBLIC_ROOT')	 ? null : define('PUBLIC_ROOT',   SITE_ROOT . DS . "public");
+defined('RED_STAR')  	 ? null : define('RED_STAR',  '<font color="#FF0000">*</font>');
 
 require_once(LIB_PATH.DS.'sessions.php');
 require_once(LIB_PATH.DS.'functions.php');
-require_once(LIB_PATH.DS.'MySQLiDatabase.php');
+require_once(LIB_PATH.DS.'common.php');
+require_once(LIB_PATH.DS.'database.php');
 //require_once(LIB_PATH.DS.'user.php');
 require_once(LIB_PATH.DS.'timeclock.php');
 require_once(LIB_PATH.DS.'pdf.php');

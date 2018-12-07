@@ -2,8 +2,8 @@
 	require_once("../include/initialize.php");
 /* 	all this script does is get the record number of the employee 
 	we need this function for the inquire page so we cant check for logged in
-	if(!$session->is_logged_in()) {
-		redirect_to("admin/login.php");
+	if(!$session->isLoggedIn()) {
+		redirectTo("admin/login.php");
 	}
 */
 
@@ -34,7 +34,7 @@
 	$calling_url = isset($_SESSION['calling_url']) ? htmlspecialchars($_SESSION['calling_url'], ENT_QUOTES)  : "index.php";
 	if ( (isset($_POST['employeeid']) && !empty($_POST['employeeid']) ) || $getout) {
 		$_SESSION['employeeid'] = $_POST["employeeid"];
-		redirect_to($calling_url);
+		redirectTo($calling_url);
 	}
 
 	if (isset($_SESSION["list_all"])) {
@@ -47,8 +47,8 @@
 	if (isset($_POST['target_date'])) { 
 		$_SESSION['target_date'] = htmlentities($_POST['target_date'], ENT_QUOTES); 
 	}
-	$barcode  = isset($_POST['barcode'])  ? $db->escape_value($_POST['barcode'],  ENT_QUOTES) : "";
-	$lastname = isset($_POST['lastname']) ? $db->escape_value($_POST['lastname'], ENT_QUOTES) : "";
+	$barcode  = isset($_POST['barcode'])  ? $db->escapeValue($_POST['barcode'],  ENT_QUOTES) : "";
+	$lastname = isset($_POST['lastname']) ? $db->escapeValue($_POST['lastname'], ENT_QUOTES) : "";
 	$lastname = strtoupper($lastname);
 
 
@@ -56,18 +56,18 @@
 	if ( ($barcode=="") && ($lastname=="") && (!$list_all) ){
 		if ($calling_url=="inquire.php") $calling_url="index.php";
 		$session->message("No one to find");
-		redirect_to($calling_url); 
+		redirectTo($calling_url); 
 	}
 
-	$tc = new timeclock(); 
+	$tc = new Timeclock(); 
 
 	$_SESSION["popup_next_page"]="find_id.php";
-	$employeeid = $tc->get_id($lastname,$barcode,$list_all);
+	$employeeid = $tc->getId($lastname,$barcode,$list_all);
 
 	// Found Multiple
 	if (gettype($employeeid) == "string" && $calling_url<>"index.php") {
 		$_SESSION["output"] = $employeeid; // ?
-		redirect_to("popup.php");  // calls this script again, but with barcode, not lastname
+		redirectTo("popup.php");  // calls this script again, but with barcode, not lastname
 	}
 
 	// Found nothing 
@@ -87,6 +87,6 @@
 		$_SESSION["lastname"] = $lastname;
 	}
 
-	redirect_to($calling_url); 
+	redirectTo($calling_url); 
 
 ?>

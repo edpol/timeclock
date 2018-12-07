@@ -2,8 +2,8 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? Go to menu
-	if(!$session->is_logged_in()) {
-		redirect_to("login.php");
+	if(!$session->isLoggedIn()) {
+		redirectTo("login.php");
 	}
 
 	if (isset($_SESSION["employeeid"])) { unset($_SESSION["employeeid"]); }

@@ -2,15 +2,14 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? 
-	if(!$session->is_logged_in()) {
-		redirect_to("login.php");
+	if(!$session->isLoggedIn()) {
+		redirectTo("login.php");
 	}
 
 	$output  = "<table align='center'>\n";
 	$output .= "<tr><th>Employee</th><th>Phone</th><th>Emergency<br />Contact</th><th>Emergency<br />Phone</th><th>email</th></tr>\n";
-	$sql = "select * from employee order by lname";
-	$result=$db->query($sql);
-	while ($row = $db->fetch_array($result)) {
+	$result = $db->employeesByLastName();
+	while ($row = $db->fetchArray($result)) {
 		extract($row);
 		if ($is_active) {
 			$name = ucwords(strtolower(trim($fname) . " " . trim($lname)));

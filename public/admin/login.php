@@ -3,8 +3,8 @@
 	require_once(LIB_PATH.DS.'utilities.php');
 
 	// Already logged in? Go to menu
-	if($session->is_logged_in()) {
-		redirect_to("menu.php");
+	if($session->isLoggedIn()) {
+		redirectTo("menu.php");
 	}
 
 	// Remember to give your form's submit tag a name="submit" attribute!
@@ -23,14 +23,14 @@
 		$found_user = false;
 		if (empty($error)) {
 			// Check database to see if username/password exist.
-			$found_user = $utilities->attempt_login($username, $password);
+			$found_user = $utilities->attemptLogin($username, $password);
 		}
 		if ($found_user) {
 			// Username and password worked
 			$program = "timeclock";
 			$session->login($found_user);
 //			log_action('Login', "{$found_user->username} logged in.");
-			redirect_to("menu.php");
+			redirectTo("menu.php");
 		} else {
 			// username/password combo was not found in the database
 			$message = "Username/password<br />combination incorrect.";
@@ -56,7 +56,7 @@
 					<div style="display:inline-block;"> <!-- so the time is centered on username password, not buttons -->
 					<div align="center">
 						<span id="time"></span><br />
-						<?= show_date(); ?>
+						<?= showDate(); ?>
 					</div>
 					<div class="labels">
 						<p>username: </p> 
