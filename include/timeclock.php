@@ -217,7 +217,7 @@ class Timeclock {
 		if ($add_name) {
 			$output .= "<div align='center' style='color:black; background-color:white;'>" . $this->getName($employeeid) . "</div>\n";
 		}
-		$output .= "\t\t<table class='one_day' style='max-width:200px;'>\n";
+		$output .= "\t\t<table class='one_day'>\n";
 		$output .= "\t\t\t<tr><th colspan='5'>" . $this->getWeekday($target_date) . "<br >" . strftime("%m/%d",strtotime($target_date)) . "</th></tr>\n";
 
 		$this->todays_array = $this->buildTodaysArray($employeeid,$target_date);
