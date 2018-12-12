@@ -209,7 +209,6 @@ class Timeclock {
 
 
 	public function buildToday($employeeid,$target_date="",$add_name=false) {
-
 		if ($target_date=="") {$target_date=strftime('%Y-%m-%d 00:00:00',time());}
 		$target_date_total = 0;
 
