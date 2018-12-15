@@ -113,6 +113,8 @@ if it doesn't work, restore encryption settings and try again.
 
 5 - if successful change the password of admin account, or delete it entirely.
 
+6 - pick an image for background called work.jpg
+
 You can contact me at edpol03@gmail.com
 
 */
