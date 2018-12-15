@@ -3,7 +3,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="author" content="Edward Pol" />
-	<meta http-equiv="expires" content="0">
 	<meta name="description" content="Company timeclock" />
 	<link rel="shortcut icon" href="<?= $levels ?>images/index.png" type="image/png"  />
 	<link rel="stylesheet" type="text/css" href=<?= "'" . $levels . "cssfiles/styles.css'"; ?> />

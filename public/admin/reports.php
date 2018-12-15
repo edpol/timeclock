@@ -13,7 +13,7 @@
 	$checked  = "";
 	$display  = "none";
 	$report_type = "txt";
-	$grp = "";
+	$group_id = "";
 	$employeeid = "";
 
 	$end_date    = strftime("%m/%d/%Y", strtotime(" last Saturday "));
@@ -40,11 +40,11 @@
 		}
 
 		if (isset($report_type) && $report_type=="pdf") {
-			$pdf = new pdf();
-			$pdf->printReport($start_date,$end_date,$grp,$employeeid);
+			$pdf = new PDF();
+			$pdf->printReport($start_date,$end_date,$group_id,$employeeid);
 		} else {
-			$timeclock   = new timeclock();
-			$timeclock->printReport($start_date,$end_date,$grp,$employeeid);
+			$timeclock   = new Timeclock();
+			$timeclock->printReport($start_date,$end_date,$group_id,$employeeid);
 		}
 	}
 
@@ -68,8 +68,8 @@
 					<div style="float:left;">
 						<input type="text" id="datepicker"  name="start_date" value="<?= $start_date;?>"/><br />
 						<input type="text" id="datepicker2" name="end_date"   value="<?= $end_date;  ?>"/><br />
-						<select name="grp">
-							<?= $database->groupList($grp) ; ?>
+						<select name="group_id">
+							<?= $database->groupList($group_id) ; ?>
 						</select>
 					</div>
 					<br clear="all" />

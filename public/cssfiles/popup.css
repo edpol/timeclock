@@ -121,15 +121,15 @@ a#login_pop:hover, a#window_pop:hover {
     border-color: #555 #888 #888;
 }
 
-.two_weeks .spacer { border-color:white; background-color:white; height:5px; border:none; }
-.two_weeks th, .two_weeks td { border:black solid thin; border-radius:2px; color:black; font-size:12px; font-weight:normal; }
-.two_weeks th, .one_day   th { text-align:center; background-color:#CCC; padding:3px; }
-.two_weeks td, .one_day   td { text-align:right;  background-color:#FFF; padding:3px; vertical-align:top; }
-.two_weeks .one_day { border-color:#003399; border-width:thick; }
-.one_day   th, .one_day   td { border:none; color:black; font-size:12px; }
-.one_day table { border: 1px solid black; }
-.two_weeks .one_day { width:100%; }
-.two_weeks .grand { vertical-align:bottom;  border:none; }
+.two_weeks .spacer {border-color:white; background-color:white; height:5px; border:none;}
+.two_weeks th, .two_weeks td {border:black solid thin; border-radius:2px; color:black; font-size:12px; font-weight:normal;}
+.two_weeks th, .one_day   th {text-align:center; background-color:#CCC; padding:3px;}
+.two_weeks td, .one_day   td {text-align:right;  background-color:#FFF; padding:3px; vertical-align:top;}
+.two_weeks .one_day {border-color:#003399; border-width:thick; }
+.one_day   th, .one_day   td {border:none; color:black; font-size:12px; }
+.one_day table { border: 1px solid black;}
+.two_weeks .grand {vertical-align:bottom;  border:none;}
+.two_weeks .one_day {width:100%;}
 
 .divScrollAuto {  
 	height: 400px;  
