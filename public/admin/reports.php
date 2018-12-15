@@ -3,7 +3,7 @@
 
 	// Already logged in? 
 	if(!$session->isLoggedIn()) {
-		redirect_to("login.php");
+		redirectTo("login.php");
 	}
 
 	$_SESSION['calling_url'] = "admin/reports.php";
@@ -41,10 +41,10 @@
 
 		if (isset($report_type) && $report_type=="pdf") {
 			$pdf = new pdf();
-			$pdf->print_report($start_date,$end_date,$grp,$employeeid);
+			$pdf->printReport($start_date,$end_date,$grp,$employeeid);
 		} else {
 			$timeclock   = new timeclock();
-			$timeclock->print_report($start_date,$end_date,$grp,$employeeid);
+			$timeclock->printReport($start_date,$end_date,$grp,$employeeid);
 		}
 	}
 
