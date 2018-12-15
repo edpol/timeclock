@@ -2,7 +2,7 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? 
-	if(!$session->is_logged_in()) {
+	if(!$session->isLoggedIn()) {
 		redirect_to("login.php");
 	}
 
