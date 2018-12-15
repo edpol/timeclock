@@ -69,7 +69,7 @@
 						<input type="text" id="datepicker"  name="start_date" value="<?= $start_date;?>"/><br />
 						<input type="text" id="datepicker2" name="end_date"   value="<?= $end_date;  ?>"/><br />
 						<select name="grp">
-							<?= $database->group_list($grp) ; ?>
+							<?= $database->groupList($grp) ; ?>
 						</select>
 					</div>
 					<br clear="all" />
