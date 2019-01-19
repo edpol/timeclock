@@ -21,19 +21,15 @@
 
 	$getout=false; 
 	if (isset($_SESSION['calling_url']) && $_SESSION['calling_url'] == "admin/reports.php") {
-		if (isset($_POST["only_print_one"])) {
-			if ($_POST["only_print_one"] == false) {
-				$getout=true; 
-			}
-		} else {
-				$getout=true; 
+		if (!isset($_SESSION["only_print_one"])) {
+			$getout=true; 
 		}
 	}
 
 	// have last name, find id
 	$calling_url = isset($_SESSION['calling_url']) ? htmlspecialchars($_SESSION['calling_url'], ENT_QUOTES)  : "index.php";
 	if ( (isset($_POST['employeeid']) && !empty($_POST['employeeid']) ) || $getout) {
-		$_SESSION['employeeid'] = $_POST["employeeid"];
+		if (isset($_POST['employeeid'])) $_SESSION['employeeid'] = $_POST["employeeid"];
 		redirectTo($calling_url);
 	}
 
@@ -53,7 +49,8 @@
 
 
 	// No data to work with, go back
-	if ( ($barcode=="") && ($lastname=="") && (!$list_all) ){
+	if ( ($barcode=="") && 
+		($lastname=="") && (!$list_all) ){
 		if ($calling_url=="inquire.php") $calling_url="index.php";
 		$session->message("No one to find");
 		redirectTo($calling_url); 

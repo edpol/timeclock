@@ -12,7 +12,7 @@
 	$lastname = "";
 	$checked  = "";
 	$display  = "none";
-	$report_type = "txt";
+	$report_type = "pdf";
 	$group_id = "";
 	$employeeid = "";
 
@@ -83,8 +83,8 @@
 					<input type="submit" name="submit" value="submit" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" /> <br />
 				</div>
 				<div style="margin-left:20%;">
-					<input type="radio" name="report_type" value="rtf" id="rtf" checked="checked" /> <label for="rtf">Rich Text Format</label><br />
-					<input type="radio" name="report_type" value="pdf" id="pdf"                   /> <label for="pdf">PDF Format</label><br />
+					<input type="radio" name="report_type" value="pdf" id="pdf" checked="checked" /> <label for="pdf">PDF Format</label><br />
+					<input type="radio" name="report_type" value="rtf" id="rtf"                   /> <label for="rtf">Rich Text Format</label><br />
 <!--				<input type="radio" name="report_type" value="xls" id="xls"                   /> <label for="xls">Excel Format</label><br />
 -->				</div>
 			</span>
