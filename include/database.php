@@ -47,7 +47,7 @@ class Database extends Common {
 
 	public function groupList($groupname="") {
 		$group_list = array();
-		$sql = "select groupname from groups group by groupname";
+		$sql = "select groupname from groupz group by groupname";
 		$result=$this->q($sql);
 		$option = "";
 		while ($row = $this->fetchArray($result)) {

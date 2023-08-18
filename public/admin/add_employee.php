@@ -35,7 +35,7 @@
 			$sql .= "('$barcode','$fname','$lname','$email','$add1','$add2','$city','$st','$zip','$phone','$social','$hire_date', '$emergency_contact', '$emergency_number', '$group_id') ";
 
 			/* SUCCESS */
-			if ($result = $database->q($sql)) {
+			if ($result = $database->q($sqllo)) {
 				$session->message("New employee entered successfully ");
 
 				// the variables should be cleared
@@ -60,67 +60,38 @@
 <body>
 <div id="back">
 	<h2>
-		<form id="form1" action="add_employee.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
-			<span class="employee">
-				<span style=" margin:0 auto; display:table; float:left;">
-					<div align="center">New Employee</div>
+		<form id="form1"  class="form2" action="add_employee.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
+			<input type="hidden"   name="is_active"  value=0>
 
-					<div class="labels">
-						<p>Active:     </p>
+			<table>
+				<caption>New Employee</caption>
+				<tr><th>Active:                </th><td><input type="checkbox" name="is_active"  value=1 checked /></td></tr>
+				<tr><th>Barcode:   <?= STAR ?> </th><td><input type="text"     name="barcode"    value="<?= $barcode;    ?>" id="focus"/></td></tr>
+				<tr><th>First Name:            </th><td><input type="text"     name="fname"      value="<?= $fname;      ?>" /></td></tr>
+				<tr><th>Last Name: <?= STAR ?> </th><td><input type="text"     name="lname"      value="<?= $lname;      ?>" /></td></tr>
+				<tr><th>email:                 </th><td><input type="email"    name="email"      value="<?= $email;      ?>" /></td></tr>
+				<tr><th>Address 1:             </th><td><input type="text"     name="add1"       value="<?= $add1;       ?>" /></td></tr>
+				<tr><th>Address 2:             </th><td><input type="text"     name="add2"       value="<?= $add2;       ?>" /></td></tr>
+				<tr><th>City:                  </th><td><input type="text"     name="city"       value="<?= $city;       ?>" /></td></tr>
+				<tr><th>State:                 </th><td><?php include ("us_states.php"); ?></td></tr>
+				<tr><th>Zip Code:              </th><td><input type="text"     name="zip"        value="<?= $zip;        ?>" maxlength="10" size="10" /></td></tr>
+				<tr><th>Phone:                 </th><td><input type="text"     name="phone"      value="<?= $phone;      ?>" maxlength="10" onKeyPress="return numbersOnly(event);" ></input></td></tr>
+				<tr><th>SS#:                   </th><td><input type="text"     name="social"     value="<?= $social;     ?>" maxlength="10" onKeyPress="return numbersOnly(event);" ></input></td></tr>
+				<tr><th>Hire Date:             </th><td><input type="text"     name="hire_date"  value="<?= $hire_date;  ?>" id="datepicker" /></td></tr>
+				<tr><th>Emergency Contact:     </th><td><input type="text"     name="emergency_contact" value="<?= $emergency_contact; ?>" /></td></tr>
+				<tr><th>Emergency Number:      </th><td><input type="text"     name="emergency_contact" value="<?= $emergency_contact; ?>" /></td></tr>
+				<tr><th>Group:                 </th><td><select name="group_id"><?= $database->groupList() ; ?></select></td></tr>
+			</table>
 
-						<?php echo (isset($error["barcode"])) ? "<p style='color:red'>" : "<p>"; ?>
-						Barcode:<font color="#FF0000">*</font></p>
-
-						<p>First Name: </p>
-						<?php echo (isset($error["lname"])) ? "<p style='color:red'>" : "<p>"; ?>
-						Last Name:<font color="#FF0000">*</font></p>
-						<p>email:             </p>
-						<p>Address 1:         </p>
-						<p>Address 2:         </p>
-						<p>City:              </p>
-						<p>State:             </p>
-						<p>Zip Code:          </p>
-						<p>Phone:             </p>
-						<p>SS#:               </p>
-						<p>Hire Date:         </p>
-						<p>Emergency Contact: </p>
-						<p>Emergency Number:  </p>
-						<p>Group:             </p>
-					</div>
-
-					<div class="info" style="float:left;">
-						<!-- we don't have employeeid yet  -->
-						<input type="hidden"   name="is_active"  value=0>
-						<input type="checkbox" name="is_active"  value=1 checked /><br />
-						<input type="text"     name="barcode"    value="<?= $barcode;    ?>" id="focus"/> <br />
-						<input type="text"     name="fname"      value="<?= $fname;      ?>" /> <br />
-						<input type="text"     name="lname"      value="<?= $lname;      ?>" /> <br />
-						<input type="email"    name="email"      value="<?= $email;      ?>" /> <br />
-						<input type="text"     name="add1"       value="<?= $add1;       ?>" /> <br />
-						<input type="text"     name="add2"       value="<?= $add2;       ?>" /> <br />
-						<input type="text"     name="city"       value="<?= $city;       ?>" /> <br />
-						<?php include ("us_states.php"); ?><br />
-						<input type="text"     name="zip"        value="<?= $zip;        ?>" maxlength="10" size="10" /><br />
-						<input type="text"     name="phone"      value="<?= $phone;      ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
-						<input type="text"     name="social"     value="<?= $social;     ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
-						<input type="text"     name="hire_date"  value="<?= $hire_date;  ?>" id="datepicker" /> <br />
-						<input type="text"     name="emergency_contact" value="<?= $emergency_contact;   ?>" /> <br />
-						<input type="text"     name="emergency_number"  value="<?= $emergency_number;    ?>" maxlength="10" onKeyPress="return numbersonly(event);" ></input><br />
-						<select name="group_id">
-							<?= $database->groupList() ; ?>
-						</select>
-					</div>
-					<br clear="all" />
-					<div align="center">
-						<input type="button" name="submit" value="back"   class="admin_up" onClick="parent.location='menu.php'" />
-						<input type="submit" name="submit" value="submit" class="admin_up" />
-					</div>
-				</span>
+            <span class="employee">
+				<div style="clear: both;"></div>
+				<div align="center">
+                    <button type="submit" class="admin_up" formaction="menu.php">back</button>
+                    <button type="submit" class="admin_up">submit</button>
+				</div>
 				<div class="labels">
-					<p>&nbsp;</p>
-					<p><?php if (isset($error["barcode"])) echo $error["barcode"]; ?></p>
-					<p>&nbsp;</p>
-					<p><?php if (isset($error["lname"])) echo $error["lname"]; ?></p>
+					<p><?php if (isset($error["barcode"])) echo "<br>" . $error["barcode"]; ?></p>
+					<p><?php if (isset($error["lname"]  )) echo "<br>" . $error["lname"];   ?></p>
 				</div>
 				<br clear="all" />
 				<div class="get_barcode">To generate <a href="http://generator.barcoding.com/" target="_blank">barcode jpg</a></div>

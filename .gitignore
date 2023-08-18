@@ -1,4 +1,7 @@
+.idea
+include/connect.php
 public/images/work.jpg
 public/images/test.php
 public/admin/reports/report.*
 public/images/work.jpg
+timeclock.sql

@@ -2,7 +2,7 @@
 	require_once("../../include/initialize.php");
 
 	// Already logged in? 
-	if(!$session->isLoggedIn()) {
+	if(isset($session) && !$session->isLoggedIn()) {
 		redirectTo("../login.php");
 	}
 
@@ -88,15 +88,15 @@
 			</div>
 			<form id="form1" action="../find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
 				<div class="labels">
-					<p>Last Name: </p>
-					<p>Date:      </p>
+					<label for="focus">Last Name: </label>
+					<label for="datepicker">Date: </label>
 				</div>
 				<div style="float:left;">
 					<input type="text"   tabindex=1 onClick="submitForm('../find_id.php')" name="lastname"    value="<?php echo $lastname;?>"    id="focus" /><br />  <!-- onclick="openWindow('hello.htm')" --> 
 					<input type="text"   tabindex=2 onClick="submitForm('../find_id.php')" name="target_date" value="<?php echo $target_date;?>" id="datepicker" /><br />
 					<input type="hidden" name="calling_url" value="admin/change_time.php" />
 				</div>
-				<br clear="all" />
+				<div style='clear:both'></div>
 				<div style="padding-top:20px; text-align:center;">
 					<input type="button" tabindex=3 name="submit" value="menu"   <?= $admin; ?> onClick="parent.location='menu.php'" />
 					<input type="submit" tabindex=4 name="submit" value="submit" <?= $admin; ?> />
@@ -116,7 +116,7 @@
 <?=	 					"\t\t\t\t\t\t" . $timeclock->name . "<br />\n"; ?>
 <?=						"\t\t\t\t\t\t" . strftime("%A %m/%d/%Y", strtotime($target_date) ) . "<br />\n"; ?>
 					</div>
-					<br clear="all" />
+                    <div style='clear:both'></div>
 
 					<!-- Add Time -->
 					<div style="padding-top:10px; padding-bottom:10px;">
@@ -124,15 +124,18 @@
 					</div>
 
 					<!-- List/Delete Time -->
-<?=					$existing_entries;	?>
-					<span class="employee">
-<?=						$session->message(); ?>
-					</span>
+<?php				echo $existing_entries;
+                    if(isset($session)) {
+                        echo "<span class='employee'>\r\n";
+                        echo $session->message();
+                        echo "</span>\r\n";
+                    }
+?>
 				</form>
 			</div>
 		</span>
 	</div>
-<script type="text/javascript" language="JavaScript" src="../mysrc.js">
+<script type="text/javascript" src="../mysrc.js">
 </script>
 </body>
 </html>

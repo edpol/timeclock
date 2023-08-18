@@ -9,7 +9,7 @@
 	 */
 	function pressed(e) {
 		// Has the enter key been pressed?
-		if ( (window.event ? event.keyCode : e.which) == 13) { 
+		if ( (window.event ? event.keyCode : e.which) === 13) {
 			// If it has been so, manually submit the <form>
 			document.forms[0].submit();
 		}
@@ -20,13 +20,13 @@
 	});
 
    /*
-	*	This diplays the time 
+	*	This displays the time
 	*/
     function updateTime() {
-        var now = new Date();
-        var hours   = now.getHours();
-        var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
+        let now = new Date();
+        let hours   = now.getHours();
+        let minutes = now.getMinutes();
+        let seconds = now.getSeconds();
         if (minutes < 10){
             minutes = "0" + minutes;
         }
@@ -37,7 +37,7 @@
         if(hours > 12){
             hrs -= 12;
         }
-        var v = hrs + ":" + minutes; // + ":" + seconds;
+        let v = hrs + ":" + minutes; // + ":" + seconds;
         if(hours > 11){
             v+=" pm ";
         } else {
@@ -45,10 +45,10 @@
         }
         document.getElementById('time').innerHTML=v;
 
-		var dayOfMonth = now.getDate();
+		let dayOfMonth = now.getDate();
 		if (dayOfMonth < 10) { dayOfMonth = "0" + dayOfMonth; }
-        var theDate = now.getMonth()+1 + "/" + dayOfMonth + "/" + now.getFullYear();
-		var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let theDate = now.getMonth()+1 + "/" + dayOfMonth + "/" + now.getFullYear();
+		let weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 		console.log(v + " the time ");
 		console.log(theDate + " today's date " + weekDays[now.getDay()]);
 		console.log(now.getTime() + " milliseconds since 1/1/1970");
@@ -76,26 +76,26 @@
 	*	Show and hide any div
 	*/
 	function showHide(id) {
-		var el = document.getElementById(id);
+		let el = document.getElementById(id);
 		if( el && el.style.display == 'block')    
 			el.style.display = 'none';
 		else 
 			el.style.display = 'block';
 	}
 	function showHide2(id,newdisplay) {
-		var el = document.getElementById(id);
+		let el = document.getElementById(id);
 		if( el && el.style.display == 'block')    
 			el.style.display = 'block';
 		else 
 			el.style.display = 'none';
 	}
 	function showid(id) {
-		var el = document.getElementById(id);
+		let el = document.getElementById(id);
 		el.style.display = 'block';
 		alert("show");
 	}
 	function hideid(id) {
-		var el = document.getElementById(id);
+		let el = document.getElementById(id);
 		el.style.display = 'none';
 		alert("hide");
 	}
@@ -106,12 +106,12 @@
 
 
 	/*
-	 *    <input onkeypress="return numbersonly(event);" name="VAT_Number">
+	 *    <input onkeypress="return numbersOnly(event);" name="VAT_Number">
 	 *    only allow numeric input
 	 */
-	function numbersonly(e) {
-		var unicode=e.charCode? e.charCode : e.keyCode;
-		if  (unicode!=8 && unicode!=9) { //if the key isn't the backspace key or TAB (which we should allow)
+	function numbersOnly(e) {
+		let unicode=e.charCode? e.charCode : e.keyCode;
+		if  (unicode!==8 && unicode!==9) { //if the key isn't the backspace key or TAB (which we should allow)
 			if (unicode<48||unicode>57) return false;//if not a number return false //disable key press
 		}
 	} 
@@ -134,9 +134,9 @@
 		}
 
 		if (document.getElementsByClassName(button+"_up")) {
-			var a = document.getElementsByClassName(button+"_up");
-			var x;
-			for (var i = 0; i < a.length; ++i) {
+			let a = document.getElementsByClassName(button+"_up");
+			let x;
+			for (let i = 0; i < a.length; ++i) {
 				x = a[i];
 				x.addEventListener("mousedown", makeItHappenDown(x,button+"_down"), false);
 				x.addEventListener("mouseup", makeItHappenUp(x,button+"_up"), false);
@@ -144,31 +144,31 @@
 		}
 	}
 
-// handle the form submit event
-function prepareEventHandlers() {
-	document.getElementById("frmContact").onclick = function() {
-        var result = false;
-		// prevent a form from submitting if no email.
-		if (document.getElementById("mandatoryUsername").value == "") {
-			document.getElementById("errorUsername").innerHTML = "Username is mandatory";
-			// to STOP the form from submitting
-			result = false;
-		} else {
-			// reset and allow the form to submit
-			document.getElementById("errorUsername").innerHTML = "";
-			result = true;
-		}
-		if (document.getElementById("mandatoryPassword").value == "") {
-			document.getElementById("errorPassword").innerHTML = "Password is mandatory";
-			result = false;
-		} else {
-			document.getElementById("errorPassword").innerHTML = "";
-			result = true;
-		}
+	// handle the form submit event
+	function prepareEventHandlers() {
+		document.getElementById("frmContact").onclick = function() {
+			let result = false;
+			// prevent a form from submitting if no email.
+			if (document.getElementById("mandatoryUsername").value === "") {
+				document.getElementById("errorUsername").innerHTML = "Username is mandatory";
+				// to STOP the form from submitting
+				result = false;
+			} else {
+				// reset and allow the form to submit
+				document.getElementById("errorUsername").innerHTML = "";
+				result = true;
+			}
+			if (document.getElementById("mandatoryPassword").value === "") {
+				document.getElementById("errorPassword").innerHTML = "Password is mandatory";
+				result = false;
+			} else {
+				document.getElementById("errorPassword").innerHTML = "";
+				result = true;
+			}
 
-		return result;
-	};
-}
+			return result;
+		};
+	}
 
 	window.onload = function () {
 
