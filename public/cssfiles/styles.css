@@ -99,7 +99,7 @@ input, select {
 	color:black;
 }
 input:focus, select:focus   {
-	background-color: #F00 #00F #0F0 #0FF;
+	background-color: #F00; // #00F #0F0 #0FF;
 }
 select {
 	margin-top:4px;

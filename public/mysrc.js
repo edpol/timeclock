@@ -33,7 +33,7 @@
         if (seconds < 10){
             seconds = "0" + seconds;
         }
-		hrs = hours;
+		let hrs = hours;
         if(hours > 12){
             hrs -= 12;
         }
@@ -44,7 +44,6 @@
             v+=" am "
         }
         document.getElementById('time').innerHTML=v;
-console.log(v);
 		let dayOfMonth = now.getDate();
 		if (dayOfMonth < 10) { dayOfMonth = "0" + dayOfMonth; }
         let theDate = now.getMonth()+1 + "/" + dayOfMonth + "/" + now.getFullYear();

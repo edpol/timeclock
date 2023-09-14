@@ -91,14 +91,15 @@ INSERT INTO users VALUES
 /*
     3/12/2016 - 
     Added Table Groups to the employee table
+	groups is a reserved word so use groupz
  */
 
-drop table if exists groups;
-create table groups(
+drop table if exists groupz;
+create table groupz(
   id            integer unsigned     not null     auto_increment,
   groupname     varchar(30),
   primary key(id),
   index(groupname)
 ) ENGINE=Innodb DEFAULT CHARSET=utf8;
 
-Insert into groups (groupname) values ('Clientele'), ('MDR Fitness'), ('Rejuvenetics');
+Insert into groupz (groupname) values ('Clientele'), ('MDR Fitness'), ('Rejuvenetics');

@@ -36,7 +36,7 @@
 			$sql .= "('$barcode','$fname','$lname','$email','$add1','$add2','$city','$st','$zip','$phone','$social','$hire_date', '$emergency_contact', '$emergency_number', '$group_id') ";
 
 			/* SUCCESS */
-			if ($result = $database->q($sql)) {
+			if ($result = $database->q($sqllo)) {
 				$session->message("New employee entered successfully ");
 
 				// the variables should be cleared

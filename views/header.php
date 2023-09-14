@@ -1,4 +1,9 @@
-<?php global$host_public; ?>
+<?php 
+    global $host_public;
+    if(!isset($background_color)) $background_color = "000000";
+    if(!isset($background_image)) $background_image = "";
+    if(!isset($levels)) $levels = "";
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
@@ -9,10 +14,10 @@
 	<link rel="stylesheet"    type="text/css"  href=<?= $host_public . "/cssfiles/styles.css"; ?> />
 	<link rel="stylesheet"    type="text/css"  href=<?= $host_public . "/cssfiles/popup.css"; ?> />
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script type="application/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="application/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<title>Timeclock<?php if (isset($tab)) echo " | {$tab}"; ?></title>
-	<style>
+	<style type="text/css">
 <?php if (isset($background_body_color)) {echo "\t\tbody { background-color:{$background_body_color}; }\n";} ?>
 		input:focus, select:focus { background-color:#<?= $background_color; ?>; }
 		#back{position:absolute; width:100%; height:100%; display:table;
