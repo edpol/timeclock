@@ -118,6 +118,15 @@
 		<form id="form1" action="edit_employee2.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
 			<span class="employee">
 				<span style=" margin:0 auto; display:table; float:left;">
+                    <table>
+                        <caption>Edit Employee</caption>
+						<?php $style = (isset($error["barcode"])) ? "style='color:red'" : ""; ?>
+						<input type="hidden"   name="employeeid" value="<?php echo $employeeid; ?>" />
+						<input type="hidden"   name="is_active"  value=0>
+                        <tr><th>Active:</th><td><input type="checkbox" name="is_active"  value=1 <?php echo "$checked"; ?>  /></td></tr>
+
+                    </table>
+
 					<div align="center">Edit Employee</div>
 
 					<div class="labels">
@@ -176,7 +185,7 @@
 					<p><?php if (isset($error["lname"])) echo $error["lname"]; ?></p>
 				</div>
 				<br clear="all" />
-				<div class="get_barcode">To generate <a href="http://generator.barcoding.com/" target="_blank">barcode jpg</a></div>
+				<div class="get_barcode">To generate <a href="https://www.barcoding.com/resources/barcode-generator/" target="_blank">barcode UPCA</a></div>
 			</span>
 			<span class="employee">
 				<?php echo $session->message(); ?>

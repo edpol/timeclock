@@ -1,12 +1,13 @@
+<?php global$host_public; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="author" content="Edward Pol" />
 	<meta name="description" content="Company timeclock" />
-	<link rel="shortcut icon" href="<?= $levels ?>images/index.png" type="image/png"  />
-	<link rel="stylesheet" type="text/css" href=<?= "'" . $levels . "cssfiles/styles.css'"; ?> />
-	<link rel="stylesheet" type="text/css" href=<?= "'" . $levels , "cssfiles/popup.css'";  ?> />
+	<link rel="shortcut icon" type="image/png" href=<?= $host_public . "/images/index.png";    ?> />
+	<link rel="stylesheet"    type="text/css"  href=<?= $host_public . "/cssfiles/styles.css"; ?> />
+	<link rel="stylesheet"    type="text/css"  href=<?= $host_public . "/cssfiles/popup.css"; ?> />
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>

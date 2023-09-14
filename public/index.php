@@ -43,36 +43,40 @@
 <body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
 	<div id="back">
 		<h2>
-<?= 		$display; ?>
+<?php
+//            echo "<div class='bluebox' style='width:328px; margin-bottom: 20px;'>\r\n";
+//            echo "\t include ('clock.php')\r\n";
+//            echo "</div>\r\n";
+			echo $display;
+?>
 			<div class="bluebox">
-				<div align="center">
+				<div style="text-align: center;">
 					<span id="time"></span><br />
 					<?= showDate(); ?>
 				</div>
 				<form id="form1" action="find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
 					<div class="labels">
-						<p>ID Number: </p>
-						<p>Last Name: </p>  <!-- onclick="openWindow('hello.htm')" --> 
+                        <p><label for="barcode" >ID Number:</label> </p>
+                        <p><label for="lastname">Last Name:</label> </p>  <!-- onclick="openWindow('hello.htm')" -->
 					</div>
-					<div style="float:left; padding-top:0px;">
-						<input type="password" name="barcode"  value="" id="focus" autofocus style="margin-bottom:6px;"  /><br />
-						<input type="text"     name="lastname" value="" /><br /> <!-- onclick="openWindow('hello.htm')" --> 
+					<div style="float:left; padding-top:0;">
+						<input type="password" id="barcode"  name="barcode"  value="" autofocus style="margin-bottom:6px;"  /><br />
+						<input type="text"     id="lastname" name="lastname" value="" /><br /> <!-- onclick="openWindow('hello.htm')" -->
 					</div>
-					<br clear="all" />
+					<div style="clear: both;"></div>
 					<input type="hidden"   name="calling_url" value="index.php" />					
 					<div style="clear:both; padding-top:20px;">
 						<input type="submit" style="display: none" />
-						<a name="login"   class="blue_up" href="admin/login.php">Sign In</a>
-						<a name="inquire" class="blue_up" href="inquire.php"    >Inquire</a>
+						<a class="blue_up" href="admin/login.php">Sign In</a>
+						<a class="blue_up" href="inquire.php"    >Inquire</a>
 					</div>
-<?=					$message; ?>
+<?php				if(isset($message)) { echo $message; } ?>
 				</form>
 			</div>
 		</h2>
 	</div>
 <!-- Active input tag - Has to be after the input tag named barcode -->
-<script type="text/javascript" language="JavaScript" src="mysrc.js">
-</script>
+<script type="text/javascript" src="mysrc.js"></script>
 <?php 
 	$data = array();
 //	render("footer", __DIR__, $data); 

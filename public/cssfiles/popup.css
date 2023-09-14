@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 a#login_pop:hover, a#window_pop:hover {
 	border-color: #eee;
 }
