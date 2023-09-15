@@ -15,5 +15,9 @@ require_once(LIB_PATH.DS.'database.php');
 require_once(LIB_PATH.DS.'timeclock.php');
 require_once(LIB_PATH.DS.'pdf.php');
 
-$host_public = 'http://' . $_SERVER['HTTP_HOST'];
-
+$h = explode("/",$_SERVER['PHP_SELF']);
+if($h[1] == 'timeclock' && $h[2] == 'public'){
+    $host_public = "http://localhost/timeclock/public";
+}else{
+	$host_public = 'http://' . $_SERVER['HTTP_HOST'];
+}

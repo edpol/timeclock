@@ -84,5 +84,3 @@
 	}
 
 	redirectTo($calling_url); 
-
-?>
