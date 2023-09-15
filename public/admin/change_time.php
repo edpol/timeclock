@@ -83,20 +83,25 @@
 	<div id="back">
 
 		<span class="employee">
-			<div style="text-align:center;">
-				Employee time to change
-			</div>
 			<form id="form1" action="../find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
-				<div class="labels">
-					<label for="focus">Last Name: </label>
-					<label for="datepicker">Date: </label>
-				</div>
-				<div style="float:left;">
-					<input type="text"   tabindex=1 onClick="submitForm('../find_id.php')" name="lastname"    value="<?php echo $lastname;?>"    id="focus" /><br />  <!-- onclick="openWindow('hello.htm')" --> 
-					<input type="text"   tabindex=2 onClick="submitForm('../find_id.php')" name="target_date" value="<?php echo $target_date;?>" id="datepicker" /><br />
-					<input type="hidden" name="calling_url" value="admin/change_time.php" />
-				</div>
-				<div style='clear:both'></div>
+				<table style="border-collapse: collapse;">
+					<caption>Employee time to change</caption>
+					<tr>
+						<th><label for="focus">Last Name: </label></th>
+						<td style="padding-bottom:0;">
+							<input	style="text-align:center" type="text"  tabindex=1 name="last_name" id="focus"
+								onClick="submitForm('../find_id.php')" value="<?php echo $lastname;?>" />
+						</td>
+					</tr>
+					<tr style="padding:0">
+						<th><label for="datepicker">Date: </label></th>
+						<td style="padding-top:0;">
+							<input	style="text-align:center" type="text"  tabindex=2 name="target_date" id="datepicker" 
+								onClick="submitForm('../find_id.php')" value="<?php echo $target_date;?>" />
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="calling_url" value="admin/change_time.php" />
 				<div style="padding-top:20px; text-align:center;">
 					<input type="button" tabindex=3 name="submit" value="menu"   <?= $admin; ?> onClick="parent.location='menu.php'" />
 					<input type="submit" tabindex=4 name="submit" value="submit" <?= $admin; ?> />

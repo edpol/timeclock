@@ -48,7 +48,6 @@ class Timeclock {
 	/* find employeeid with lastname or barcode */
 	public function getId(&$lastname, &$barcode="", $list_all=TRUE) {
 		global $database;
-
 		$employeeid=0;
 		$result = NULL;
 		if ($barcode<>"") {

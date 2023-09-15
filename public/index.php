@@ -1,11 +1,9 @@
-<?php 	
-/*
+<?php 	/*
  *	timeclock
  */
 	require_once("../include/initialize.php");
 
 	$_SESSION['calling_url'] = "index.php";
-
 	if (isset($_SESSION["employeeid"])) {
 		$employeeid = $_SESSION["employeeid"];
 		unset($_SESSION["employeeid"]);
@@ -75,8 +73,10 @@
 			</div>
 		</h2>
 	</div>
+host_public: <?= $host_public; ?>
+
 <!-- Active input tag - Has to be after the input tag named barcode -->
-<script type="text/javascript" src="mysrc.js"></script>
+	<script type="text/javascript" src='<?= $host_public."/mysrc.js"?>'></script>
 <?php 
 	$data = array();
 //	render("footer", __DIR__, $data); 
