@@ -21,3 +21,5 @@ if($h[1] == 'timeclock' && $h[2] == 'public'){
 }else{
 	$host_public = 'http://' . $_SERVER['HTTP_HOST'];
 }
+//echo "\$host_public: $host_public <br>";
+//die();
