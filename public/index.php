@@ -75,10 +75,9 @@
 	</div>
 
 <!-- Active input tag - Has to be after the input tag named barcode -->
-	<script type="text/javascript" src='<?= $host_public."/mysrc.js"?>'></script>
-<?php 
+<?php
 	$data = array();
-//	render("footer", __DIR__, $data); 
+    render("footer", __DIR__, $data);
 ?>
 </body>
 </html>

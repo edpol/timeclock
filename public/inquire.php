@@ -62,9 +62,11 @@
 			</div>
 		</h1>
 	</div>
-<?php 	// if we are on this page we are not in edit mode
-		if (isset($_SESSION["edit_employee"])) { unset($_SESSION["edit_employee"]); }?>
-<script type="text/javascript" language="JavaScript" src="mysrc.js">
-</script>
+<?php
+    // if we are on this page we are not in edit mode
+    if (isset($_SESSION["edit_employee"])) { unset($_SESSION["edit_employee"]); }
+    $data = array();
+    render("footer", __DIR__, $data);
+?>
 </body>
 </html>

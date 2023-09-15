@@ -140,7 +140,9 @@
 			</div>
 		</span>
 	</div>
-<script type="text/javascript" src="../mysrc.js">
-</script>
+<?php
+    $data = array();
+    render("footer", __DIR__, $data);
+?>
 </body>
 </html>
