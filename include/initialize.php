@@ -20,7 +20,7 @@ require_once(LIB_PATH.DS.'timeclock.php');
 require_once(LIB_PATH.DS.'pdf.php');
 
 $h = explode("/",$_SERVER['PHP_SELF']);
-if($h[2]=='public'){
+if(isset($h[2]) && $h[2]=='public'){
     $host_public = "//localhost/" . $h[1] . "/public";
 }else{
     $host_public = '//' . $_SERVER['HTTP_HOST'];
