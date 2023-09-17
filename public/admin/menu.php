@@ -1,6 +1,5 @@
-<?php
-global $host_public, $session;
-require_once("../../include/initialize.php");
+<?php 
+	require_once("../../include/initialize.php");
 
 	// Already logged in? Go to menu
 	if(!$session->isLoggedIn()) {
@@ -14,27 +13,24 @@ require_once("../../include/initialize.php");
 <!-- this clears the form every time you navigate away or reload the page --> 
 <body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
 	<div id="back">
-		<span class="vertical-center">
+		<span class="color_size">
 			<div class="whitebox">
-                <div style="text-align:center;">
-    				<span id="time"></span><br />
-	    			<?= date('m/d/y'); ?><br />
-                </div>
+				<span id="time"></span><br />
+				<?= date('m/d/y'); ?><br />
 				<form>
-                    <button type="submit" class="admin_up" formaction="add_employee.php"    >Add Employee   </button><br />
-                    <button type="submit" class="admin_up" formaction="edit_employee.php"   >Edit Employee  </button><br />
-                    <button type="submit" class="admin_up" formaction="delete_employee.php" >Delete Employee</button><br />
-                    <button type="submit" class="admin_up" formaction="change_time.php"     >Change Time    </button><br />
-                    <button type="submit" class="admin_up" formaction="reports.php"         >Reports        </button><br />
-                    <button type="submit" class="admin_up" formaction="emergency.php"       >Contacts       </button><br />
-                    <button type="submit" class="admin_up" formaction="../index.php"        >Timeclock      </button><br />
-                    <button type="submit" class="admin_up" formaction="manage_users.php"    >Manage Users   </button><br />
-                    <button type="submit" class="admin_up" formaction="logout.php"          >Log Out        </button><br />
+				<button type="submit" class="admin_up" formaction="add_employee.php"    >Add Employee   </button><br />
+				<button type="submit" class="admin_up" formaction="edit_employee.php"   >Edit Employee  </button><br />
+				<button type="submit" class="admin_up" formaction="delete_employee.php" >Delete Employee</button><br />
+				<button type="submit" class="admin_up" formaction="change_time.php"     >Change Time    </button><br />
+				<button type="submit" class="admin_up" formaction="reports.php"         >Reports        </button><br />
+				<button type="submit" class="admin_up" formaction="emergency.php"       >Contacts       </button><br />
+				<button type="submit" class="admin_up" formaction="../index.php"        >Timeclock      </button><br />
+				<button type="submit" class="admin_up" formaction="manage_users.php"    >Manage Users   </button><br />
+				<button type="submit" class="admin_up" formaction="logout.php"          >Log Out        </button><br />
 				</form>
 			</div>
 		</span>
 	</div>
-<script type="text/javascript" src=<?= $host_public . "/mysrc.js"; ?>>
-</script>
+    <?php render("footer", __DIR__, []); ?>
 </body>
 </html>

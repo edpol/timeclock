@@ -7,7 +7,7 @@
 	}
 
 
-	$sql = "select * from groupz";
+	$sql = "select * from groups";
 	if ($result=$database->q($sql)) {
 		$list = "";
 		while ($row = $database->fetchArray($result)) {
@@ -21,7 +21,7 @@
 	render("header", __DIR__, $data); 
 /*
 
-i want to list all of the groupz and give us a chance to edit or delete it
+i want to list all of the groups and give us a chance to edit or delete it
 block deletion if people are in the group
 or ask what group do you want to move them to
 */
@@ -51,7 +51,6 @@ or ask what group do you want to move them to
 		</form>
 	</h2>
 </div>
-<script type="text/javascript" language="JavaScript" src="../mysrc.js">
-</script>
+<?php render("footer", __DIR__, []); ?>
 </body>
 </html>

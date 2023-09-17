@@ -1,4 +1,5 @@
-<?php 	/*
+<?php
+/*
  *	timeclock
  */
 	require_once("../include/initialize.php");
@@ -42,42 +43,36 @@
 	<div id="back">
 		<h2>
 <?php
-//            echo "<div class='bluebox' style='width:328px; margin-bottom: 20px;'>\r\n";
-//            echo "\t include ('clock.php')\r\n";
-//            echo "</div>\r\n";
 			echo $display;
 ?>
 			<div class="bluebox">
-				<div style="text-align: center;">
+				<div align="center">
 					<span id="time"></span><br />
 					<?= showDate(); ?>
 				</div>
 				<form id="form1" action="find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
 					<div class="labels">
-                        <p><label for="barcode" >ID Number:</label> </p>
+                        <p><label for="focus"   >ID Number:</label> </p>
                         <p><label for="lastname">Last Name:</label> </p>  <!-- onclick="openWindow('hello.htm')" -->
 					</div>
 					<div style="float:left; padding-top:0;">
-						<input type="password" id="barcode"  name="barcode"  value="" autofocus style="margin-bottom:6px;"  /><br />
-						<input type="text"     id="lastname" name="lastname" value="" /><br /> <!-- onclick="openWindow('hello.htm')" -->
+						<input type="password" name="barcode"  value="" id="focus" autofocus style="margin-bottom:6px;"  /><br />
+						<input type="text"     name="lastname" value="" id="lastname" /><br /> <!-- onclick="openWindow('hello.htm')" -->
 					</div>
-					<div style="clear: both;"></div>
+					<br class="clear" />
 					<input type="hidden"   name="calling_url" value="index.php" />					
 					<div style="clear:both; padding-top:20px;">
 						<input type="submit" style="display: none" />
-						<a class="blue_up" href="admin/login.php">Sign In</a>
-						<a class="blue_up" href="inquire.php"    >Inquire</a>
+						<a id="login"   class="blue_up" href="admin/login.php">Sign In</a>
+						<a id="inquire" class="blue_up" href="inquire.php"    >Inquire</a>
 					</div>
-<?php				if(isset($message)) { echo $message; } ?>
+<?php				if(isset($message)) { echo "<div style='padding-top: 20px;'>$message</div>"; } ?>
 				</form>
 			</div>
 		</h2>
 	</div>
 
 <!-- Active input tag - Has to be after the input tag named barcode -->
-<?php
-	$data = array();
-    render("footer", __DIR__, $data);
-?>
+<?php	render("footer", __DIR__, []);  ?>
 </body>
 </html>

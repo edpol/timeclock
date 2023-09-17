@@ -56,9 +56,7 @@
     }
 	// This calls the function now and then every 20 seconds, onLoad
 	function showClock() {
-console.log("1 ");
 		updateTime();
-console.log("2 ");
 		setInterval("updateTime()",20000);
 	}
 
@@ -145,40 +143,39 @@ console.log("2 ");
 		}
 	}
 
-	// handle the form submit event
-	function prepareEventHandlers() {
-		document.getElementById("frmContact").onclick = function() {
-			let result = false;
-			// prevent a form from submitting if no email.
-			if (document.getElementById("mandatoryUsername").value === "") {
-				document.getElementById("errorUsername").innerHTML = "Username is mandatory";
-				// to STOP the form from submitting
-				result = false;
-			} else {
-				// reset and allow the form to submit
-				document.getElementById("errorUsername").innerHTML = "";
-				result = true;
-			}
-			if (document.getElementById("mandatoryPassword").value === "") {
-				document.getElementById("errorPassword").innerHTML = "Password is mandatory";
-				result = false;
-			} else {
-				document.getElementById("errorPassword").innerHTML = "";
-				result = true;
-			}
+    // handle the form submit event
+    function prepareEventHandlers() {
+        document.getElementById("frmContact").onclick = function() {
+            let result = false;
+            // prevent a form from submitting if no email.
+            if (document.getElementById("mandatoryUsername").value === "") {
+                document.getElementById("errorUsername").innerHTML = "Username is mandatory";
+                // to STOP the form from submitting
+                result = false;
+            } else {
+                // reset and allow the form to submit
+                document.getElementById("errorUsername").innerHTML = "";
+                result = true;
+            }
+            if (document.getElementById("mandatoryPassword").value === "") {
+                document.getElementById("errorPassword").innerHTML = "Password is mandatory";
+                result = false;
+            } else {
+                document.getElementById("errorPassword").innerHTML = "";
+                result = true;
+            }
 
-			return result;
-		};
-	}
+            return result;
+        };
+    }
 
 	window.onload = function () {
-console.log('onload');
+
 		// if there is an element with id time start the clock
 		if(document.getElementById("time")) {
-console.log('showclock');
 			showClock();
 		}
-console.log('focus');
+
 		//	document.forms['form1'].elements['barcode'].focus(); 
 		if (document.getElementById('focus')) {
 			document.getElementById('focus').focus();

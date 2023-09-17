@@ -55,7 +55,6 @@
 			</span>
 		</h2>
 	</div>
-<script type="text/javascript" language="JavaScript" src="../mysrc.js">
-</script>
+    <?php render("footer", __DIR__, []); ?>
 </body>
 </html>

@@ -9,7 +9,7 @@ class Timeclock {
 	public $padding=0;
 	public $num_rows;
 	protected $select_employee;
-	protected $todays_array=array("todays_total"=>0);
+	protected $todays_array=["todays_total"=>0];
 	protected $margin;
 	protected $left_right_margin;
 	protected $column_headings;
@@ -19,7 +19,7 @@ class Timeclock {
 	protected $eol;
 	protected $ff;
 	protected $first_page = true;
-	protected $file_name = "reports/report.rtf";
+	protected string $file_name = PUBLIC_ROOT . DS . "admin" . DS . "reports" . DS . "report.rtf";  // this is set in pdf.php
 
 	function __construct () {
 		$this->margin = str_repeat(" ",$this->padding);
@@ -48,6 +48,7 @@ class Timeclock {
 	/* find employeeid with lastname or barcode */
 	public function getId(&$lastname, &$barcode="", $list_all=TRUE) {
 		global $database;
+
 		$employeeid=0;
 		$result = NULL;
 		if ($barcode<>"") {
@@ -189,8 +190,6 @@ class Timeclock {
 		global $database;
 
 		$result = $this->selectToday($employeeid, $today);
-
-//		$t = array("todays_total" => 0);
 		$todays_total = 0;
 		$t = array ();
 		if ($this->num_rows>0) {
@@ -201,9 +200,9 @@ class Timeclock {
 			}
 			$t["todays_total"] = $todays_total;
 		} else {
-			$t = false;
+            $t["todays_total"] = 0;
 		}
-		return $t;
+        return $t;
 	}
 
 
@@ -242,6 +241,10 @@ class Timeclock {
 	}
 
 	public function build2Weeks($employeeid,$today="") {
+        if(gettype($this->todays_array) !== "array") {
+            $this->todays_array=["todays_total"=>0];
+        }
+
 		if ($today=="") { $today = strftime('%Y-%m-%d 00:00:00',time()); }
 		$t = getdate();
 		$adjust = -1 * $t["wday"] - 7; // Sunday=0 .. Saturday=6
@@ -254,6 +257,7 @@ class Timeclock {
 				$this->name = $this->getName($employeeid);
 			}
 		}
+
 		$spacer = "<tr><td class='spacer' colspan='8'></td></tr>\n";
 		$two_weeks  = "<div align='center' style='color:black'>" . $this->name . "</div>\n";
 		$two_weeks .= "<table class='two_weeks' cellspacing='1'>\n";
@@ -295,14 +299,16 @@ class Timeclock {
 	}
 
 	public function punchIn($employeeid, $punch="") {
-		global $database;
-		if ($punch=="") { 
-			$punch = strftime('%Y-%m-%d %H:%M:00',time());
-		} else {
-			$punch = strftime('%Y-%m-%d %H:%M:00',strtotime($punch));
-		}
-		$sql = "insert into stamp (employeeid, punch) value ({$employeeid}, '{$punch}')";
-		$result = $database->q($sql);
+        if(!empty($employeeid)) {
+            global $database;
+            if ($punch == "") {
+                $punch = strftime('%Y-%m-%d %H:%M:00', time());
+            } else {
+                $punch = strftime('%Y-%m-%d %H:%M:00', strtotime($punch));
+            }
+            $sql = "insert into stamp (employeeid, punch) value ({$employeeid}, '{$punch}')";
+            $result = $database->q($sql);
+        }
 	}
 
 	public function inputTimeSetup($target_date) {
@@ -379,14 +385,13 @@ class Timeclock {
 		return $output;
 	}
 
-/*
- *	Printing Time Cards
- */
-
+    /*
+     *	Printing Time Cards
+     */
 	public function printReport($start_date,$end_date,$group_id,$employeeid="") {
 		global $database;
 		$connection = $this->openFile($this->file_name);
-		fwrite($connection, $this->fileHeader());
+        fwrite($connection, $this->fileHeader());
 		if ($employeeid<>"") $group_id="";
 		$this->column_headings = $this->pageHeaderPrep($start_date,$end_date,$group_id);
 
@@ -402,14 +407,13 @@ class Timeclock {
 		$this->closeFile($connection,$this->file_name);
 	}
 
-	protected function openFile($file_name) {
-		$connection = fopen($file_name, 'w') or die("Unable to open file {$file_name}!");
-		return $connection;
+	protected function openFile($target_file) {
+        return fopen($target_file, 'w') or die("Unable to open file {$target_file}!");
 	}
-	protected function closeFile($connection,$file_name) {
+	protected function closeFile($connection,$target_file) {
 		global $session;
 		fclose($connection);
-		$session->message("Download <a href='{$file_name}'>Report</a>");
+		$session->message("Download <a href='{$target_file}'>Report</a>");
 	}
 
 
@@ -551,4 +555,3 @@ class Timeclock {
 	}
 
 }
-?>

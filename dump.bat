@@ -1,2 +1,2 @@
 @echo off
-mysqldump -hlocalhost timeclock -uchronos -p"madmax" > dump.sql
+mysqldump -u chronos -p timeclock > dump.sql

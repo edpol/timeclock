@@ -23,17 +23,14 @@
 
 ?>
 <body>
-<div id="wrapper">
-<?php 
-	echo $group_table;
+    <div id="wrapper">
+<?php
+        echo $group_table;
+        echo "<select>";
+        echo $database->groupList();
+        echo "</select>";
 ?>
-
-	<select>
-<?php	echo $database->groupList(); ?>
-	</select>
-
-</div>
-<script type="text/javascript" language="JavaScript" src="../mysrc.js">
-</script>
+    </div>
+<?php render("footer", __DIR__, []); ?>
 </body>
 </html>

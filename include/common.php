@@ -8,7 +8,7 @@ class Common {
 	protected $real_escape_string_exists;
 
 	function __construct() {
-		$this->magic_quotes_active = get_magic_quotes_gpc();
+		$this->magic_quotes_active = false; //get_magic_quotes_gpc();
 		$this->real_escape_string_exists = function_exists( "mysqli_real_escape_string" );
 	}
 

@@ -15,11 +15,11 @@
 							<p>Last Name:  </p>
 							<p>Password:   </p>
 						</div>
-<?php
-	$username = isset($_POST["username"]) ? $_POST["username"] : "";
-	$fname    = isset($_POST["fname"])    ? $_POST["fname"]    : "";
-	$lname    = isset($_POST["lname"])    ? $_POST["lname"]    : "";
-?>
+                        <?php
+                            $username = isset($_POST["username"]) ? $_POST["username"] : "";
+                            $fname    = isset($_POST["fname"])    ? $_POST["fname"]    : "";
+                            $lname    = isset($_POST["lname"])    ? $_POST["lname"]    : "";
+                        ?>
 						<div class="info" style="float:left;" >
 							<input type='text'     name='username' value='<?= $username; ?>' id="mandatoryUsername" autofocus /> <span id="errorUsername"></span> <br />
 							<input type='text'     name='fname'    value='<?= $fname;    ?>' /> <br />
@@ -34,11 +34,10 @@
 						</div>
 					</form>
 				</div>
-				<?= $message; ?><br />
+				<?php if(isset($message)) { echo $message; } ?><br />
 			</div>
 		</h2>
 	</div>
-<script type="text/javascript" language="JavaScript" src="<?=$levels;?>mysrc.js">
-</script>
+    <?php render("footer", __DIR__, []); ?>
 </body>
 </html>

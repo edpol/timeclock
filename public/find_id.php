@@ -45,7 +45,7 @@
 		$_SESSION['target_date'] = htmlentities($_POST['target_date'], ENT_QUOTES);
 	}
 	$barcode  = isset($_POST['barcode'])   ? $db->escapeValue($_POST['barcode'],   ENT_QUOTES) : "";
-	$lastname = isset($_POST['last_name']) ? $db->escapeValue($_POST['last_name'], ENT_QUOTES) : "";
+	$lastname = isset($_POST['lastname']) ? $db->escapeValue($_POST['lastname'], ENT_QUOTES) : "";
 	$lastname = strtoupper($lastname);
 
 	// No data to work with, go back

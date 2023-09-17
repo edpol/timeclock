@@ -4,7 +4,7 @@ require(LIB_PATH.DS.'fpdf.php');
 
 class PDF extends Timeclock {
 
-	protected $file_name = "reports/report.pdf"; // or send to new tab?
+    protected string $file_name = PUBLIC_ROOT . DS . "admin" . DS . "reports" . DS . "report.rtf";
 
 	private   $ln_to_the_right = 0;
 	private   $ln_to_the_beginning_of_the_next_line = 1;
@@ -95,4 +95,3 @@ align  Allows to center or align the text. Possible values are:
 	}
 
 }
-?>

@@ -57,7 +57,7 @@
 					<div style="padding:30px 0 0px 0;">
 						<input type="button" name="index" value="Go Back To Punch In" class="pink_up" onClick="parent.location='index.php'" />
 					</div>
-<?php echo $message; ?>
+<?php if(isset($message)) { echo $message; } ?>
 				</form>
 			</div>
 		</h1>
@@ -65,8 +65,7 @@
 <?php
     // if we are on this page we are not in edit mode
     if (isset($_SESSION["edit_employee"])) { unset($_SESSION["edit_employee"]); }
-    $data = array();
-    render("footer", __DIR__, $data);
 ?>
+    <?php render("footer", __DIR__, []); ?>
 </body>
 </html>

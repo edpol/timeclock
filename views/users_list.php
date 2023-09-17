@@ -14,11 +14,10 @@
 						<button type="submit" name="submit" class="edit_up" formaction="menu.php" >back</button>
 					</form>
 				</div>
-				<?= $message; ?><br />
+				<?php if(isset($message)) { echo $message; } ?><br />
 			</div>
 		</h2>
 	</div>
-<script type="text/javascript" language="JavaScript" src="<?=$levels;?>mysrc.js">
-</script>
+    <?php render("footer", __DIR__, []); ?>
 </body>
 </html>
