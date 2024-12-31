@@ -71,7 +71,7 @@
 					<!-- Buttons -->
 					<div align="center" style="padding-top:20px;">
 						<a style=" padding:14px 65px;" href="../index.php" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'">back</a>
-						<input type="submit" name="submit" value="submit" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
+						<input type="submit" name="submit" value="submit"  class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
 					</div>
 					<?= $message; ?>
 				</form>

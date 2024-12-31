@@ -62,9 +62,10 @@ br.clear {  clear: both; }
 
 .col  {float:left; width:92px; text-align:center;}
 
+input { border-radius: 4px; }
 input, select, button {margin-top:4px; margin-bottom:3px; }
 input, select { width:160px; text-align:center; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:18px; background-color:#DDD; color:black; }
-input:focus, select:focus   { background-color: #F00 #00F #0F0 #0FF; }
+input:focus, select:focus   { background-color: #00FFFF; }
 select {margin-top:4px; margin-bottom:3px; width:186px; }
 input[type='checkbox'] { margin-top:12px;}
 input[type='radio'],input[type='checkbox'] { width:10px; }
@@ -95,7 +96,7 @@ caption {text-align:center;}
 form {display:inline;}
 
 .red_up, .red_down, .green_up, .green_down, .blue_up, .blue_down, .pink_up, .pink_down, .admin_up, .admin_down, .del_up, .del_down, .edit_up, .edit_down {
-	min-width:190px;
+	min-width:160px;
 	padding:12px 20px; 
 	font-size:18px; 
 	border-radius:24px; 
@@ -123,7 +124,6 @@ form {display:inline;}
 .admin_down { background-image:linear-gradient(to bottom, #070D0D 0%, #6F735A 100%); }
 
 .pink_up,  .pink_down  { width:220px; }
-.admin_up, .admin_down { width:190px; }
 .edit_up,  .edit_down  { min-width:110px; }
 
 a.blue_up, a.blue_down, a.pink_up, a.pink_down {
