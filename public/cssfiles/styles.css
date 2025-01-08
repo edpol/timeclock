@@ -58,7 +58,7 @@ h2 {text-align:left;}
 br.clear {  clear: both; }
 
 .header {padding: 0   10px 10px 10px; border-bottom: #FFF solid thin; clear:both; background-color:#900; }
-.footer {padding:10px 10px  0    0px; border-top:    #FFF solid thin; }
+.footer {padding:10px 10px  0    0;   border-top:    #FFF solid thin; }
 
 .col  {float:left; width:92px; text-align:center;}
 
@@ -77,10 +77,10 @@ table {color:black; font-size:12px;}
 td, th, caption {font-size:24px; color:white; text-align:left; padding:6px; }
 caption {text-align:center;}
 .labels td, .labels th {font-size:24px; color:white; text-align:left; width:160px; }
-.labels { float:left; color:#EEEEEE; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:24px; padding:0px 8px 0 0;}
-.labels p { padding:0px; margin:0px; line-height:1.57em; }
+.labels { float:left; color:#EEEEEE; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:24px; padding:0 8px 0 0;}
+.labels p { padding:0; margin:0; line-height:1.57em; }
 
-.labels1 td, .labels1 th{ padding:0px;}
+.labels1 td, .labels1 th{ padding:0;}
 
 .employee { margin-left:2%; display:table; vertical-align:middle; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; }
 .employee input, .employee select {margin-bottom:8px; }
@@ -131,7 +131,7 @@ a.blue_up, a.blue_down, a.pink_up, a.pink_down {
 }
 .del_up, .del_down {
 	min-width:28px;
-	padding:6px 0px; 
+	padding:6px 0;
 	font-size:11px; 
 }
 
@@ -213,3 +213,7 @@ table.small > tbody > tr > th {
 table.small > tbody > tr > td > input  { width: 200px;	text-align: left; }
 table.small > tbody > tr > td > select { width: 208px;	text-align: left; }
 input[type='checkbox'] { transform: scale(2); }
+
+#main_menu > button {
+	min-width: 190px;
+}
