@@ -14,6 +14,9 @@ class Common {
 
 	public function openConnection() {
 //		$this->connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, $db_name);
+        if(!function_exists('mysqli_connect')) {
+            die('function mysqli_connect not found');
+        }
 		$this->connection = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 		if (!$this->connection) {
 //			die("Database connection failed: " . mysqli_error($this->connection));

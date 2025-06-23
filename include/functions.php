@@ -25,8 +25,7 @@ so $levels = "../"
 	}
 
 	function render($template, $dir, $data = array()) {
-//		$path = __DIR__ . '/../views/' . $template . '.php';
-		$path = SITE_ROOT . DS . 'views' . DS . $template . '.php';
+		$path = VIEWS . DS . $template . '.php';
 		$levels = countLevels($dir);
 		if (file_exists($path)) {
 			extract($data);

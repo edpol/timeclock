@@ -34,15 +34,14 @@
             seconds = "0" + seconds;
         }
 		let hrs = hours;
-        if(hours > 12){
-            hrs -= 12;
-        }
+		if(hours > 12){
+			hrs -= 12;
+		}
+		if(hours === 0){
+			hrs = 12;
+		}
         let v = hrs + ":" + minutes; // + ":" + seconds;
-        if(hours > 11){
-            v+=" pm ";
-        } else {
-            v+=" am "
-        }
+		v += (hours > 11) ? " pm " : " am ";
         document.getElementById('time').innerHTML=v;
 		let dayOfMonth = now.getDate();
 		if (dayOfMonth < 10) { dayOfMonth = "0" + dayOfMonth; }

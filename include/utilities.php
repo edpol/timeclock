@@ -65,6 +65,7 @@ class Utilities extends Common {
 		return $hash;
 	}
 
+	// Hashing is a one way function
 	public function passwordUpdate($password, $userid) {
 		$hashed_password = $this->passwordEncrypt($password);
 		$sql  = "UPDATE users SET ";

@@ -119,9 +119,9 @@ form {display:inline;}
 .del_up     { background-image:linear-gradient(to bottom, #FF8888 0%, #CC3333 100%); }
 .del_down   { background-image:linear-gradient(to bottom, #CC3333 0%, #FF8888 100%); }
 .edit_up,
-.admin_up   { background-image:linear-gradient(to bottom, #6F735A 0%, #070D0D 100%); }
+.admin_up   { background-image:linear-gradient(to right bottom, #6F735A 0%, #070D0D 100%); }
 .edit_down,
-.admin_down { background-image:linear-gradient(to bottom, #070D0D 0%, #6F735A 100%); }
+.admin_down { background-image:linear-gradient(to right bottom, #070D0D 0%, #6F735A 100%); }
 
 .pink_up,  .pink_down  { width:220px; }
 .edit_up,  .edit_down  { min-width:110px; }

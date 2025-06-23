@@ -46,15 +46,15 @@
 				</div>
 				<form id="form2" action="find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
 					<div class="labels">
-						<p>ID Number: </p>
-						<p>Last Name: </p>
+                        <p><label for="focus">ID Number: </label></p>
+                        <p><label for="lastname">Last Name: </label></p>
 					</div>
 					<div style="float:left;">
 						<input type="password" name="barcode"  value="<?php echo $barcode;  ?>" id="focus" autofocus style="margin-bottom:6px;"/><br />
-						<input type="text"     name="lastname" value="<?php echo $lastname; ?>" /><br />  <!-- onclick="openWindow('hello.htm')" --> 
+                        <input type="text" name="lastname" value="<?php echo $lastname; ?>" id="lastname" /><br />  <!-- onclick="openWindow('hello.htm')" -->
 					</div>
 					<br clear="all" />
-					<div style="padding:30px 0 0px 0;">
+					<div style="padding:30px 0 0 0;">
 						<input type="button" name="index" value="Go Back To Punch In" class="pink_up" onClick="parent.location='index.php'" />
 					</div>
 <?php if(isset($message)) { echo $message; } ?>
