@@ -5,7 +5,7 @@
 	}
 
 	/*
-	 *    submit for when the enter key is pressed (code 13)
+	 *	submit for when the enter key is pressed (code 13)
 	 */
 	function pressed(e) {
 		// Has the enter key been pressed?
@@ -19,20 +19,20 @@
 		$( "#datepicker, #datepicker2" ).datepicker();
 	});
 
-   /*
-	*	This displays the time
-	*/
-    function updateTime() {
-        let now = new Date();
-        let hours   = now.getHours();
-        let minutes = now.getMinutes();
-        let seconds = now.getSeconds();
-        if (minutes < 10){
-            minutes = "0" + minutes;
-        }
-        if (seconds < 10){
-            seconds = "0" + seconds;
-        }
+	/*
+	 *	This displays the time
+	 */
+	function updateTime() {
+		let now = new Date();
+		let hours   = now.getHours();
+		let minutes = now.getMinutes();
+		let seconds = now.getSeconds();
+		if (minutes < 10){
+			minutes = "0" + minutes;
+		}
+		if (seconds < 10){
+			seconds = "0" + seconds;
+		}
 		let hrs = hours;
 		if(hours > 12){
 			hrs -= 12;
@@ -40,19 +40,19 @@
 		if(hours === 0){
 			hrs = 12;
 		}
-        let v = hrs + ":" + minutes; // + ":" + seconds;
+		let v = hrs + ":" + minutes; // + ":" + seconds;
 		v += (hours > 11) ? " pm " : " am ";
-        document.getElementById('time').innerHTML=v;
+		document.getElementById('time').innerHTML=v;
 		let dayOfMonth = now.getDate();
 		if (dayOfMonth < 10) { dayOfMonth = "0" + dayOfMonth; }
-        let theDate = now.getMonth()+1 + "/" + dayOfMonth + "/" + now.getFullYear();
+		let theDate = now.getMonth()+1 + "/" + dayOfMonth + "/" + now.getFullYear();
 		let weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 		console.log(v + " the time ");
 		console.log(theDate + " today's date " + weekDays[now.getDay()]);
 		console.log(now.getTime() + " milliseconds since 1/1/1970");
 
 
-    }
+	}
 	// This calls the function now and then every 20 seconds, onLoad
 	function showClock() {
 		updateTime();
@@ -63,26 +63,26 @@
 	*	Fade div's
 	*/
 	setTimeout(function() {
-	    $('#showup').delay(5000).slideUp( 2000 );
+		$('#showup').delay(5000).slideUp( 2000 );
 	}, 1000); // <-- time in milliseconds
 
 	setTimeout(function() {
-	    $('#showupinq').delay(50000).slideUp( 2000 );
+		$('#showupinq').delay(50000).slideUp( 2000 );
 	}, 1000); // <-- time in milliseconds
 
-   /*
-	*	Show and hide any div
-	*/
+	/*
+	 *	Show and hide any div
+	 */
 	function showHide(id) {
 		let el = document.getElementById(id);
-		if( el && el.style.display == 'block')    
+		if( el && el.style.display == 'block')	
 			el.style.display = 'none';
 		else 
 			el.style.display = 'block';
 	}
 	function showHide2(id,newdisplay) {
 		let el = document.getElementById(id);
-		if( el && el.style.display == 'block')    
+		if( el && el.style.display == 'block')	
 			el.style.display = 'block';
 		else 
 			el.style.display = 'none';
@@ -104,8 +104,8 @@
 
 
 	/*
-	 *    <input onkeypress="return numbersOnly(event);" name="VAT_Number">
-	 *    only allow numeric input
+	 *	<input onkeypress="return numbersOnly(event);" name="VAT_Number">
+	 *	only allow numeric input
 	 */
 	function numbersOnly(e) {
 		let unicode=e.charCode? e.charCode : e.keyCode;
@@ -116,7 +116,7 @@
 
 
 	/*
-	 *    setup listeners on class blue, pink and admin
+	 *	setup listeners on class blue, pink and admin
 	 */
 	function buttonSetup (button) {
 
@@ -142,31 +142,31 @@
 		}
 	}
 
-    // handle the form submit event
-    function prepareEventHandlers() {
-        document.getElementById("frmContact").onclick = function() {
-            let result = false;
-            // prevent a form from submitting if no email.
-            if (document.getElementById("mandatoryUsername").value === "") {
-                document.getElementById("errorUsername").innerHTML = "Username is mandatory";
-                // to STOP the form from submitting
-                result = false;
-            } else {
-                // reset and allow the form to submit
-                document.getElementById("errorUsername").innerHTML = "";
-                result = true;
-            }
-            if (document.getElementById("mandatoryPassword").value === "") {
-                document.getElementById("errorPassword").innerHTML = "Password is mandatory";
-                result = false;
-            } else {
-                document.getElementById("errorPassword").innerHTML = "";
-                result = true;
-            }
+	// handle the form submit event
+	function prepareEventHandlers() {
+		document.getElementById("frmContact").onclick = function() {
+			let result = false;
+			// prevent a form from submitting if no email.
+			if (document.getElementById("mandatoryUsername").value === "") {
+				document.getElementById("errorUsername").innerHTML = "Username is mandatory";
+				// to STOP the form from submitting
+				result = false;
+			} else {
+				// reset and allow the form to submit
+				document.getElementById("errorUsername").innerHTML = "";
+				result = true;
+			}
+			if (document.getElementById("mandatoryPassword").value === "") {
+				document.getElementById("errorPassword").innerHTML = "Password is mandatory";
+				result = false;
+			} else {
+				document.getElementById("errorPassword").innerHTML = "";
+				result = true;
+			}
 
-            return result;
-        };
-    }
+			return result;
+		};
+	}
 
 	window.onload = function () {
 
@@ -186,6 +186,6 @@
 		buttonSetup("pink");
 		buttonSetup("admin");
 
-        prepareEventHandlers();
+		prepareEventHandlers();
 
 	}
