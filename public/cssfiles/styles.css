@@ -55,7 +55,7 @@ h2 {text-align:left;}
     display:table;
 }
 
-br.clear {  clear: both; }
+.clear {  clear: both; }
 
 .header {padding: 0   10px 10px 10px; border-bottom: #FFF solid thin; clear:both; background-color:#900; }
 .footer {padding:10px 10px  0    0;   border-top:    #FFF solid thin; }

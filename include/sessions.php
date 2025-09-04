@@ -32,7 +32,7 @@ class Session {
 		if($user) {
 			$this->user_id = $_SESSION['user_id'] = $user["userid"];
 			$this->logged_in = true;
-			$this->user_name = $_SESSION['user_name'] = trim($user["fname"]) + " " + trim($user["lname"]);
+			$this->user_name = $_SESSION['user_name'] = trim($user["fname"]) . " " . trim($user["lname"]);
 		}
 	}
 

@@ -76,4 +76,3 @@
 		$data = array("form_page"=>"find_id.php", "return_page"=>"admin/manage_users.php", "levels"=>countLevels(__DIR__), "table"=>$output, "message"=>$message);
 		render("users_list", __DIR__, $data); 
 	}
-?>

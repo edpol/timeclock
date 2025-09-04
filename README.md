@@ -9,7 +9,7 @@ you must also change the constant DB_NAME in file timeclock/include/connect.php
 ``` 
 create database mdr_clock;
 use mdr_clock;
-GRANT ALL PRIVILEGES ON mdr_clock.* TO 'timemaster'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON timeclock.* TO 'chronos'@'localhost' IDENTIFIED BY 'password';
 ```
 The file timeclock/include/connect_utilities.php is for the admin users that run the site.  
 The 2 are seperate classes so you can have the admins users in another database if you wish.  
