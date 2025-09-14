@@ -1,5 +1,5 @@
 
-			<select name="st">
+			<select name="st" id="us_states">
 				<option value='FL'  selected="selected">Florida</option>
 				<option value='AL' >Alabama</option>
 				<option value='AK' >Alaska</option>

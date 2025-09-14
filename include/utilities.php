@@ -31,15 +31,9 @@ class Utilities extends Common {
         }
     }
 
-    private function passwordCheck($password, $existing_hash): bool
+    private function passwordCheck($user_input_password, $stored_hash): bool
     {
-        // existing hash contains format and salt at start
-        $hash = crypt($password, $existing_hash);
-        if ($hash === $existing_hash) {
-            return true;
-        } else {
-            return false;
-        }
+        return password_verify($user_input_password, $stored_hash);
     }
 
     private function generateSalt($length)
@@ -58,13 +52,9 @@ class Utilities extends Common {
         return substr($modified_base64_string, 0, $length); //salt;
     }
 
-    private function passwordEncrypt($password): ?string
+    public function passwordEncrypt($password): ?string
     {
-        $hash_format = "$2y$10$";   // Tells PHP to use Blowfish with a "cost" of 10
-        $salt_length = 22;             // Blowfish salts should be 22-characters or more
-        $salt = $this->generateSalt($salt_length);
-        $format_and_salt = $hash_format . $salt;
-        return crypt($password, $format_and_salt); //hash
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     public function passwordUpdate($password, $userid): bool

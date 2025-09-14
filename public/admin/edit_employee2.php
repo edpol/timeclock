@@ -121,50 +121,49 @@
 					<div align="center">Edit Employee</div>
 
 					<div class="labels">
-						<p>Active:     </p>
+                        <p><label for="is_active">Active:    </label></p>
 						<?php echo (isset($error["barcode"])) ? "<p style='color:red'>" : "<p>"; ?>
-						Barcode:<font color="#FF0000">*</font></p>
-						<p>First Name: </p>
+                        <label for="focus">Barcode:</label><span style="color:#FF0000">*</span></p>
+                        <p><label for="fname">First Name:    </label></p>
 						<?php echo (isset($error["lname"])) ? "<p style='color:red'>" : "<p>"; ?>
-						Last Name:<font color="#FF0000">*</font></p>
-						<p>email:      </p>
-						<p>Address 1:  </p>
-						<p>Address 2:  </p>
-						<p>City:       </p>
-						<p>State:      </p>
-						<p>Zip Code:   </p>
-						<p>Phone:      </p>
-						<p>SS#:        </p>
-						<p>Hire Date:  </p>
-						<p>Emergency Contact: </p>
-						<p>Emergency Number:  </p>
-						<p>Group:      </p>
+                        <p><label for="lname">Last Name:<span style="color:#FF0000">*</span></label></p>
+                        <p><label for="email">email:         </label></p>
+                        <p><label for="add1">Address 1:      </label></p>
+                        <p><label for="add2">Address 2:      </label></p>
+                        <p><label for="city">City:           </label></p>
+                        <p><label for="us_states">State:     </label></p>
+                        <p><label for="zip">Zip Code:        </label></p>
+                        <p><label for="phone">Phone:         </label></p>
+                        <p><label for="social">SS#:          </label></p>
+                        <p><label for="hire_date">Hire Date: </label></p>
+                        <p><label for="emergency_contact">Emergency Contact: </label></p>
+                        <p><label for="emergency_number">Emergency Number:   </label></p>
+                        <p><label for="group_id">Group:      </label></p>
 					</div>
 
 					<div class="info" style="float:left;">
-						<input type="hidden"   name="employeeid" value="<?php echo $employeeid; ?>" />
-						<input type="hidden"   name="is_active"  value=0>
-						<input type="checkbox" name="is_active"  value=1 <?php echo "$checked"; ?>  /> <br />
-						<input type="text"     name="barcode"    value="<?php echo $barcode;    ?>" id="focus" /> <br />
-						<input type="text"     name="fname"      value="<?php echo $fname;      ?>" /> <br />
-						<input type="text"     name="lname"      value="<?php echo $lname;      ?>" /> <br />
-						<input type="email"    name="email"      value="<?php echo $email;      ?>" /> <br />
-						<input type="text"     name="add1"       value="<?php echo $add1;       ?>" /> <br />
-						<input type="text"     name="add2"       value="<?php echo $add2;       ?>" /> <br />
-						<input type="text"     name="city"       value="<?php echo $city;       ?>" /> <br />
+						<input type="hidden"   name="employeeid" id="employeeid" value="<?php echo $employeeid; ?>" />
+						<input type="checkbox" name="is_active"  id="is_active"  value=1 '<?= $checked; ?>'  /> <br />
+						<input type="text"     name="barcode"    id="focus"      value="<?php echo $barcode;    ?>" /> <br />
+						<input type="text"     name="fname"      id="fname"      value="<?php echo $fname;      ?>" /> <br />
+						<input type="text"     name="lname"      id="lname"      value="<?php echo $lname;      ?>" /> <br />
+						<input type="email"    name="email"      id="email"      value="<?php echo $email;      ?>" /> <br />
+						<input type="text"     name="add1"       id="add1"       value="<?php echo $add1;       ?>" /> <br />
+						<input type="text"     name="add2"       id="add2"       value="<?php echo $add2;       ?>" /> <br />
+						<input type="text"     name="city"       id="city"       value="<?php echo $city;       ?>" /> <br />
 						<?php include ("us_states.php"); ?><br />
-						<input type="text"     name="zip"        value="<?php echo $zip;        ?>" maxlength="10" size="10" /><br />
-						<input type="tel"      name="phone"      value="<?php echo $phone;      ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
-						<input type="text"     name="social"     value="<?php echo $social;     ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
-						<input type="text"     name="hire_date"  value="<?php echo $hire_date;  ?>" id="datepicker" /> <br />
-						<input type="text"     name="emergency_contact" value="<?php echo $emergency_contact; ?>"   /> <br />
-						<input type="tel"      name="emergency_number"  value="<?php echo $emergency_number;  ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
-						<select name="group_id">
+						<input type="text"     name="zip"        id="zip"        value="<?php echo $zip;        ?>" maxlength="10" size="10" /><br />
+						<input type="tel"      name="phone"      id="phone"      value="<?php echo $phone;      ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
+						<input type="text"     name="social"     id="social"     value="<?php echo $social;     ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
+						<input type="text"     name="hire_date"  id="datepicker" value="<?php echo $hire_date;  ?>" /> <br />
+						<input type="text"     name="emergency_contact" id="emergency_contact" value="<?php echo $emergency_contact; ?>"   /> <br />
+						<input type="tel"      name="emergency_number"  id="emergency_number"  value="<?php echo $emergency_number;  ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
+						<select name="group_id" id="group_id">
 							<?= $database->groupList($group_id) ; ?>
 						</select>
 					</div>
-					<br clear="all" />
-					<div align="center">
+					<div class="clear"></div>
+					<div class="centered-div">
 						<input type="button" name="submit" value="back"   class="admin_up" onClick="parent.location='menu.php'" />
 						<input type="submit" name="submit" value="submit" class="admin_up" />
 					</div>
@@ -175,7 +174,7 @@
 					<p>&nbsp;</p>
 					<p><?php if (isset($error["lname"])) echo $error["lname"]; ?></p>
 				</div>
-				<br clear="all" />
+                <div class="clear"></div>
 				<div class="get_barcode">To generate <a href="http://generator.barcoding.com/" target="_blank">barcode jpg</a></div>
 			</span>
 			<span class="employee">
