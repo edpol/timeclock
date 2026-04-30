@@ -14,10 +14,10 @@ if(!defined('RED_STAR'))    define('RED_STAR',     '<span style="color:red;">*</
 // this must be before you include common.php
 $parsed_url = parse_url($_SERVER['HTTP_HOST']);
 if (isset($parsed_url['port']) && $parsed_url['port']==8000) {
-    define("DB_SERVER",    "database");
+    define("DB_HOST",    "database");
 }
 
-$include_list = ['sessions.php', 'functions.php', 'common.php', 'database.php', 'timeclock.php', 'pdf.php'];
+$include_list = ['EnvConstants.php','sessions.php', 'functions.php', 'common.php', 'database.php', 'timeclock.php', 'pdf.php'];
 foreach($include_list as $file) {
     require_once(LIB_PATH.DS.$file);
 }

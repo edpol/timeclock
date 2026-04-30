@@ -17,7 +17,7 @@ class Common {
             die("The mysqli extension is not installed or enabled.");
         }
         try {
-            $this->connection = @new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+            $this->connection = @new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 //          $this->connection = @mysqli_connect(DB_SERVER, DB_USER, DB_PASS, $db_name);
         } catch (mysqli_sql_exception $e) {
             // The connection failed, handle the exception
