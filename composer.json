@@ -1,15 +1,17 @@
 {
-    "require-dev": {
-        "phpunit/phpunit": "^11.0"
+    "name": "root/timeclock",
+    "description": "Timeclock Utility",
+    "autoload": {
+        "psr-4": {
+            "Root\\Timeclock\\": "src/"
+        }
     },
-    "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
-    },
-  "require": {
-
-    "ext-pdo": "*",
-    "ext-mysqli": "*"
-  }
+    "authors": [
+        {
+            "name": "Edward Pol"
+        }
+    ],
+    "require": {
+      "ext-mysqli": "*"
+    }
 }

@@ -1,6 +1,7 @@
 <?php 
 	require_once("../../include/initialize.php");
-	require_once(LIB_PATH.DS.'utilities.php');
+	require_once(LIB_PATH.DS.'Utilities.php');
+    $utilities = new Utilities();
 
 	// Already logged in? 
 	if(!$session->isLoggedIn()) {
@@ -20,9 +21,15 @@
 
 	$show_table = true;
 
+	// All POST actions on this page are state-mutating — verify CSRF for any of them.
+	if (!empty($_POST)) {
+		$session->verifyCsrf();
+	}
+
 	/*
 	 *    Delete users
 	 */
+    $message = "";
 	if (isset($_POST["delete"])) {
 		$message = $utilities->deleteUser($_POST["delete"]);
 	}

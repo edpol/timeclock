@@ -1,6 +1,7 @@
 <?php 
 	require_once("../../include/initialize.php");
-	require_once(LIB_PATH.DS.'utilities.php');
+	require_once(LIB_PATH.DS.'Utilities.php');
+    $utilities = new Utilities();
 
 	// Already logged in? Go to menu
 	if($session->isLoggedIn()) {

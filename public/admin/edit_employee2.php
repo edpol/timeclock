@@ -11,63 +11,46 @@
 //	$temp = array_shift($list);
 
 	if (isset($_POST["submit"]) && $_POST["submit"]=="submit") {
+		$session->verifyCsrf();
 		/*
 		 *	here we come in from ourselves to update employee information
 		 */
 
-		// here we get all the values from $_POST
 		$list = $database->columns["employees"];
-		unset($list["is_active"]); // get rid of flag, can't use the quotes around new value
+		// Remove columns handled separately
+		$employeeid_pk = (int)$_POST["employeeid"];
+		unset($list["employeeid"]); // never update PK
+		unset($list["is_active"]);  // boolean — appended manually below
 
-		foreach ($list as $key => $value) {
-//echo $value . " - " . gettype($_POST[$value]) . " - " . $_POST[$value] . "<br />";
-			if (isset($_POST[$value])) {
-				$x = $_POST[$value];
-				switch (gettype($x)) {
-				case "string":
-					$$value = $database->escapeValue(strtoupper($_POST[$value]));
-					break;
-				case "integer":
-					$$value = $database->escapeValue(intval($_POST[$value]));
-					break;
-				default:
-					$$value = $database->escapeValue($_POST[$value]);
-				}
-			} else {
-				$$value = "";
-			}
-/*			if (gettype($value)== "string")
-				$$value = isset($_POST["$value"]) ? $database->escapeValue(strtoupper($_POST[$value])) : "";
-			if (gettype($value)== "integer")
-				$$value = isset($_POST["$value"]) ? $database->escapeValue(intval($_POST[$value])) : "";
-*/
-		}
-//die();
-		$is_active = (isset($_POST["is_active"]) && $_POST["is_active"]==1) ? "true" : "false";
-
-		// hire date might need to be reformatted from mm/dd/yyyy to yyyy-mm-dd
+		// Reformat hire_date before building params.
 		if (empty($_POST["hire_date"])) {
-			$_POST["hire_date"] = strftime('%Y-%m-%d %H:%M:00',time());
+			$_POST["hire_date"] = date('Y-m-d H:i:00', time());
 		} else {
-			$_POST["hire_date"] = strftime('%Y-%m-%d %H:%M:00',strtotime($_POST["hire_date"]));
+			$_POST["hire_date"] = date('Y-m-d H:i:00', strtotime($_POST["hire_date"]));
 		}
 
-		$temp = array_shift($list); // get rid of employeeid, don't want to update that
+		$is_active = (isset($_POST["is_active"]) && $_POST["is_active"] == 1) ? 1 : 0;
 
-		$sql  = "update employees set ";
-		foreach ($_POST as $key => $value) {
-			if (in_array($key, $list)) {
-				$sql .= "{$key}='" . $value . "', ";
-			}
+		// Build parameterized UPDATE — column names come from the whitelist, values bound via ?
+		$set_parts = [];
+		$params    = [];
+		foreach ($list as $column) {
+			$set_parts[] = "{$column} = ?";
+			$params[]    = isset($_POST[$column]) ? strtoupper($_POST[$column]) : "";
 		}
-//		$sql = substr($sql,0,-2) . " ";
-		$sql .= "is_active={$is_active} ";
-		$sql .= "where employeeid='{$employeeid}' ";
+		$set_parts[] = "is_active = ?";
+		$params[]    = $is_active;
+		$params[]    = $employeeid_pk; // for WHERE clause
+
+		$fname = isset($_POST["fname"]) ? strtoupper($_POST["fname"]) : "";
+		$lname = isset($_POST["lname"]) ? strtoupper($_POST["lname"]) : "";
+
+		$sql = "UPDATE employees SET " . implode(", ", $set_parts) . " WHERE employeeid = ?";
 
 		$name = trim($fname . " " . $lname);
-		$name = preg_replace('/\s+/', ' ', $name); // Remove multipleblanks
-		if ($result=$database->q($sql)) {
-			$session->message("Updated " . $name . " Successfully "); // . "<br />" . $sql);
+		$name = preg_replace('/\s+/', ' ', $name); // Remove multiple blanks
+		if ($database->db_query($sql, $params)) {
+			$session->message("Updated " . $name . " Successfully ");
 		} else {
 			$session->message("Error Updating Record ");
 		}
@@ -99,9 +82,9 @@
 			$checked = ($is_active) ? " checked " : ""; 
 
 			if (empty($hire_date)) {
-				$hire_date = strftime('%m/%d/%Y',time());
+                $hire_date = date('m/d/Y', time());
 			} else {
-				$hire_date = strftime('%m/%d/%Y',strtotime($hire_date));
+                $hire_date = date('m/d/Y', strtotime($hire_date));
 			}
 		} else {
 			$session->message("I don't know what happened, start over");
@@ -115,7 +98,8 @@
 <body>
 <div id="back">
 	<h2>
-		<form id="form1" action="edit_employee2.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
+		<form id="form1" action="edit_employee2.php" autocomplete="off" method="post">
+			<?= $session->csrfField(); ?>
 			<span class="employee">
 				<span style=" margin:0 auto; display:table; float:left;">
 					<div align="center">Edit Employee</div>
@@ -123,7 +107,7 @@
 					<div class="labels">
                         <p><label for="is_active">Active:    </label></p>
 						<?php echo (isset($error["barcode"])) ? "<p style='color:red'>" : "<p>"; ?>
-                        <label for="focus">Barcode:</label><span style="color:#FF0000">*</span></p>
+                           <label for="focus">Barcode:</label><span style="color:#FF0000">*</span></p>
                         <p><label for="fname">First Name:    </label></p>
 						<?php echo (isset($error["lname"])) ? "<p style='color:red'>" : "<p>"; ?>
                         <p><label for="lname">Last Name:<span style="color:#FF0000">*</span></label></p>

@@ -12,7 +12,7 @@ use mdr_clock;
 GRANT ALL PRIVILEGES ON timeclock.* TO 'chronos'@'localhost' IDENTIFIED BY 'password';
 ```
 The file timeclock/include/connect_utilities.php is for the admin users that run the site.  
-The 2 are seperate classes so you can have the admins users in another database if you wish.  
+The 2 are separate classes so you can have the admins users in another database if you wish.  
 
 Engine for table employee must be MyISAM if MySQL version is < 5.6  
 
@@ -116,3 +116,25 @@ if it doesn't work, restore encryption settings and try again.
 You can contact me at edpol03@gmail.com
 
 
+<hr>
+
+## If you need, adds rc-status, rc-update, rc-service nginx restart
+docker exec -it wwwx apk add openrc
+
+Access MySQL.
+```
+$ docker exec -ti wwwm mariadb -u root -p
+```
+
+Run 2 commands in one line (use sh ot bash)  
+With && it only executes the second command if the first one worked.  
+With ; it will execute both commands regardless.
+````
+$ docker compose exec python-app sh -c "cd examples/names && python names2.py"
+````
+
+To call xdebug in SAFARI BROWSER
+[timeclock](http://timeclock.test/index.php?XDEBUG_SESSION_START=PHPSTORM)
+````
+http://timeclock.test/index.php?XDEBUG_SESSION_START=PHPSTORM
+````

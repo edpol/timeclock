@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if(!defined('DS'))          define('DS', DIRECTORY_SEPARATOR);
 if(!defined('LIB_PATH'))    define('LIB_PATH', __DIR__);
@@ -11,13 +11,30 @@ if(!defined('VIEWS'))       define('VIEWS',         SITE_ROOT . DS . "views");
 if(!defined('PUBLIC_ROOT')) define('PUBLIC_ROOT',   SITE_ROOT . DS . "public");
 if(!defined('RED_STAR'))    define('RED_STAR',     '<span style="color:red;">*</span>');
 
-// this must be before you include common.php
-$parsed_url = parse_url($_SERVER['HTTP_HOST']);
-if (isset($parsed_url['port']) && $parsed_url['port']==8000) {
-    define("DB_HOST",    "database");
+// Load .env constants first so DB_HOST and APP_ENV are available.
+// DB_HOST should be set directly in .env — no port-sniffing needed.
+require_once('EnvConstants.php');
+(new EnvConstants(SITE_ROOT.DS.".env"))->load();
+
+defined("TIMEZONE")
+    ? date_default_timezone_set(TIMEZONE)
+    : date_default_timezone_set('America/Los_Angeles');
+
+// Display errors only in development. Set APP_ENV=development in .env for local work.
+// In production errors are logged server-side only — never shown to the browser.
+if (getenv('APP_ENV') === 'development') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);
+    error_reporting(E_ALL);   // still capture everything, just log it
+    ini_set('log_errors', 1);
 }
 
-$include_list = ['EnvConstants.php','sessions.php', 'functions.php', 'common.php', 'database.php', 'timeclock.php', 'pdf.php'];
+
+$include_list = ['Session.php', 'Functions.php', 'Common.php', 'Database.php', 'Timeclock.php', 'PDF.php'];
 foreach($include_list as $file) {
     require_once(LIB_PATH.DS.$file);
 }
@@ -28,6 +45,8 @@ if(isset($h[2]) && $h[2]=='public'){
 }else{
     $host_public = '//' . $_SERVER['HTTP_HOST'];
 }
-//echo "<pre>";
-//echo "\$_SERVER: "; print_r($_SERVER);
-//die();
+/*
+echo "<pre>";
+echo "\$_SERVER: "; print_r($_SERVER);
+die();
+*/

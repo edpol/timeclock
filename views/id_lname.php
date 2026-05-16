@@ -8,7 +8,8 @@
 					<?= $title; ?><br />
 				</div>
 <!-- OK, wee need to lookup in users table NOT employee table -->
-				<form id="form1" action="<?= $levels . $form_page; ?>" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
+				<form id="form1" action="<?= $levels . $form_page; ?>" autocomplete="off" method="post" onKeyDown="pressed(event)">
+					<?= $session->csrfField(); ?>
 					<div class="labels">
 						<p>ID Number: </p>
 						<p>Last Name: </p>

@@ -1,5 +1,8 @@
 .env
 .idea
+.DS_store
+.claude/
+**/dump.sql
 public/images/work.jpg
 public/images/test.php
 public/admin/reports/report.*

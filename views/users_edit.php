@@ -8,7 +8,8 @@
                 <?= date('m/d/y'); ?> <span id="time"></span>
             </div>
             <div>
-                <form method="post"> <!-- action="/public/admin/manage_users.php">  -->
+                <form method="post">
+                    <?= $session->csrfField(); ?>
                     <?php if (!empty($row)) { ?>
                         <div class="labels">
                             <p>userid: </p>

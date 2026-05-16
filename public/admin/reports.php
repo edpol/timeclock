@@ -16,8 +16,8 @@
 	$group_id = "";
 	$employeeid = "";
 
-	$end_date    = strftime("%m/%d/%Y", strtotime(" last Saturday "));
-	$start_date  = strftime("%m/%d/%Y", strtotime($end_date . "-6 day "));
+    $end_date = date('m/d/Y', strtotime('last Saturday'));
+    $start_date = date('m/d/Y', strtotime($end_date . ' -6 days'));
 
 	// Create variables from list, preference to POST
 	include("../post_list.php");
@@ -57,18 +57,19 @@
 <div id="back">
 	<h2>
 		<form action="../find_id.php" method="post">
+			<?= $session->csrfField(); ?>
 			<span class="employee">
 				<span style="margin:0 auto; display:table;">
 					<div align="center">Reports</div>
 					<div class="labels">
-						<p>Start: </p>
-						<p>End:   </p>
-						<p>Group: </p>
+                        <p><label for="datepicker">Start:</label> </p>
+                        <p><label for="datepicker2">End:</label> </p>
+                        <p><label for="group_id">Group:</label> </p>
 					</div>
 					<div style="float:left;">
 						<input type="text" id="datepicker"  name="start_date" value="<?= $start_date;?>"/><br />
 						<input type="text" id="datepicker2" name="end_date"   value="<?= $end_date;  ?>"/><br />
-						<select name="group_id">
+						<select id="group_id" name="group_id">
 							<?= $database->groupList($group_id) ; ?>
 						</select>
 					</div>

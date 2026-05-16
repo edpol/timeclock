@@ -18,9 +18,9 @@ define('DB_NAME',   'test');
 
 // ── Load only the files whose classes we are testing ─────────────────────────
 // functions.php has no class definition — just functions
-require_once SITE_ROOT . DS . 'include' . DS . 'functions.php';
+require_once SITE_ROOT . DS . 'include' . DS . 'Functions.php';
 
 // Timeclock constructor never touches the DB; it only sets string properties.
 // Methods that use $database do so inside their bodies, so as long as we only
 // call the pure methods in tests we can safely load the class.
-require_once SITE_ROOT . DS . 'include' . DS . 'timeclock.php';
+require_once SITE_ROOT . DS . 'include' . DS . 'Timeclock.php';

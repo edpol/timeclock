@@ -9,6 +9,7 @@
 				</div>
 				<div style="text-align:center;">
 					<form method="post">
+						<?= $session->csrfField(); ?>
 						<?= $table; ?><br />
 						<button type='submit' name='add'    class='edit_up' formaction='manage_users.php'>Add User</button>
 						<button type="submit" name="submit" class="edit_up" formaction="menu.php" >back</button>

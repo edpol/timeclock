@@ -6,7 +6,7 @@
 	if ( isset($_SESSION["employeeid"]) ) {
 		$employeeid = $_SESSION["employeeid"];
 		unset ($_SESSION["employeeid"]);
-		$today = strftime('%Y-%m-%d 00:00:00',time());
+        $today = date('Y-m-d 00:00:00');
 		$tc = new Timeclock();
 /*
 		$_SESSION['calling_url'] = "index.php";  // dont want to return to inqure
@@ -14,9 +14,11 @@
 		$_SESSION["output"] = $tc->build2Weeks($employeeid,$today);
 		redirectTo("popup.php");
 */
+        $calling_url = isset($_SESSION['calling_url']) ? htmlspecialchars($_SESSION['calling_url'],ENT_QUOTES) : "index.php";
+
 		$display  = '<div id="showupinq" class="popup">';
 		$display .= $tc->build2Weeks($employeeid,$today);
-		$display .= '<a class="close"   href="' . $calling_url . '"></a>';
+        $display .= "<a class='close'   href='$calling_url'></a>";
 		$display .= "</div>\n";
 //		$display .= '<a class="overlay" href="' . $calling_url . '">' . "</a>\n";
 		$_SESSION["display"] = $display;

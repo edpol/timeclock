@@ -1,3 +1,6 @@
+// get timezone from browser
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 function submitForm(action) {
     document.getElementById('form1').action = action;
     document.getElementById('form1').submit();
@@ -107,7 +110,6 @@ function swap(on, off) {
     document.getElementById(off).style.display = 'none';
 }
 
-
 /*
  *    <input onkeypress="return numbersOnly(event);" name="VAT_Number">
  *    only allows numeric input
@@ -118,7 +120,6 @@ function numbersOnly(e) {
         if (unicode < 48 || unicode > 57) return false;//if not a number return false //disable key press
     }
 }
-
 
 /*
  * set up listeners on class blue, pink and admin
@@ -151,7 +152,7 @@ function buttonSetup(button) {
 // handle the form submit event
 function prepareEventHandlers() {
     document.getElementById("frmContact").onclick = function () {
-        let result = false;
+        let result;
         // prevent a form from submitting if no email.
         if (document.getElementById("mandatoryUsername").value === "") {
             document.getElementById("errorUsername").innerHTML = "Username is mandatory";
@@ -160,16 +161,15 @@ function prepareEventHandlers() {
         } else {
             // reset and allow the form to submit
             document.getElementById("errorUsername").innerHTML = "";
-            result = true;
-        }
-        if (document.getElementById("mandatoryPassword").value === "") {
-            document.getElementById("errorPassword").innerHTML = "Password is mandatory";
-            result = false;
-        } else {
-            document.getElementById("errorPassword").innerHTML = "";
-            result = true;
-        }
 
+            if (document.getElementById("mandatoryPassword").value === "") {
+                document.getElementById("errorPassword").innerHTML = "Password is mandatory";
+                result = false;
+            } else {
+                document.getElementById("errorPassword").innerHTML = "";
+                result = true;
+            }
+        }
         return result;
     };
 }
@@ -193,7 +193,16 @@ window.onload = function () {
     buttonSetup("admin");
 
     if (document.getElementById('frmContact')) {
-console.log("here");
         prepareEventHandlers();
     }
+/*
+    fetch('save_timezone.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'timezone=' + encodeURIComponent(userTimeZone)
+    });
+
+    $timezone = $_COOKIE['user_timezone'] ?? 'UTC';
+    date_default_timezone_set($timezone);
+*/
 }

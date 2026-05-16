@@ -15,7 +15,8 @@ class EnvConstants
     public function __construct(string $env_file)
     {
         if(!file_exists($env_file)) {
-            throw new \InvalidArgumentException(sprintf('%s does not exist', $env_file));
+            echo "<pre>";
+            throw new InvalidArgumentException(sprintf('%s does not exist', $env_file));
         }
         $this->env_file = $env_file;
     }
@@ -23,7 +24,7 @@ class EnvConstants
     public function load() :void
     {
         if (!is_readable($this->env_file)) {
-            throw new \RuntimeException(sprintf('%s file is not readable', $this->env_file));
+            throw new RuntimeException(sprintf('%s file is not readable', $this->env_file));
         }
 
         $lines = file($this->env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -49,5 +50,3 @@ class EnvConstants
         }
     }
 }
-
-(new EnvConstants('../.env'))->load();

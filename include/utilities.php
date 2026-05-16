@@ -3,7 +3,6 @@
     These database functions are in a separate class
     so we can use a different database to log on to site
 */
-require_once(LIB_PATH.DS.'connect_utilities.php');
 
 class Utilities extends Common {
 
@@ -60,15 +59,13 @@ class Utilities extends Common {
     public function passwordUpdate($password, $userid): bool
     {
         $hashed_password = $this->passwordEncrypt($password);
-        $sql  = "UPDATE users SET hashed_password='$hashed_password' WHERE userid=$userid ";
-        $result = $this->q($sql);
+        $sql  = "UPDATE users SET hashed_password = ? WHERE userid = ? ";
+        $this->db_query($sql, [$hashed_password, (int)$userid]);
 
-        if ($result && $this->affectedRows() == 1) {
-            // Success
+        if ($this->affectedRows() == 1) {
             $_SESSION["message"] = "User ID $userid Password updated.";
             return true;
         } else {
-            // Failure
             $_SESSION["message"] = "passwordUpdate for user id $userid failed.";
             return false;
         }
@@ -78,29 +75,24 @@ class Utilities extends Common {
     {
         extract($array);
         $hashed_password = $this->passwordEncrypt($password);
-        $sql  = "INSERT INTO users ( username, hashed_password, fname, lname ) VALUES ('$username',  '$hashed_password', '$fname', '$lname') ";
-        $result = $this->q($sql);
-        if ($result && $this->affectedRows() == 1) {
-            $message ="Added username $username $fname $lname ";
+        $sql  = "INSERT INTO users ( username, hashed_password, fname, lname ) VALUES (?, ?, ?, ?) ";
+        $this->db_query($sql, [$username, $hashed_password, $fname, $lname]);
+        if ($this->affectedRows() == 1) {
+            $message = "Added username $username $fname $lname ";
         } else {
-            $message ="userAdd failed - username $username $fname $lname ";
+            $message = "userAdd failed - username $username $fname $lname ";
         }
         return $message;
-/*
-        i need a view that will ask for the information.
-        it is just like update except that username and password are requirements
-*/
     }
 
-    // mysqli_query returns FALSE on failure
     public function deleteUser($userid): string
     {
-        $sql  = "DELETE FROM USERS WHERE userid = '$userid' LIMIT 1";
-        $result = $this->q($sql);
-        if ($result && $this->affectedRows() == 1) {
-            $message = "Deleted User " . $userid . "<br />\n";
+        $sql  = "DELETE FROM users WHERE userid = ? LIMIT 1";
+        $this->db_query($sql, [(int)$userid]);
+        if ($this->affectedRows() == 1) {
+            $message = "Deleted User " . (int)$userid . "<br />\n";
         } else {
-            $message = "Deleting User " . $userid . " <u>FAILED<u> <br />\n";
+            $message = "Deleting User " . (int)$userid . " <u>FAILED</u> <br />\n";
         }
         return $message;
     }
@@ -112,10 +104,10 @@ class Utilities extends Common {
 
         $message = "";
         if ($fname <> $row["fname"] || $lname <> $row["lname"]) {
-            $sql = "update users set fname='" . $fname . "', lname='" . $lname . "' where userid=" . $userid;
-            $result = $this->q($sql);
+            $sql = "UPDATE users SET fname = ?, lname = ? WHERE userid = ? ";
+            $this->db_query($sql, [$fname, $lname, (int)$userid]);
 
-            if ($result && $this->affectedRows() == 1) {
+            if ($this->affectedRows() == 1) {
                 $message .= "User ID $userid Name updated.<br />\n";
             } else {
                 $message .= "userUpdate for user id $userid failed.<br />\n";
@@ -127,7 +119,7 @@ class Utilities extends Common {
             if ($hashed_password <> $row["hashed_password"]) {
                 $this->passwordUpdate($password, $userid);
                 $message .= $_SESSION["message"];
-                unset ($_SESSION["message"]);
+                unset($_SESSION["message"]);
             }
         }
         return $message;
@@ -135,10 +127,9 @@ class Utilities extends Common {
 
     public function findUserByUsername($username)
     {
-        $safe_username = $this->escapeValue($username);
-        $sql  = "SELECT * FROM users WHERE username = '$safe_username' LIMIT 1 ";
-        $user_set = $this->q($sql);
-        if($user = $this->fetchArray($user_set)) {
+        $sql      = "SELECT * FROM users WHERE username = ? LIMIT 1 ";
+        $user_set = $this->db_query($sql, [$username]);
+        if ($user = $this->fetchArray($user_set)) {
             return $user;
         } else {
             return null;
@@ -148,14 +139,14 @@ class Utilities extends Common {
     public function findAllUsers()
     {
         $sql = "SELECT * FROM users ORDER BY username ";
-        return $this->q($sql); //user_set;
+        return $this->db_query($sql);
     }
 
     public function findUserById($id)
     {
-        $sql = "SELECT * FROM users WHERE userid = '$id' LIMIT 1 ";
-        $user_set = $this->q($sql);
-        if($user = $this->fetchArray($user_set)) {
+        $sql      = "SELECT * FROM users WHERE userid = ? LIMIT 1 ";
+        $user_set = $this->db_query($sql, [(int)$id]);
+        if ($user = $this->fetchArray($user_set)) {
             return $user;
         } else {
             return null;
@@ -193,8 +184,7 @@ class Utilities extends Common {
     public function insertId()
     {
         // get the last id inserted over the current db connection
-        return mysqli_insert_id($this->connection);
+        return $this->connection->insert_id;
     }
 
 }
-$utilities = new Utilities();

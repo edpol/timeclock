@@ -10,38 +10,49 @@
 
 	$error = array();
 	if (isset($_POST["submit"]) && $_POST["submit"]=="submit") {
-		foreach ($_POST as $key =>$value) {
-			$$key = $database->escapeValue(strtoupper($value));
-		}
+		$session->verifyCsrf();
 
-		if (!isset($barcode) || empty($barcode))   { $error["barcode"] = "Barcode can't be blank"; }
-		if (strlen($barcode) <> 12)                { $error["barcode"] = "Barcode must be 12 characters"; }
-		if (!$database->isBarcodeUnique($barcode)) { $error["barcode"] = "This Barcode already exists"; }
-		if (!isset($lname) || empty($lname))       { $error["lname"]   = "Last Name can't be blank"; }
+		// Pull and sanitise each field individually (not a blind POST extract).
+		$barcode           = strtoupper(trim($_POST["barcode"]           ?? ""));
+		$fname             = strtoupper(trim($_POST["fname"]             ?? ""));
+		$lname             = strtoupper(trim($_POST["lname"]             ?? ""));
+		$email             = strtoupper(trim($_POST["email"]             ?? ""));
+		$add1              = strtoupper(trim($_POST["add1"]              ?? ""));
+		$add2              = strtoupper(trim($_POST["add2"]              ?? ""));
+		$city              = strtoupper(trim($_POST["city"]              ?? ""));
+		$st                = strtoupper(trim($_POST["st"]                ?? ""));
+		$zip               = strtoupper(trim($_POST["zip"]               ?? ""));
+		$phone             = trim($_POST["phone"]             ?? "");
+		$social            = trim($_POST["social"]            ?? "");
+		$emergency_contact = strtoupper(trim($_POST["emergency_contact"] ?? ""));
+		$emergency_number  = trim($_POST["emergency_number"]  ?? "");
+		$group_id          = trim($_POST["group_id"]          ?? "");
 
-		// hire date might need to be reformatted from mm/dd/yyyy to yyyy-mm-dd
-		if (empty($hire_date)) {
-			$hire_date = date('Y-m-d 0:00:00');
-		} else {
-			$date = new DateTime($hire_date);
-			$hire_date = $date->format('Y-m-d H:i:s');
-		}
-		if (empty($error)) { 
+		if (empty($barcode))                       { $error["barcode"] = "Barcode can't be blank"; }
+		elseif (strlen($barcode) !== 12)           { $error["barcode"] = "Barcode must be 12 characters"; }
+		elseif (!$database->isBarcodeUnique($barcode)) { $error["barcode"] = "This Barcode already exists"; }
+		if (empty($lname))                         { $error["lname"]   = "Last Name can't be blank"; }
 
-			// before you save to database... escape value
-			$sql  = "insert into employees ";
-			$sql .= "(  barcode,   fname,   lname,   email,   add1,   add2,   city,   st,   zip,   phone,   social,   hire_date,    emergency_contact,    emergency_number,    group_id)  ";
-			$sql .= "values ";
-			$sql .= "('$barcode','$fname','$lname','$email','$add1','$add2','$city','$st','$zip','$phone','$social','$hire_date', '$emergency_contact', '$emergency_number', '$group_id') ";
+		// hire date: reformat from mm/dd/yyyy to yyyy-mm-dd
+		$raw_hire = trim($_POST["hire_date"] ?? "");
+		$hire_date = empty($raw_hire)
+			? date('Y-m-d 00:00:00')
+			: (new DateTime($raw_hire))->format('Y-m-d H:i:s');
 
-			/* SUCCESS */
-			if ($result = $database->q($sql)) {
-				$session->message("New employee entered successfully ");
+		if (empty($error)) {
+			$sql  = "INSERT INTO employees ";
+			$sql .= "(barcode, fname, lname, email, add1, add2, city, st, zip, phone, social, hire_date, emergency_contact, emergency_number, group_id) ";
+			$sql .= "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 
-				// the variables should be cleared
-				foreach ($database->columns["employees"] as $key => $value) { 
-					$$value = ""; 
-				}
+			$database->db_query($sql, [
+				$barcode, $fname, $lname, $email, $add1, $add2, $city, $st,
+				$zip, $phone, $social, $hire_date, $emergency_contact, $emergency_number, $group_id
+			]);
+
+			$session->message("New employee entered successfully ");
+			// clear the form
+			foreach ($database->columns["employees"] as $value) {
+				$$value = "";
 			}
 		}
 
@@ -60,7 +71,8 @@
 <body>
 <div id="back">
 	<h2>
-		<form id="form1" action="add_employee.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
+		<form id="form1" action="add_employee.php" autocomplete="off" method="post">
+			<?= $session->csrfField(); ?>
 			<span class="employee">
                 <table class="small">
                     <caption>New Employee</caption>

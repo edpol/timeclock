@@ -27,11 +27,15 @@
 		if (isset($_SESSION["target_date"])) {
 			$target_date = $_SESSION["target_date"]; 
 		} else {
-			$target_date = strftime("%m/%d/%Y",time()); 
+			$target_date = date('m/d/Y', time());
 		}
 	}
 
 	$timeclock = new Timeclock();
+
+	if (isset($_POST["delete"]) || isset($_POST["submit"])) {
+		$session->verifyCsrf();
+	}
 
 	if (isset($_POST["delete"])) {
 		$id = $_POST["delete"];
@@ -56,7 +60,7 @@
 
 			// comes back empty if it fails
 			if (isset($time_seconds) && !empty($time_seconds)) {
-				$punch = strftime('%Y-%m-%d %H:%M:00',strtotime($punch));
+                $punch = date('Y-m-d H:i:00', strtotime($punch));
 				$timeclock->punchIn($employeeid, $punch);
 			}
 			unset($_POST["submit"]);
@@ -86,7 +90,8 @@
 			<div style="text-align:center;padding:4px 0;">
 				Employee time to change
 			</div>
-			<form id="form1" action="../find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
+			<form id="form1" action="../find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)">
+				<?= $session->csrfField(); ?>
 				<div class="labels">
                     <p><label for="focus">Last Name:</label> </p>
                     <p><label for="datepicker">Date:</label> </p>
@@ -105,11 +110,12 @@
 			<br />
 
 			<div class="greenbox" style="width:360px;">
-				<form id="form1" action="change_time.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
+				<form id="form1" action="change_time.php" autocomplete="off" method="post">
+				<?= $session->csrfField(); ?>
 
                     <table class="small">
                         <tr><th>Name</th><td><?= $timeclock->name; ?></td></tr>
-                        <tr><th>Date</th><td><?= strftime("%A %m/%d/%Y", strtotime($target_date) ); ?></td></tr>
+                        <tr><th>Date</th><td><?= date('l m/d/Y', strtotime($target_date)); ?></td></tr>
                     </table>
 
 					<!-- Add Time -->
