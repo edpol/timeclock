@@ -17,6 +17,29 @@ function pressed(e) {
     }
 }
 
+/*
+ *  Restrict a text input to digits as the user types.
+ *
+ *  Replaces the old onKeyPress="return numbersonly(event);" pattern used on
+ *  the phone/social/emergency_number fields: numbersonly() was never
+ *  actually defined anywhere in this codebase, so those fields have never
+ *  enforced numeric input (every keystroke just threw a silent
+ *  "numbersonly is not defined" console error). The `keypress` event this
+ *  relied on is also deprecated (WHATWG DOM / MDN) in favor of `input`.
+ *  Usage: <input oninput="digitsOnly(this);" ... />
+ */
+function digitsOnly(input) {
+    const cursor = input.selectionStart;
+    const before = input.value;
+    input.value = input.value.replace(/\D/g, "");
+    // Keep the cursor roughly where it was rather than jumping to the end.
+    if (cursor !== null) {
+        const removedBeforeCursor = before.slice(0, cursor).length - before.slice(0, cursor).replace(/\D/g, "").length;
+        const pos = Math.max(0, cursor - removedBeforeCursor);
+        input.setSelectionRange(pos, pos);
+    }
+}
+
 $(function () {
     $("#datepicker, #datepicker2").datepicker();
 });

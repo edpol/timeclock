@@ -17,48 +17,38 @@ class Database extends Common {
     public function getColumns($db_name): array
     {
 		$table_list = array();
-        $sql = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE ? ";
-
-        $result = $this->db_query($sql, [$db_name]);
-
+        $result = $this->db_query("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE ? ", [$db_name]);
         while ($row = $result->fetch_assoc()) {
 			$table_list[] = $row["TABLE_NAME"];
 		}
 		$column_name = array ();
-		foreach ($table_list as $value) {
-			// Tables in database mdr_clock: employee, timeclock
-            $result = $this->db_query("select * from $value ");
+		foreach ($table_list as $table_name) {
+			$escaped_table = str_replace('`', '``', $table_name);
+            $result = $this->db_query("SELECT * FROM `$escaped_table` LIMIT 0");
 		    $finfo = $this->fetchFields($result);
 		    foreach ($finfo as $val) {
-				$column_name[$value][$val->name] = $val->name;
+				$column_name[$table_name][$val->name] = $val->name;
 			}
 		}
 		return $column_name;
 	}
 
-    /**
-     * @throws Exception
-     */
     public function isBarcodeUnique($target): bool
     {
-		$sql = "select * from employees where barcode = ? ";
-		$result = $this->db_query($sql, [$target]);
+		$result = $this->db_query("select * from employees where barcode = ? ", [$target]);
 		return !($this->numRows($result) > 0);
 	}
 
-    /**
-     * @throws Exception
-     */
     public function groupList($groupName=""): string
     {
 		//$group_list = array();
 		$sql = "select groupname from groupz group by groupname";
-		$result=$this->db_query($sql);
+		$result = $this->db_query($sql);
 		$option = "";
 		while ($row = $this->fetchArray($result)) {
 			//$group_list[] = $row["groupname"];
 			$checked = ($row["groupname"]==$groupName) ? "selected='selected'" : "";
-			$option .= tabs(2) . "<option value='". $row["groupname"] . "' " . $checked . ">". $row["groupname"] ."</option>\n";
+			$option .= tabs(2) . "<option value='". $row["groupname"] . "' " . $checked . ">". $row["groupname"] ."</option>" . PHP_EOL;
 		}
 		return $option;
 	}
@@ -77,14 +67,14 @@ class Database extends Common {
 
 	public function listNames(): string
     {
-		$output  = "<table align='center'>\n";
-		$output .= "<tr><th style='width:50px'>id</th><th>first name</th><th>last name</th><th>group</th></tr>\n";
+		$output  = "<table style='margin: 0 auto;'>" . PHP_EOL;
+		$output .= "<tr><th style='width:50px'>id</th><th>first name</th><th>last name</th><th>group</th></tr>" . PHP_EOL;
 		$result=$this->employeesByLastName();
 		while ($row = $this->fetchArray($result)) {
 			extract($row);
-			if ($is_active) $output .= "<tr><td>$employeeid</td><td>$fname</td><td>$lname</td><td>$group_id</td></tr>\n";
+			if ($is_active) $output .= "<tr><td>$employeeid</td><td>$fname</td><td>$lname</td><td>$group_id</td></tr>" . PHP_EOL;
 		}
-		$output .= "</table>\n";
+		$output .= "</table>" . PHP_EOL;
 		return $output;
 	}
 
@@ -130,5 +120,3 @@ class Database extends Common {
 	}
 
 }
-$database = new Database();
-$db =& $database;

@@ -1,5 +1,6 @@
 <?php 
 	require_once("../../include/initialize.php");
+    global $session, $database;
 
 	// Already logged in? Go to menu
 	if(!$session->isLoggedIn()) {
@@ -8,7 +9,7 @@
 
 	// Create and set variables from columns for employee table
 	// ASSUMING first one is the primary key, array_shift
-//	$temp = array_shift($list);
+    //	$temp = array_shift($list);
 
 	if (isset($_POST["submit"]) && $_POST["submit"]=="submit") {
 		$session->verifyCsrf();
@@ -101,57 +102,90 @@
 		<form id="form1" action="edit_employee2.php" autocomplete="off" method="post">
 			<?= $session->csrfField(); ?>
 			<span class="employee">
-				<span style=" margin:0 auto; display:table; float:left;">
-					<div align="center">Edit Employee</div>
+                <input type="hidden"   name="employeeid" id="employeeid" value="<?= $employeeid; ?>" />
+                <table class="small">
+                    <caption>Edit Employee</caption>
+                    <tr>
+                        <th><label for="is_active">Active:    </label></th>
+                        <td><input type="checkbox" name="is_active"  id="is_active"  value=1 '<?= $checked; ?>'  /> <br /></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <?php $color = (isset($error["barcode"])) ? "style='color:red'" : ""; ?>
+                            <label <?= $color; ?> for="focus">Barcode:</label><?= RED_STAR; ?>
+                        </th>
+                        <td><input type="text"     name="barcode"    id="focus"      value="<?= $barcode;    ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="fname">First Name:    </label></th>
+                        <td><input type="text"     name="fname"      id="fname"      value="<?= $fname;      ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <?php $color = (isset($error["lname"])) ? "style='color:red'" : ""; ?>
+                            <label <?= $color; ?> for="lname">Last Name:</label><?= RED_STAR; ?>
+                        </th>
+                        <td><input type="text"     name="lname"      id="lname"      value="<?= $lname;      ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="email">email:         </label></th>
+                        <td><input type="email"    name="email"      id="email"      value="<?= $email;      ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="add1">Address 1:      </label></th>
+                        <td><input type="text"     name="add1"       id="add1"       value="<?= $add1;       ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="add2">Address 2:      </label></th>
+                        <td><input type="text"     name="add2"       id="add2"       value="<?= $add2;       ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="city">City:           </label></th>
+                        <td><input type="text"     name="city"       id="city"       value="<?= $city;       ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="us_states">State:     </label></th>
+                        <td><?php include ("us_states.php"); ?></td>
+                    </tr>
+                    <tr>
+                        <th><label for="zip">Zip Code:        </label></th>
+                        <td><input type="text"     name="zip"        id="zip"        value="<?= $zip;        ?>" maxlength="10" size="10" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="phone">Phone:         </label></th>
+                        <td><input type="tel"      name="phone"      id="phone"      value="<?= $phone;      ?>" maxlength="10" inputmode="numeric" oninput="digitsOnly(this);" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="social">SS#:          </label></th>
+                        <td><input type="text"     name="social"     id="social"     value="<?= $social;     ?>" maxlength="10" inputmode="numeric" oninput="digitsOnly(this);" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="datepicker">Hire Date: </label></th>
+                        <td><input type="text"     name="hire_date"  id="datepicker" value="<?= $hire_date;  ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="emergency_contact">Emergency Contact: </label></th>
+                        <td><input type="text"     name="emergency_contact" id="emergency_contact" value="<?= $emergency_contact; ?>"   /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="emergency_number">Emergency Number:   </label></th>
+                        <td><input type="tel"      name="emergency_number"  id="emergency_number"  value="<?= $emergency_number;  ?>" maxlength="10" inputmode="numeric" oninput="digitsOnly(this);" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="group_id">Group:      </label></th>
+                        <td>
+                            <select name="group_id" id="group_id">
+							    <?= $database->groupList($group_id) ; ?>
+						    </select>
+                        </td>
+                    </tr>
+                </table>
 
-					<div class="labels">
-                        <p><label for="is_active">Active:    </label></p>
-						<?php echo (isset($error["barcode"])) ? "<p style='color:red'>" : "<p>"; ?>
-                           <label for="focus">Barcode:</label><span style="color:#FF0000">*</span></p>
-                        <p><label for="fname">First Name:    </label></p>
-						<?php echo (isset($error["lname"])) ? "<p style='color:red'>" : "<p>"; ?>
-                        <p><label for="lname">Last Name:<span style="color:#FF0000">*</span></label></p>
-                        <p><label for="email">email:         </label></p>
-                        <p><label for="add1">Address 1:      </label></p>
-                        <p><label for="add2">Address 2:      </label></p>
-                        <p><label for="city">City:           </label></p>
-                        <p><label for="us_states">State:     </label></p>
-                        <p><label for="zip">Zip Code:        </label></p>
-                        <p><label for="phone">Phone:         </label></p>
-                        <p><label for="social">SS#:          </label></p>
-                        <p><label for="hire_date">Hire Date: </label></p>
-                        <p><label for="emergency_contact">Emergency Contact: </label></p>
-                        <p><label for="emergency_number">Emergency Number:   </label></p>
-                        <p><label for="group_id">Group:      </label></p>
-					</div>
+                <div class="centered-div">
+                    <input type="button" name="submit" value="back"   class="admin_up" onClick="parent.location='menu.php'" />
+                    <input type="submit" name="submit" value="submit" class="admin_up" />
+                </div>
 
-					<div class="info" style="float:left;">
-						<input type="hidden"   name="employeeid" id="employeeid" value="<?php echo $employeeid; ?>" />
-						<input type="checkbox" name="is_active"  id="is_active"  value=1 '<?= $checked; ?>'  /> <br />
-						<input type="text"     name="barcode"    id="focus"      value="<?php echo $barcode;    ?>" /> <br />
-						<input type="text"     name="fname"      id="fname"      value="<?php echo $fname;      ?>" /> <br />
-						<input type="text"     name="lname"      id="lname"      value="<?php echo $lname;      ?>" /> <br />
-						<input type="email"    name="email"      id="email"      value="<?php echo $email;      ?>" /> <br />
-						<input type="text"     name="add1"       id="add1"       value="<?php echo $add1;       ?>" /> <br />
-						<input type="text"     name="add2"       id="add2"       value="<?php echo $add2;       ?>" /> <br />
-						<input type="text"     name="city"       id="city"       value="<?php echo $city;       ?>" /> <br />
-						<?php include ("us_states.php"); ?><br />
-						<input type="text"     name="zip"        id="zip"        value="<?php echo $zip;        ?>" maxlength="10" size="10" /><br />
-						<input type="tel"      name="phone"      id="phone"      value="<?php echo $phone;      ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
-						<input type="text"     name="social"     id="social"     value="<?php echo $social;     ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
-						<input type="text"     name="hire_date"  id="datepicker" value="<?php echo $hire_date;  ?>" /> <br />
-						<input type="text"     name="emergency_contact" id="emergency_contact" value="<?php echo $emergency_contact; ?>"   /> <br />
-						<input type="tel"      name="emergency_number"  id="emergency_number"  value="<?php echo $emergency_number;  ?>" maxlength="10" onKeyPress="return numbersonly(event);" /> <br />
-						<select name="group_id" id="group_id">
-							<?= $database->groupList($group_id) ; ?>
-						</select>
-					</div>
-					<div class="clear"></div>
-					<div class="centered-div">
-						<input type="button" name="submit" value="back"   class="admin_up" onClick="parent.location='menu.php'" />
-						<input type="submit" name="submit" value="submit" class="admin_up" />
-					</div>
-				</span>
 				<div class="labels">
 					<p>&nbsp;</p>
 					<p><?php if (isset($error["barcode"])) echo $error["barcode"]; ?></p>
@@ -167,6 +201,6 @@
 		</form>
 	</h2>
 </div>
-<?php render("footer", __DIR__, []); ?>
+<?php render("footer", __DIR__); ?>
 </body>
-</html>
+<?php render("html_close", __DIR__); ?>
