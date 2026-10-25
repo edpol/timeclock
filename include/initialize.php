@@ -18,26 +18,28 @@ require_once('EnvConstants.php');
 
 defined("TIMEZONE")
     ? date_default_timezone_set(TIMEZONE)
-    : date_default_timezone_set('America/Los_Angeles');
+    : date_default_timezone_set('America/New_York');
 
 // Display errors only in development. Set APP_ENV=development in .env for local work.
 // In production errors are logged server-side only — never shown to the browser.
 if (getenv('APP_ENV') === 'development') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
 } else {
     ini_set('display_errors', 0);
     ini_set('display_startup_errors', 0);
-    error_reporting(E_ALL);   // still capture everything, just log it
-    ini_set('log_errors', 1);
 }
-
+ini_set('log_errors', 1);
+error_reporting(E_ALL);   // still capture everything, just log it
 
 $include_list = ['Session.php', 'Functions.php', 'Common.php', 'Database.php', 'Timeclock.php', 'PDF.php'];
 foreach($include_list as $file) {
     require_once(LIB_PATH.DS.$file);
 }
+
+/* not sure all pages need to open db */
+$database = new Database();
+$db =& $database;
 
 $h = explode("/",$_SERVER['PHP_SELF']);
 if(isset($h[2]) && $h[2]=='public'){

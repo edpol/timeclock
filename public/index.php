@@ -38,16 +38,16 @@
 	render("header", __DIR__, $data); 
 ?>
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 	<div id="back">
 		<h2>
             <?= $display; ?>
 			<div class="bluebox">
-				<div align="center">
+				<div class="centered-div">
 					<span id="time"></span><br />
 					<?= showDate(); ?>
 				</div>
-				<form id="form1" action="find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)">
+                <form id="form1" action="find_id.php" autocomplete="off" method="post" onKeyDown="pressed(this)">
                     <!-- doesn't need a submit button, just press return -->
 					<div class="labels">
                         <p><label for="focus"   >ID Number:</label> </p>
@@ -72,8 +72,10 @@
 			</div>
 		</h2>
 	</div>
-
+    <script>
+        window.addEventListener('pageshow', () => document.forms['form1'].reset());
+    </script>
 <!-- Active input tag - Has to be after the input tag named barcode -->
-<?php	render("footer", __DIR__, []);  ?>
+<?php render("footer", __DIR__);  ?>
 </body>
-</html>
+<?php render("close_html", __DIR__);  ?>

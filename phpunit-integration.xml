@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Integration suite: exercises real SQL against a disposable test
+    database. Requires a MySQL/MariaDB server — see tests/README.md for
+    setup, and tests/bootstrap-integration.php for the connection
+    constants / TEST_DB_* env var overrides.
+
+    Run:  vendor/bin/phpunit -c phpunit-integration.xml
+-->
+<phpunit bootstrap="tests/bootstrap-integration.php"
+         colors="true"
+         convertDeprecationsToExceptions="false">
+
+    <testsuites>
+        <testsuite name="Integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

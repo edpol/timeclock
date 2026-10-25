@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
-         bootstrap="tests/bootstrap.php"
+<!--
+    Unit suite: pure logic only, no database. Safe to run anywhere, anytime.
+    Run:  vendor/bin/phpunit          (or: phpunit, if installed system-wide)
+
+    For the database-backed suite, see phpunit-integration.xml and
+    tests/README.md.
+
+-->
+<phpunit bootstrap="tests/bootstrap.php"
          colors="true"
-         displayDetailsOnTestsThatTriggerWarnings="true"
-         displayDetailsOnTestsThatTriggerNotices="true">
+         convertDeprecationsToExceptions="false">
 
     <testsuites>
-        <testsuite name="Timeclock Suite">
-            <directory>tests</directory>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
 
-    <source>
+    <coverage>
         <include>
             <directory suffix=".php">include</directory>
         </include>
-    </source>
+    </coverage>
 </phpunit>

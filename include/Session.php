@@ -65,11 +65,13 @@ class Session {
 		}
 	}
   
-	public function message($msg="") {
+	public function message($msg=""): string
+    {
 		if(!empty($msg)) {
 			// then this is "set message"
 			// make sure you understand why $this->message=$msg wouldn't work
 			$_SESSION['message'] = $msg;
+            return "";
 		} else {
 			// then this is "get message"
 			return $this->message;

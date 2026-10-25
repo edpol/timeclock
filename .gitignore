@@ -9,3 +9,4 @@ public/admin/reports/report.*
 public/test/
 vendor/
 index.html
+node_modules/
