@@ -1,6 +1,6 @@
 <?php 
 	require_once("../../include/initialize.php");
-	require_once(LIB_PATH.DS.'Utilities.php');
+	require_once(LIB_PATH.DS.'utilities.php');
     $utilities = new Utilities();
     global $session;
 

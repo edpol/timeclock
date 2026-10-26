@@ -13,7 +13,7 @@ if(!defined('RED_STAR'))    define('RED_STAR',     '<span style="color:red;">*</
 
 // Load .env constants first so DB_HOST and APP_ENV are available.
 // DB_HOST should be set directly in .env — no port-sniffing needed.
-require_once('EnvConstants.php');
+require_once('envconstants.php');
 (new EnvConstants(SITE_ROOT.DS.".env"))->load();
 
 defined("TIMEZONE")
@@ -27,7 +27,7 @@ ini_set('display_startup_errors', $debug);
 ini_set('log_errors', $debug);
 error_reporting(E_ALL);   // this works if display_errors or log_errors is set
 
-$include_list = ['Session.php', 'Functions.php', 'Common.php', 'Database.php', 'Timeclock.php', 'PDF.php'];
+$include_list = ['session.php', 'functions.php', 'common.php', 'database.php', 'timeclock.php', 'pdf.php'];
 foreach($include_list as $file) {
     require_once(LIB_PATH.DS.$file);
 }
