@@ -32,6 +32,7 @@ foreach($include_list as $file) {
     require_once(LIB_PATH.DS.$file);
 }
 
+
 /* not sure all pages need to open db */
 $database = new Database();
 $db =& $database;
