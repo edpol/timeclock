@@ -1,6 +1,7 @@
+<?php global $session ?>
 <!-- view: users_list -->
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 	<div id="back">
 		<h2>
 			<div class="employee whitebox">
@@ -19,6 +20,6 @@
 			</div>
 		</h2>
 	</div>
-    <?php render("footer", __DIR__, []); ?>
+    <?php render("footer", __DIR__); ?>
 </body>
-</html>
+<?php render("close_html", __DIR__);  ?>

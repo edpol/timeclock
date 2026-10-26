@@ -23,7 +23,8 @@ class Timeclock Extends Database{
 	protected string $file_name = PUBLIC_ROOT . DS . "admin" . DS . "reports" . DS . "report.rtf";  // this is set in pdf.php
 
 	function __construct () {
-		$this->margin = str_repeat(" ",$this->padding);
+        parent::__construct();
+        $this->margin = str_repeat(" ",$this->padding);
 		$this->left_right_margin = 2 * $this->padding;
 		$this->limit = $this->column_count - $this->padding - 6; // strlen($days_total) + 1 total _hh:mm
 		$this->date_and_2_spaces=str_repeat(" ",$this->date_and_2_spaces_length); // mm/dd/yy__
@@ -171,9 +172,6 @@ class Timeclock Extends Database{
 		return $x;
 	}
 
-    /**
-     * @throws Exception
-     */
     public function selectToday($employeeid, $today): mysqli_result|bool
     {
         if ($today == "") {
@@ -191,9 +189,6 @@ class Timeclock Extends Database{
 		return $result;
 	}
 
-    /**
-     * @throws Exception
-     */
     public function buildTodaysArray($employeeid, $today=""): array
     {
 		$result = $this->selectToday($employeeid, $today);
@@ -212,18 +207,36 @@ class Timeclock Extends Database{
         return $t;
 	}
 
+    public function closeTable(): string
+    {
+        $output  = "\t\t\t<tr>";
+        $output .= "<td style='text-align:center'>IN </td><td> </td>";
+        $output .= "<td style='text-align:center'>OUT</td><td> </td>";
+        $output .= "<td style='text-align:center'>SUM</td>";
+        $output .= "</tr>" . PHP_EOL;
+        $target_date_total = 0;
+        foreach ($this->todays_array as $key => $x) {
+            if (is_numeric($key)) {
+                $target_date_total += $x["delta_seconds"];
+                $output .= "\t\t\t<tr>"
+                        . "<td>"  . $x["in"]  . "</td><td>-</td>"
+                        . "<td>"  . $x["out"] . "</td><td>=</td>"
+                        . "<td>"  . $x["delta_string"]  . "</td>"
+                        . "</tr>" . PHP_EOL;
+            }
+        }
+        $delta = $this->seconds2HourMinutes($target_date_total);
+        $output .= "\t\t\t<tr><td colspan=5>$delta</td></tr>" . PHP_EOL;
+        return $output . "\t\t</table>" . PHP_EOL;
+    }
 
-    /**
-     * @throws Exception
-     */
     public function buildToday($employeeid, $target_date="", $add_name=false): string
     {
+        $output = "";
 		if ($target_date=="") {
             $target_date = (new DateTime())->format('Y-m-d 00:00:00');
         }
-		$target_date_total = 0;
 
-		$output = "";
 		if ($add_name) {
 			$output .= "<div style='width:98%; margin: 0 auto; text-align:center; color:black; background-color:white;'>";
             $output .= $this->getName($employeeid) . "</div>\n";
@@ -235,18 +248,7 @@ class Timeclock Extends Database{
         $output .= "$month_day</th></tr>\n";
         $this->todays_array = $this->buildTodaysArray($employeeid,$target_date);
 
-        $output .= "\t\t\t<tr><td style='text-align:center'>IN</td><td> </td><td style='text-align:center'>OUT</td><td> </td><td style='text-align:center'>SUM</td></tr>\n";
-		//if (is_array($this->todays_array)) {
-			foreach ($this->todays_array as $key => $x) {
-				if (is_numeric($key)) {
-					$target_date_total += $x["delta_seconds"];
-					$output .= "\t\t\t<tr><td>" . $x["in"] . "</td><td>-</td><td>" . $x["out"] . "</td><td>=</td><td>" . $x["delta_string"] . "</td></tr>\n";
-				}
-			}
-		//}
-		$delta = $this->seconds2HourMinutes($target_date_total);
-		$output .= "\t\t\t<tr><td colspan=5>$delta</td></tr>\n";
-		$output .= "\t\t</table>\n";
+		$output .= $this->closeTable();
 		if ($add_name) {
 			$seconds_sinceSunday = $this->sinceSunday($employeeid);
 			$week_total = "Week Total " . $this->seconds2HourMinutes($seconds_sinceSunday);
@@ -312,8 +314,8 @@ class Timeclock Extends Database{
         }
 
         $delta      = $this->seconds2HourMinutes($grand_total);
-        $two_weeks .= "<tr><td colspan='8'>$delta</td>\n</tr>\n";
-        $two_weeks .= "</table>\n";
+        $two_weeks .= "<tr><td colspan='8'>$delta</td></tr>" . PHP_EOL;
+        $two_weeks .= "</table>" . PHP_EOL;
         return $two_weeks;
     }
 
@@ -323,27 +325,13 @@ class Timeclock Extends Database{
      */
     protected function buildTodayFromArray(string $target_date): string
     {
-        $target_date_total = 0;
-        $output  = "\t\t<table class='one_day' style='width:98%; margin: 0 auto;'>\n";
-
         $month_day = changeDateFormat($target_date, 'm/d');
 
+        $output  = "\t\t<table class='one_day' style='width:98%; margin: 0 auto;'>" . PHP_EOL;
         $output .= "\t\t\t<tr><th style='text-align:center;' colspan='5'>"
                  . $this->getWeekday($target_date) . "<br >"
-                 . "$month_day</th></tr>\n";
-        $output .= "\t\t\t<tr>";
-        $output .= "<td style='text-align:center'>IN</td><td> </td>";
-        $output .= "<td style='text-align:center'>OUT</td><td> </td>";
-        $output .= "<td style='text-align:center'>SUM</td></tr>\n";
-        foreach ($this->todays_array as $key => $x) {
-            if (is_numeric($key)) {
-                $target_date_total += $x["delta_seconds"];
-                $output .= "\t\t\t<tr><td>" . $x["in"] . "</td><td>-</td><td>" . $x["out"] . "</td><td>=</td><td>" . $x["delta_string"] . "</td></tr>\n";
-            }
-        }
-        $delta   = $this->seconds2HourMinutes($target_date_total);
-        $output .= "\t\t\t<tr><td colspan=5>$delta</td></tr>\n";
-        $output .= "\t\t</table>\n";
+                 . "$month_day</th></tr>" . PHP_EOL;
+        $output .= $this->closeTable();
         return $output;
     }
 
@@ -351,8 +339,6 @@ class Timeclock Extends Database{
      * Fetch all punch rows for an employee between $start (inclusive) and
      * $end (exclusive, midnight of the day after the last day wanted).
      * Returns a flat array of assoc rows ordered by punch time.
-     *
-     * @throws Exception
      */
     public function fetchPunchRange(int $employeeid, string $start, string $end): array
     {
@@ -410,8 +396,6 @@ class Timeclock Extends Database{
      * Fetch all punches for a range of days in ONE query and split them by
      * calendar date (Y-m-d). Returns an array keyed by 'Y-m-d' where each
      * value is a day array (same format as buildTodaysArray).
-     *
-     * @throws Exception
      */
     protected function buildRangeArrays(int $employeeid, string $start, string $end): array
     {
@@ -420,6 +404,7 @@ class Timeclock Extends Database{
         // Bucket rows by calendar date.
         $by_date = [];
         foreach ($all_rows as $row) {
+            /** @noinspection PhpUnhandledExceptionInspection */
             $day = (new DateTime($row["punch"]))->format('Y-m-d');
             $by_date[$day][] = $row;
         }
@@ -432,13 +417,11 @@ class Timeclock Extends Database{
 
     /**
      * Total seconds worked since last Sunday — single DB query.
-     *
-     * @throws Exception
      */
-    public function sinceSunday($employeeid) {
-        $today    = date('Y-m-d 00:00:00');
-        $tomorrow = (new DateTime($today))->modify('+1 day')->format('Y-m-d 00:00:00');
-        $sunday   = (new DateTime('last Sunday'))->format('Y-m-d 00:00:00');
+    public function sinceSunday($employeeid)
+    {
+        $tomorrow = date('Y-m-d 00:00:00', strtotime('tomorrow'));
+        $sunday   = date('Y-m-d 00:00:00', strtotime('last Sunday'));
 
         $day_arrays = $this->buildRangeArrays((int)$employeeid, $sunday, $tomorrow);
         $week_total = 0;
@@ -448,9 +431,6 @@ class Timeclock Extends Database{
         return $week_total;
     }
 
-    /**
-     * @throws Exception
-     */
     public function punchIn($employeeid, $punch=""): bool
     {
         $result = false;
@@ -485,8 +465,8 @@ class Timeclock Extends Database{
 		$output .= "\t\t</select>\n";
 
 		$output .= "\t\t" . '<select style="width:50px;" name="minute">' . "\n";
-		for ($i=0; $i<=59; $i++) {
-			$t = sprintf("%02d",$i);
+		for ($j=0; $j<=59; $j++) {
+			$t = sprintf("%02d",$j);
 			$output .= "\t\t\t<option value='$t' $selected/>$t\n";
 		} 
 		$output .= "\t\t</select>\n";
@@ -582,8 +562,9 @@ class Timeclock Extends Database{
 
 	protected function closeFile($handle,$target_file): void
     {
+        global $session;
 		fclose($handle);
-		$session->message("Download <a href='$target_file'>Report</a>");
+        $session->message("Download <a href='$target_file'>Report</a>");
 	}
 
 
@@ -605,6 +586,7 @@ class Timeclock Extends Database{
 
     protected function pageHeaderPrep($start_date, $end_date, $group_id=""): string
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $date1 = (new DateTime($start_date))->format('m/d/y') . "-" . (new DateTime($end_date))->format('m/d/y');
         $date2 = date('m/d/y');
 		$output  = $this->center("EMPLOYEE TIMECARD REPORT " . $group_id);
@@ -647,14 +629,14 @@ class Timeclock Extends Database{
 		return $row;
 	}
 
-    /**
-     * @throws Exception
-     */
     public function printOneEmployee($employeeid, $start, $end): string
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $start = (new DateTime($start))->format('Y-m-d 00:00:00 ');
+        /** @noinspection PhpUnhandledExceptionInspection */
         $end   = (new DateTime($end))->format('Y-m-d 00:00:00 ');
         $grand_total_sec = 0;
+        /** @noinspection PhpUnhandledExceptionInspection */
         $cutoff = (new DateTime($end))->modify('+1 day')->getTimestamp();
         $target = $start;
         $adjust = 1;
@@ -672,10 +654,12 @@ class Timeclock Extends Database{
         $output .= $this->in_out . $this->eol;
 
         // Pre-fetch all punch rows for the entire date range in a single query
+        /** @noinspection PhpUnhandledExceptionInspection */
         $end_exclusive = (new DateTime($end))->modify('+1 day')->format('Y-m-d 00:00:00');
         $day_arrays = $this->buildRangeArrays((int)$employeeid, $start, $end_exclusive);
 
         while (strtotime($target) < $cutoff) {
+            /** @noinspection PhpUnhandledExceptionInspection */
             $day_key = (new DateTime($target))->format('Y-m-d');
             $this->todays_array = $day_arrays[$day_key] ?? ["todays_total" => 0];
 
@@ -683,7 +667,7 @@ class Timeclock Extends Database{
 
             //if (is_array($this->todays_array)) {
                 $grand_total_sec  += $days_total_sec;
-
+                /** @noinspection PhpUnhandledExceptionInspection */
                 $one_line = $this->margin . (new DateTime($target))->format('m/d/y');
 
                 // enter all of the punch in and punch out times in a string
@@ -703,6 +687,7 @@ class Timeclock Extends Database{
 
                 $output .= $one_line . $this->eol;
             //}
+            /** @noinspection PhpUnhandledExceptionInspection */
             $target = (new DateTime($start))->modify('+' . $adjust++ . ' day')->format('Y-m-d 00:00:00');
         }
 

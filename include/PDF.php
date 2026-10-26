@@ -4,15 +4,20 @@ require(LIB_PATH.DS.'fpdf.php');
 
 class PDF extends Timeclock {
 
-    protected string $file_name = PUBLIC_ROOT . DS . "admin" . DS . "reports" . DS . "report.rtf";
+    protected string $folderPath;
+    protected string $file_name;
 
-	private int $ln_to_the_right = 0;
+    private int $ln_to_the_right = 0;
 	private int $ln_to_the_beginning_of_the_next_line = 1;
 
 	function __construct () {
+		parent::__construct();
+        $this->folderPath = PUBLIC_ROOT . DS . "admin" . DS . "reports" . DS ;
+        $this->file_name =  $this->folderPath . "report.rtf";
+
 		$this->margin = "";
 		$this->left_right_margin = 2 * $this->padding;
-		$this->limit = $this->columns - $this->padding - 6; // strlen($days_total) + 1 total _hh:mm
+		$this->limit = $this->column_count - $this->padding - 6; // strlen($days_total) + 1 total _hh:mm
 		$this->date_and_2_spaces=str_repeat(" ",$this->date_and_2_spaces_length); // mm/dd/yy__
 		$this->ff  = '';
 		$this->eol = ","; // when i write eol i reall create a new cell with the input already in it..... this is not going to work well
@@ -29,6 +34,13 @@ class PDF extends Timeclock {
 	public function printReport($start_date,$end_date,$group_id,$employeeid=""): void
     {
 		global $database;
+
+        // Check if it exists and is a directory, and check if it has write permissions
+        if (!is_dir($this->folderPath) || !is_writable($this->folderPath)) {
+            // You can use an exception, an error message, or trigger a log
+            die("Error: The folder '{$this->folderPath}' either does not exist or is not writable.");
+        }
+
 		$connection = $this->openFile($this->file_name); 
 //		fwrite($connection, $this->fileHeader()); // rtf formatting
 		if ($employeeid<>"") $group_id="";
@@ -47,24 +59,24 @@ class PDF extends Timeclock {
 
 			$fpdf->AddPage();
 /*
-Parameters
+            Parameters
 
-w      Cell width. If 0, the cell extends up to the right margin. 
-h      Cell height. Default value: 0. 
-txt    String to print. Default value: empty string. 
-border Indicates if borders must be drawn around the cell. The value can be either a number:
-       Default 0: no border, 1, T, R, B, L
-ln     Indicates where the current position should go after the call. Possible values are:
-        0: to the right
-        1: to the beginning of the next line
-        2: below
+            w      Cell width. If 0, the cell extends up to the right margin.
+            h      Cell height. Default value: 0.
+            txt    String to print. Default value: empty string.
+            border Indicates if borders must be drawn around the cell. The value can be either a number:
+                   Default 0: no border, 1, T, R, B, L
+            ln     Indicates where the current position should go after the call. Possible values are:
+                    0: to the right
+                    1: to the beginning of the next line
+                    2: below
 
-    Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value: 0. 
+                Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value: 0.
 
-align  Allows to center or align the text. Possible values are:
-        L or empty string: left align (default value)
-        C: center
-        R: right align
+            align  Allows to center or align the text. Possible values are:
+                    L or empty string: left align (default value)
+                    C: center
+                    R: right align
 */
 			$w = 0; $h = 5; $border = 0; $ln = 1; $align = "C";
 			$fpdf->Cell($w, $h, $myArray[0], $border, $ln, $align); // Header
@@ -94,7 +106,11 @@ align  Allows to center or align the text. Possible values are:
             $align = "R";
 			$fpdf->Cell($w, $h, $myArray[$j-1], $border, $ln, $align); 
 		}
-		$fpdf->Output();
+        $date = DateTime::createFromFormat('m/d/Y', $start_date);
+        $start_date = $date->format('Y-m-d');
+        $date = DateTime::createFromFormat('m/d/Y', $end_date);
+        $end_date = $date->format('Y-m-d');
+        $fpdf->Output('I', "timecards_{$start_date}_{$end_date}.pdf");
 	}
 
 }

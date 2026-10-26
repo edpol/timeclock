@@ -11,15 +11,18 @@
  * @define APP_ENV
  */
 
-class Common {
+class Common
+{
 
     protected ?mysqli $connection = null;
     protected bool $magic_quotes_active;
     protected bool $real_escape_string_exists;
+    protected int $last_affected_rows = 0;
 
-    function __construct() {
+    function __construct()
+    {
         $this->magic_quotes_active = false; //get_magic_quotes_gpc();
-        $this->real_escape_string_exists = function_exists( "mysqli_real_escape_string" );
+        $this->real_escape_string_exists = function_exists("mysqli_real_escape_string");
     }
 
     public function openConnection(): void
@@ -51,68 +54,88 @@ class Common {
      */
     function db_query($sql, $params = []): bool|mysqli_result
     {
-        $mysqli = $this->connection;
+        try {
+            $stmt = $this->connection->prepare($sql);
 
-        $stmt = $mysqli->prepare($sql);
-
-        if (!$stmt) {
-            error_log("SQL Prepare Error: " . $mysqli->error . " | Query: " . $sql);
-            @throw new RuntimeException("A database error occurred while processing your request.");
-        }
-
-        if (!empty($params)) {
-            // Generate the type string (i = integer, d = double, s = string)
-            $types = "";
-            foreach ($params as $param) {
-                $types .= match(true) {
-                    is_int($param)   => "i",
-                    is_float($param) => "d",
-                    default          => "s",
-                };
-
+            if (!$stmt) {
+                error_log("SQL Prepare Error: " . $this->connection->error . " | Query: " . $sql);
+                @throw new RuntimeException("A database error occurred while processing your request.");
             }
 
-            // Use the splat operator (...) to unpack the array into arguments
-            $stmt->bind_param($types, ...$params);
+            if (!empty($params)) {
+                // Generate the type string (i = integer, d = double, s = string)
+                $types = "";
+                foreach ($params as $param) {
+                    $types .= match (true) {
+                        is_int($param) => "i",
+                        is_float($param) => "d",
+                        default => "s",
+                    };
+                }
+
+                // Use the splat operator (...) to unpack the array into arguments
+                $stmt->bind_param($types, ...$params);
+            }
+            $stmt->execute();
+        } catch (mysqli_sql_exception $e) {
+            // Log the underlying system error securely
+            error_log("Database Error: " . $e->getMessage() . " | Query: " . $sql);
+
+            // Hide details from the user
+            throw new RuntimeException("A database error occurred while processing your request.");
         }
-        $stmt->execute();
-        return $stmt->get_result();
+
+        $this->last_affected_rows = $stmt->affected_rows;
+        if ($stmt->field_count > 0) {
+            return $stmt->get_result();
+        }
+        return true;
     }
 
-    public function fetchFields($result_set) {
-        return $result_set->fetch_fields();        
+    public function fetchFields($result_set)
+    {
+        return $result_set->fetch_fields();
     }
 
     // "database-neutral" methods
-    public function fetchArray($result_set) {
+    public function fetchArray($result_set)
+    {
 //        return mysqli_fetch_array($result_set, MYSQLI_ASSOC);
         return $result_set->fetch_array(MYSQLI_ASSOC);
     }
 
-    public function numRows($result_set) {
+    public function numRows($result_set)
+    {
 //        return mysqli_num_rows($result_set);
         return $result_set->num_rows;
     }
 
-    public function insertId() {
+    public function insertId()
+    {
         // get the last id inserted over the current db connection
-//        return mysqli_insert_id($this->connection);
+        //        return mysqli_insert_id($this->connection);
         return $this->connection->insert_id;
     }
 
-    public function affectedRows() {
+    public function affectedRows()
+    {
 //        return mysqli_affected_rows($this->connection);
-        return $this->connection->affected_rows;
+        return $this->last_affected_rows;
     }
 
-    public function escapeValue( $value ) {
-        if( $this->real_escape_string_exists ) { // PHP v4.3.0 or higher
+    public function escapeValue($value)
+    {
+        if ($this->real_escape_string_exists) { // PHP v4.3.0 or higher
             // undo any magic quote effects so mysqli_real_escape_string can do the work
-            if( $this->magic_quotes_active ) { $value = stripslashes( $value ); }
-            $value = mysqli_real_escape_string( $this->connection, $value );
+            if ($this->magic_quotes_active) {
+                $value = stripslashes($value);
+            }
+            $value = mysqli_real_escape_string($this->connection, $value);
         } else { // before PHP v4.3.0
             // if magic quotes aren't already on then add slashes manually
-            if( !$this->magic_quotes_active ) { $value = addslashes( $value ); }
+            if (!$this->magic_quotes_active) {
+                $value = addslashes($value);
+            }
             // if magic quotes are active, then the slashes already exist
         }
         return $value;

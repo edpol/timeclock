@@ -49,6 +49,7 @@ so $levels = "../"
 	}
 
 	function phonef ($phone) {
+		$phone = (string) $phone;
 		$output = $phone;
 		if (strlen($phone) == 10) {
 			$output = substr($phone,0,3) . "-" . substr($phone,3,3) . "-" . substr($phone,6,4);

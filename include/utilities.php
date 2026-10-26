@@ -136,7 +136,7 @@ class Utilities extends Common {
         }
     }
 
-    public function findAllUsers()
+    public function findAllUsers(): mysqli_result|bool
     {
         $sql = "SELECT * FROM users ORDER BY username ";
         return $this->db_query($sql);
@@ -167,8 +167,8 @@ class Utilities extends Common {
         $output .= "\t\t\t\t\t\t\t\t<th colspan='2' style='text-align:center;'>Actions</th>\n";
         $output .= "\t\t\t\t\t\t\t</tr>\n";
 
-        while($user = $this->fetchArray($result)) { 
-            $name = trim($user["fname"]) . " " . trim($user["lname"]);
+        while ($user = $this->fetchArray($result)) {
+            $name = $user["fname"] . " " . $user["lname"];
             $userid = urlencode($user["userid"]);
             $output .= "\t\t\t\t\t\t\t<tr>\n";
             $output .= "\t\t\t\t\t\t\t\t<td>" . htmlentities($name) . "</td>\n";

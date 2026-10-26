@@ -90,7 +90,7 @@
 			<div style="text-align:center;padding:4px 0;">
 				Employee time to change
 			</div>
-			<form id="form1" action="../find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)">
+			<form id="form1" action="../find_id.php" autocomplete="off" method="post" data-enter-submit>
 				<?= $session->csrfField(); ?>
 				<div class="labels">
                     <p><label for="focus">Last Name:</label> </p>
@@ -101,7 +101,7 @@
 					<input type="text"   tabindex=2 onClick="submitForm('../find_id.php')" name="target_date" value="<?php echo $target_date;?>" id="datepicker" /><br />
 					<input type="hidden" name="calling_url" value="admin/change_time.php" />
 				</div>
-				<br clear="all" />
+				<br class="clear" />
 				<div style="padding-top:20px; text-align:center;">
 					<input type="button" tabindex=3 name="submit" value="menu"   <?= $admin; ?> onClick="parent.location='menu.php'" />
 					<input type="submit" tabindex=4 name="submit" value="submit" <?= $admin; ?> />

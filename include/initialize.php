@@ -20,17 +20,12 @@ defined("TIMEZONE")
     ? date_default_timezone_set(TIMEZONE)
     : date_default_timezone_set('America/New_York');
 
-// Display errors only in development. Set APP_ENV=development in .env for local work.
-// In production errors are logged server-side only — never shown to the browser.
-if (getenv('APP_ENV') === 'development') {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-} else {
-    ini_set('display_errors', 0);
-    ini_set('display_startup_errors', 0);
-}
-ini_set('log_errors', 1);
-error_reporting(E_ALL);   // still capture everything, just log it
+// Display errors only if APP_DEBUG is true.
+$debug = (defined('APP_DEBUG') && APP_DEBUG) ? 1 : 0;
+ini_set('display_errors', $debug);
+ini_set('display_startup_errors', $debug);
+ini_set('log_errors', $debug);
+error_reporting(E_ALL);   // this works if display_errors or log_errors is set
 
 $include_list = ['Session.php', 'Functions.php', 'Common.php', 'Database.php', 'Timeclock.php', 'PDF.php'];
 foreach($include_list as $file) {

@@ -7,24 +7,24 @@ function submitForm(action) {
 }
 
 /*
- *    submit for when the enter key is pressed (code 13)
+ *    submit form when the enter key is pressed
  */
 function pressed(e) {
     // Has the enter key been pressed?
-    if ((window.event ? event.keyCode : e.which) === 13) {
-        // If it has been so, manually submit the <form>
-        document.forms[0].submit();
+    if (e.key === 'Enter') {
+        // If it has been submit the <form>
+        e.currentTarget.submit();
     }
 }
 
 /*
  *  Restrict a text input to digits as the user types.
  *
- *  Replaces the old onKeyPress="return numbersonly(event);" pattern used on
- *  the phone/social/emergency_number fields: numbersonly() was never
+ *  Replaces the old onKeyPress="return numbersOnly(event);" pattern used on
+ *  the phone/social/emergency_number fields: numbersOnly() was never
  *  actually defined anywhere in this codebase, so those fields have never
  *  enforced numeric input (every keystroke just threw a silent
- *  "numbersonly is not defined" console error). The `keypress` event this
+ *  "numbersOnly is not defined" console error). The `keypress` event this
  *  relied on is also deprecated (WHATWG DOM / MDN) in favor of `input`.
  *  Usage: <input oninput="digitsOnly(this);" ... />
  */
@@ -218,14 +218,27 @@ window.onload = function () {
     if (document.getElementById('frmContact')) {
         prepareEventHandlers();
     }
-/*
-    fetch('save_timezone.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: 'timezone=' + encodeURIComponent(userTimeZone)
+    /*
+        fetch('save_timezone.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'timezone=' + encodeURIComponent(userTimeZone)
+        });
+
+        $timezone = $_COOKIE['user_timezone'] ?? 'UTC';
+        date_default_timezone_set($timezone);
+    */
+
+    // forms marked with data-enter-submit submit when enter is pressed
+    for (const form of document.querySelectorAll('form[data-enter-submit]')) {
+        form.addEventListener('keydown', pressed);
+    }
+
+    // clear previous input on load, reload and back/forward cache restores
+    window.addEventListener('pageshow', function () {
+        for (const form of document.forms) {
+            form.reset();
+        }
     });
 
-    $timezone = $_COOKIE['user_timezone'] ?? 'UTC';
-    date_default_timezone_set($timezone);
-*/
 }

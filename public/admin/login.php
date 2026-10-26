@@ -1,6 +1,7 @@
 <?php 
 	require_once("../../include/initialize.php");
 	require_once(LIB_PATH.DS.'Utilities.php');
+    global $session;
     $utilities = new Utilities();
 
 	// Already logged in? Go to menu
@@ -18,7 +19,7 @@
 				$$value = trim($_POST[$value]);
 			} else {
 				$$value = "";
-				$error[$value] = "{$value} can't be blank";
+				$error[$value] = "$value can't be blank";
 			}
 		}
 		$found_user = false;
@@ -46,7 +47,7 @@
 	render("header", __DIR__, $data); 
 ?>
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();showClock();" onUnload="document.forms[0].reset();">
+<body onLoad="showClock();">
 <div id="back">
 	<h2>
 		<span class="employee">
@@ -60,27 +61,27 @@
 						<?= showDate(); ?>
 					</div>
 					<div class="labels">
-						<p>username: </p> 
-						<p>password: </p> 
+                        <p><label for="focus">username:</label> </p>
+                        <p><label for="password">password:</label> </p>
 					</div>
 					<div style="float:left;">
 						<input type="text"     name="username" value="" id="focus" autofocus /><br />
-						<input type="password" name="password" value="" /><br />
+						<input type="password" name="password" value="" id="password" /><br />
 					</div>
-					<br clear="all" />
+					<br class="clear" />
 
 					<!-- Buttons -->
 					<div align="center" style="padding-top:20px;">
 						<a style=" padding:14px 65px;" href="../index.php" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'">back</a>
 						<input type="submit" name="submit" value="submit"  class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
 					</div>
-					<?= $message; ?>
+					<?php if(isset($message)) echo $message; ?>
 				</form>
 			</div>
 		</span>
 	</h2>
 </div>
 <?php if (isset($_SESSION["employeeid"])) { unset($_SESSION["employeeid"]); } ?>
-<?php render("footer", __DIR__, []); ?>
+<?php render("footer", __DIR__); ?>
 </body>
-</html>
+<?php render("html_close", __DIR__); ?>

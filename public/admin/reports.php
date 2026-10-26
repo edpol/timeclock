@@ -1,5 +1,6 @@
 <?php
 	require_once("../../include/initialize.php");
+    global $database, $session;
 
 	// Already logged in? 
 	if(!$session->isLoggedIn()) {
@@ -53,10 +54,10 @@
 
 ?>
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 <div id="back">
 	<h2>
-		<form action="../find_id.php" method="post">
+		<form action="../find_id.php" method="post" target="_blank">
 			<?= $session->csrfField(); ?>
 			<span class="employee">
 				<span style="margin:0 auto; display:table;">
@@ -73,7 +74,7 @@
 							<?= $database->groupList($group_id) ; ?>
 						</select>
 					</div>
-					<br clear="all" />
+					<br class="clear" />
 					<input type="checkbox" name="only_print_one" value="true" onChange="showHide('emp_id')" <?php echo $checked; ?>/> One Employee Only<br />
 					<div id="emp_id" style="display:<?php echo $display . "\n"; ?>">
 						Last Name: <input type="text"     name="lastname"    value="<?php echo $lastname;  ?>" />
@@ -98,4 +99,4 @@
 </div>
 <?php render("footer", __DIR__, []); ?>
 </body>
-</html>
+<?php render("close_html", __DIR__);  ?>

@@ -11,7 +11,7 @@
 	render("header", __DIR__, $data); 
 ?>
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 	<div id="back">
 		<span class="color_size">
 			<div class="whitebox">

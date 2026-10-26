@@ -47,7 +47,7 @@
 					<span id="time"></span><br />
 					<?= showDate(); ?>
 				</div>
-                <form id="form1" action="find_id.php" autocomplete="off" method="post" onKeyDown="pressed(this)">
+                <form id="form1" action="find_id.php" autocomplete="off" method="post" data-enter-submit>
                     <!-- doesn't need a submit button, just press return -->
 					<div class="labels">
                         <p><label for="focus"   >ID Number:</label> </p>
@@ -72,9 +72,6 @@
 			</div>
 		</h2>
 	</div>
-    <script>
-        window.addEventListener('pageshow', () => document.forms['form1'].reset());
-    </script>
 <!-- Active input tag - Has to be after the input tag named barcode -->
 <?php render("footer", __DIR__);  ?>
 </body>
