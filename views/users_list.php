@@ -1,6 +1,7 @@
+<?php global $session ?>
 <!-- view: users_list -->
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 	<div id="back">
 		<h2>
 			<div class="employee whitebox">
@@ -9,6 +10,7 @@
 				</div>
 				<div style="text-align:center;">
 					<form method="post">
+						<?= $session->csrfField(); ?>
 						<?= $table; ?><br />
 						<button type='submit' name='add'    class='edit_up' formaction='manage_users.php'>Add User</button>
 						<button type="submit" name="submit" class="edit_up" formaction="menu.php" >back</button>
@@ -18,6 +20,6 @@
 			</div>
 		</h2>
 	</div>
-    <?php render("footer", __DIR__, []); ?>
+    <?php render("footer", __DIR__); ?>
 </body>
-</html>
+<?php render("close_html", __DIR__);  ?>

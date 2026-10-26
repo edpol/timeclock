@@ -1,5 +1,6 @@
 <?php 
 	require_once("../../include/initialize.php");
+    global $session, $database;
 
 	// Already logged in? 
 	if(!$session->isLoggedIn()) {

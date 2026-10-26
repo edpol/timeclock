@@ -12,7 +12,7 @@ use mdr_clock;
 GRANT ALL PRIVILEGES ON timeclock.* TO 'chronos'@'localhost' IDENTIFIED BY 'password';
 ```
 The file timeclock/include/connect_utilities.php is for the admin users that run the site.  
-The 2 are seperate classes so you can have the admins users in another database if you wish.  
+The 2 are separate classes so you can have the admins users in another database if you wish.  
 
 Engine for table employee must be MyISAM if MySQL version is < 5.6  
 
@@ -116,3 +116,122 @@ if it doesn't work, restore encryption settings and try again.
 You can contact me at edpol03@gmail.com
 
 
+<hr>
+
+## If you need, adds rc-status, rc-update, rc-service nginx restart
+docker exec -it wwwx apk add openrc
+
+Access MySQL.
+```
+$ docker exec -ti wwwm mariadb -u root -p
+```
+
+Run 2 commands in one line (use sh ot bash)  
+With && it only executes the second command if the first one worked.  
+With ; it will execute both commands regardless.
+````
+$ docker compose exec python-app sh -c "cd examples/names && python names2.py"
+````
+
+To call xdebug in SAFARI BROWSER
+[timeclock](http://timeclock.test/index.php?XDEBUG_SESSION_START=PHPSTORM)
+````
+http://timeclock.test/index.php?XDEBUG_SESSION_START=PHPSTORM  
+````
+
+<hr style="border-color:cyan;"/> 
+
+<hr style="border-color:yellow;"/>
+
+
+## create composer.json
+Build does not create the vendor file or the "composer.json" or "composer.lock"
+Install dependencies in the container.  This will also create the vendor folder
+````
+$ docker compose exec php-server composer install
+````
+This creates composer.* files
+```
+$ docker exec -it ver2p composer global require laravel/installer  
+$ docker exec -it ver2p composer require --dev phpunit/phpunit
+```
+
+> <hr style="background-color:cyan;"/>  
+> *if you are using Namespace!!!*
+
+Add namespace to <u>composer.json</u>   
+Now you have to add:
+- "namespace Includes" in the classes in the includes folder
+- "use Includes" in all the files that use functions from includes folder
+```
+    "autoload": {
+        "psr-4": {
+            "Includes": "includes/",
+        }
+    },
+```  
+
+## Generate autoload files:
+If you've modified your composer.json or have issues with the autoloader, <span style="color:yellow">regenerate the autoload files</span>.
+````
+$ docker exec -it wwwp composer dump-autoload
+````
+
+## Create the vendor folder
+This command creates the vendor folder again, same as composer install
+```
+$ docker exec -it wwwp composer update  
+```
+
+## Set up for phpunit
+this file tells PHPUnit where the unit tests are located (src/tests)  
+src/phpunit.xml
+````
+<phpunit colors="true" bootstrap="vendor/autoload.php">  
+    <testsuites>  
+        <testsuite name="My Project Tests">  
+            <directory>tests</directory>  
+        </testsuite>  
+    </testsuites>  
+</phpunit>  
+````
+## Run phpunit
+#### uses service name ``` docker compose exec php-server vendor/bin/phpunit ```
+#### uses docker container name ``` docker exec -it wwwp vendor/bin/phpunit ```
+
+
+Use <u>docker exec</u> when working with individual, standalone containers.  
+Use <u>docker compose exec</u> when managing applications defined by a docker-compose.yml file, allowing you to easily target services within your multi-container setup.
+
+
+because we defined the interpreter in the docker container when Intellij starts it fires off a pycharm_container and cs50p-python-app containers. If you add the --remove-orphans it will at least get rid of the cs50p containers.
+````
+$ docker compose up -d --remove-orphans  
+````
+
+### Install/update Composer dependencies (creates vendor/)
+<span style="color:red; font-weight: bold;">DON'T INSTALL FROM HOST, USE DOCKER CONTAINER</span>
+```
+$ docker compose exec php-server composer install
+$ docker compose exec php-server composer dump-autoload
+```
+
+### Run all PHPUnit tests
+```
+$ docker compose exec php-server vendor/bin/phpunit
+```
+### Run a single test file
+````
+$ docker compose exec php-server vendor/bin/phpunit tests/ExampleTest.php
+````
+### MySQL shell
+````
+$ docker exec -it ver2m mysql -u chronos -p tim
+````
+
+## 2 commands on one line
+````
+$ docker compose exec php-server sh -c "cd examples/names && python names2.py"
+````
+
+The End  

@@ -1,6 +1,7 @@
+<?php global $session; ?>
 <!-- view: users_edit -->
 <!-- this clears the form every time you navigate away or reload the page -->
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 <div id="back">
     <h2>
         <div class="employee whitebox">
@@ -8,7 +9,8 @@
                 <?= date('m/d/y'); ?> <span id="time"></span>
             </div>
             <div>
-                <form method="post"> <!-- action="/public/admin/manage_users.php">  -->
+                <form method="post">
+                    <?= $session->csrfField(); ?>
                     <?php if (!empty($row)) { ?>
                         <div class="labels">
                             <p>userid: </p>
@@ -28,7 +30,7 @@
                         <div class="clear"></div>
 
                     <?php } ?>
-                    <div align="center">
+                    <div class="center">
                         <button type="submit" name="submit" class="edit_up" formaction="manage_users.php">back</button>
                         <button type='submit' name='update' class='edit_up' formaction='manage_users.php'>Submit</button>
                     </div>
@@ -41,6 +43,6 @@
         </div>
     </h2>
 </div>
-<?php render("footer", __DIR__, []); ?>
+<?php render("footer", __DIR__); ?>
 </body>
-</html>
+<?php render("close_html", __DIR__);  ?>

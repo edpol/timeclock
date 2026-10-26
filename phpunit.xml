@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Unit suite: pure logic only, no database. Safe to run anywhere, anytime.
+    Run:  vendor/bin/phpunit          (or: phpunit, if installed system-wide)
+
+    For the database-backed suite, see phpunit-integration.xml and
+    tests/README.md.
+
+-->
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+         convertDeprecationsToExceptions="false">
+
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">include</directory>
+        </include>
+    </coverage>
+</phpunit>

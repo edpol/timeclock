@@ -1,14 +1,16 @@
+<?php global $session, $database; ?>
 <!-- view: id_lname -->
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 	<div id="back">
 		<h2>
 			<span class="employee whitebox">
 				<div style="text-align:center;">
 					<?= $title; ?><br />
 				</div>
-<!-- OK, wee need to lookup in users table NOT employee table -->
-				<form id="form1" action="<?= $levels . $form_page; ?>" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
+<!-- OK, we need to lookup in users table NOT employee table -->
+				<form id="form1" action="<?= $levels . $form_page; ?>" autocomplete="off" method="post" data-enter-submit>
+					<?= $session->csrfField(); ?>
 					<div class="labels">
 						<p>ID Number: </p>
 						<p>Last Name: </p>
@@ -18,7 +20,7 @@
 						<input type="text"   name="lastname"    value="" id="focus" autofocus /><br />  <!-- onclick="openWindow('hello.htm')" --> 
 						<input type="hidden" name="calling_url" value="<?= $return_page; ?>" />
 					</div>
-					<br clear="all" />
+					<br class="clear" />
 					<div style="padding-top:20px; text-align:center;">
 						<button type="submit" name="submit" class="edit_up" >submit</button>
 						<button type="submit" name="submit" class="edit_up" formaction="menu.php" >back</button>
@@ -31,6 +33,7 @@
 			</span>
 		</h2>
 	</div>
-    <?php render("footer", __DIR__, []); ?>
+    <?php render("footer", __DIR__); ?>
 </body>
-</html>
+<?php render("close_html", __DIR__);  ?>
+

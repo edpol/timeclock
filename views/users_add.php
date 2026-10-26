@@ -1,6 +1,6 @@
 <!-- view: users_edit -->
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 	<div id="back">
 		<h2>
 			<div class="employee whitebox">
@@ -26,7 +26,7 @@
 							<input type='text'     name='lname'    value='<?= $lname;    ?>' /> <br />
 							<input type='password' name='password' value=''                  id="mandatoryPassword" /> <span id="errorPassword"></span><br />
 						</div>
-						<br clear="all" />
+						<br class="clear" />
 
 						<div align="center">
 							<button type="submit" name="submit" class="edit_up" formaction="manage_users.php">back</button>

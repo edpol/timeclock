@@ -1,16 +1,42 @@
+// get timezone from browser
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 function submitForm(action) {
     document.getElementById('form1').action = action;
     document.getElementById('form1').submit();
 }
 
 /*
- *    submit for when the enter key is pressed (code 13)
+ *    submit form when the enter key is pressed
  */
 function pressed(e) {
     // Has the enter key been pressed?
-    if ((window.event ? event.keyCode : e.which) === 13) {
-        // If it has been so, manually submit the <form>
-        document.forms[0].submit();
+    if (e.key === 'Enter') {
+        // If it has been submit the <form>
+        e.currentTarget.submit();
+    }
+}
+
+/*
+ *  Restrict a text input to digits as the user types.
+ *
+ *  Replaces the old onKeyPress="return numbersOnly(event);" pattern used on
+ *  the phone/social/emergency_number fields: numbersOnly() was never
+ *  actually defined anywhere in this codebase, so those fields have never
+ *  enforced numeric input (every keystroke just threw a silent
+ *  "numbersOnly is not defined" console error). The `keypress` event this
+ *  relied on is also deprecated (WHATWG DOM / MDN) in favor of `input`.
+ *  Usage: <input oninput="digitsOnly(this);" ... />
+ */
+function digitsOnly(input) {
+    const cursor = input.selectionStart;
+    const before = input.value;
+    input.value = input.value.replace(/\D/g, "");
+    // Keep the cursor roughly where it was rather than jumping to the end.
+    if (cursor !== null) {
+        const removedBeforeCursor = before.slice(0, cursor).length - before.slice(0, cursor).replace(/\D/g, "").length;
+        const pos = Math.max(0, cursor - removedBeforeCursor);
+        input.setSelectionRange(pos, pos);
     }
 }
 
@@ -107,7 +133,6 @@ function swap(on, off) {
     document.getElementById(off).style.display = 'none';
 }
 
-
 /*
  *    <input onkeypress="return numbersOnly(event);" name="VAT_Number">
  *    only allows numeric input
@@ -118,7 +143,6 @@ function numbersOnly(e) {
         if (unicode < 48 || unicode > 57) return false;//if not a number return false //disable key press
     }
 }
-
 
 /*
  * set up listeners on class blue, pink and admin
@@ -151,7 +175,7 @@ function buttonSetup(button) {
 // handle the form submit event
 function prepareEventHandlers() {
     document.getElementById("frmContact").onclick = function () {
-        let result = false;
+        let result;
         // prevent a form from submitting if no email.
         if (document.getElementById("mandatoryUsername").value === "") {
             document.getElementById("errorUsername").innerHTML = "Username is mandatory";
@@ -160,16 +184,15 @@ function prepareEventHandlers() {
         } else {
             // reset and allow the form to submit
             document.getElementById("errorUsername").innerHTML = "";
-            result = true;
-        }
-        if (document.getElementById("mandatoryPassword").value === "") {
-            document.getElementById("errorPassword").innerHTML = "Password is mandatory";
-            result = false;
-        } else {
-            document.getElementById("errorPassword").innerHTML = "";
-            result = true;
-        }
 
+            if (document.getElementById("mandatoryPassword").value === "") {
+                document.getElementById("errorPassword").innerHTML = "Password is mandatory";
+                result = false;
+            } else {
+                document.getElementById("errorPassword").innerHTML = "";
+                result = true;
+            }
+        }
         return result;
     };
 }
@@ -193,7 +216,29 @@ window.onload = function () {
     buttonSetup("admin");
 
     if (document.getElementById('frmContact')) {
-console.log("here");
         prepareEventHandlers();
     }
+    /*
+        fetch('save_timezone.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'timezone=' + encodeURIComponent(userTimeZone)
+        });
+
+        $timezone = $_COOKIE['user_timezone'] ?? 'UTC';
+        date_default_timezone_set($timezone);
+    */
+
+    // forms marked with data-enter-submit submit when enter is pressed
+    for (const form of document.querySelectorAll('form[data-enter-submit]')) {
+        form.addEventListener('keydown', pressed);
+    }
+
+    // clear previous input on load, reload and back/forward cache restores
+    window.addEventListener('pageshow', function () {
+        for (const form of document.forms) {
+            form.reset();
+        }
+    });
+
 }

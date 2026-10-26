@@ -1,6 +1,8 @@
 <?php 
 	require_once("../../include/initialize.php");
-	require_once(LIB_PATH.DS.'utilities.php');
+	require_once(LIB_PATH.DS.'Utilities.php');
+    $utilities = new Utilities();
+    global $session;
 
 	// Already logged in? 
 	if(!$session->isLoggedIn()) {
@@ -20,9 +22,15 @@
 
 	$show_table = true;
 
+	// All POST actions on this page are state-mutating — verify CSRF for any of them.
+	if (!empty($_POST)) {
+		$session->verifyCsrf();
+	}
+
 	/*
 	 *    Delete users
 	 */
+    $message = "";
 	if (isset($_POST["delete"])) {
 		$message = $utilities->deleteUser($_POST["delete"]);
 	}
@@ -66,13 +74,17 @@
 		$message = $utilities->userAdd($_POST);   // $_POST has userid and new values
 	}
 
-
-	/*
+	/**
 	 *    Show Users Table
 	 */
 	if ($show_table) {
 		$output = $utilities->userTable("Manage Users","manage_users.php","manage_users.php");
 
-		$data = array("form_page"=>"find_id.php", "return_page"=>"admin/manage_users.php", "levels"=>countLevels(__DIR__), "table"=>$output, "message"=>$message);
+		$data = array(
+            "form_page"=>"find_id.php",
+            "return_page"=>"admin/manage_users.php",
+            "levels"=>countLevels(__DIR__),
+            "table"=>$output,
+            "message"=>$message);
 		render("users_list", __DIR__, $data); 
 	}

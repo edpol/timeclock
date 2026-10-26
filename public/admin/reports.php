@@ -1,5 +1,6 @@
 <?php
 	require_once("../../include/initialize.php");
+    global $database, $session;
 
 	// Already logged in? 
 	if(!$session->isLoggedIn()) {
@@ -16,8 +17,8 @@
 	$group_id = "";
 	$employeeid = "";
 
-	$end_date    = strftime("%m/%d/%Y", strtotime(" last Saturday "));
-	$start_date  = strftime("%m/%d/%Y", strtotime($end_date . "-6 day "));
+    $end_date = date('m/d/Y', strtotime('last Saturday'));
+    $start_date = date('m/d/Y', strtotime($end_date . ' -6 days'));
 
 	// Create variables from list, preference to POST
 	include("../post_list.php");
@@ -53,26 +54,27 @@
 
 ?>
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 <div id="back">
 	<h2>
-		<form action="../find_id.php" method="post">
+		<form action="../find_id.php" method="post" target="_blank">
+			<?= $session->csrfField(); ?>
 			<span class="employee">
 				<span style="margin:0 auto; display:table;">
 					<div align="center">Reports</div>
 					<div class="labels">
-						<p>Start: </p>
-						<p>End:   </p>
-						<p>Group: </p>
+                        <p><label for="datepicker">Start:</label> </p>
+                        <p><label for="datepicker2">End:</label> </p>
+                        <p><label for="group_id">Group:</label> </p>
 					</div>
 					<div style="float:left;">
 						<input type="text" id="datepicker"  name="start_date" value="<?= $start_date;?>"/><br />
 						<input type="text" id="datepicker2" name="end_date"   value="<?= $end_date;  ?>"/><br />
-						<select name="group_id">
+						<select id="group_id" name="group_id">
 							<?= $database->groupList($group_id) ; ?>
 						</select>
 					</div>
-					<br clear="all" />
+					<br class="clear" />
 					<input type="checkbox" name="only_print_one" value="true" onChange="showHide('emp_id')" <?php echo $checked; ?>/> One Employee Only<br />
 					<div id="emp_id" style="display:<?php echo $display . "\n"; ?>">
 						Last Name: <input type="text"     name="lastname"    value="<?php echo $lastname;  ?>" />
@@ -97,4 +99,4 @@
 </div>
 <?php render("footer", __DIR__, []); ?>
 </body>
-</html>
+<?php render("close_html", __DIR__);  ?>

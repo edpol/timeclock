@@ -6,7 +6,7 @@
 	if ( isset($_SESSION["employeeid"]) ) {
 		$employeeid = $_SESSION["employeeid"];
 		unset ($_SESSION["employeeid"]);
-		$today = strftime('%Y-%m-%d 00:00:00',time());
+        $today = date('Y-m-d 00:00:00');
 		$tc = new Timeclock();
 /*
 		$_SESSION['calling_url'] = "index.php";  // dont want to return to inqure
@@ -14,9 +14,11 @@
 		$_SESSION["output"] = $tc->build2Weeks($employeeid,$today);
 		redirectTo("popup.php");
 */
+        $calling_url = isset($_SESSION['calling_url']) ? htmlspecialchars($_SESSION['calling_url'],ENT_QUOTES) : "index.php";
+
 		$display  = '<div id="showupinq" class="popup">';
 		$display .= $tc->build2Weeks($employeeid,$today);
-		$display .= '<a class="close"   href="' . $calling_url . '"></a>';
+        $display .= "<a class='close'   href='$calling_url'></a>";
 		$display .= "</div>\n";
 //		$display .= '<a class="overlay" href="' . $calling_url . '">' . "</a>\n";
 		$_SESSION["display"] = $display;
@@ -35,7 +37,7 @@
 // so if they click they go back to normal
 ?>
 <!-- this clears the form every time you navigate away or reload the page --> 
-<body onLoad="document.forms[0].reset();" onUnload="document.forms[0].reset();">
+<body>
 	<div id="back">
 		<h1>
 			<div style="color:#FCF; font-weight:bold; font-size:36px; padding-bottom:18px;">Inquire</div>
@@ -44,7 +46,7 @@
 					<span id="time"></span><br />
 					<?= showDate(); ?>
 				</div>
-				<form id="form2" action="find_id.php" autocomplete="off" method="post" onKeyDown="pressed(event)"> <!-- doesnt need a submit button, just press return -->
+				<form id="form2" action="find_id.php" autocomplete="off" method="post" data-enter-submit> <!-- doesnt need a submit button, just press return -->
 					<div class="labels">
 						<p>ID Number: </p>
 						<p>Last Name: </p>
@@ -53,7 +55,7 @@
 						<input type="password" name="barcode"  value="<?php echo $barcode;  ?>" id="focus" autofocus style="margin-bottom:6px;"/><br />
 						<input type="text"     name="lastname" value="<?php echo $lastname; ?>" /><br />  <!-- onclick="openWindow('hello.htm')" --> 
 					</div>
-					<br clear="all" />
+					<br class="clear" />
 					<div style="padding:30px 0 0px 0;">
 						<input type="button" name="index" value="Go Back To Punch In" class="pink_up" onClick="parent.location='index.php'" />
 					</div>

@@ -8,9 +8,19 @@
 */
 
 	/**
+	 * CSRF: admin pages always submit a token. The public punch-in and inquire
+	 * pages don't (unauthenticated users can't produce a valid token), so only
+	 * verify when the request originates from an admin context.
+	 */
+	$calling_url_raw = $_SESSION['calling_url'] ?? $_POST['calling_url'] ?? '';
+	if (str_starts_with($calling_url_raw, 'admin/') && $session->isLoggedIn()) {
+		$session->verifyCsrf();
+	}
+
+	/**
 	 *	Horrible cheat, hate this, but it works
 	 *	when calling this routine from reports I lose the $_POST information so I need to save it in $_SESSION
-	 *	I don't want to blindly copy everything because it may save sensitive data, 
+	 *	I don't want to blindly copy everything because it may save sensitive data,
 	 *	so I am hardcoding the fields that need to be saved.
 	 */
 	// if only_print_one is false we are not looking for names so go back to calling page
@@ -28,7 +38,7 @@
 	}
 
 	// have last name, find id
-	$calling_url = isset($_SESSION['calling_url']) ? htmlspecialchars($_SESSION['calling_url'], ENT_QUOTES)  : "index.php";
+	$calling_url = isset($_SESSION['calling_url']) ? htmlspecialchars($_SESSION['calling_url'],ENT_QUOTES) : "index.php";
 	if ( (isset($_POST['employeeid']) && !empty($_POST['employeeid']) ) || $getout) {
 		if (isset($_POST['employeeid'])) $_SESSION['employeeid'] = $_POST["employeeid"];
 		redirectTo($calling_url);

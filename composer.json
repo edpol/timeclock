@@ -1,0 +1,22 @@
+{
+    "name": "root/timeclock",
+    "description": "Timeclock Utility",
+    "autoload": {
+        "classmap": ["include/"]
+    },
+    "authors": [
+        {
+            "name": "Edward Pol"
+        }
+    ],
+    "require": {
+      "ext-mysqli": "*"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^9.6"
+    },
+    "scripts": {
+      "test": "phpunit",
+      "test:integration": "phpunit -c phpunit-integration.xml"
+    }
+}

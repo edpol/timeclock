@@ -6,14 +6,14 @@
 		redirectTo("login.php");
 	}
 
-	$output  = "<table align='center'>\n";
+	$output  = "<table style='margin:0 auto;'>\n";
 	$output .= "<tr><th>Employee</th><th>Phone</th><th>Emergency<br />Contact</th><th>Emergency<br />Phone</th><th>email</th></tr>\n";
 	$result = $db->employeesByLastName();
 	while ($row = $db->fetchArray($result)) {
 		extract($row);
 		if ($is_active) {
-			$name = ucwords(strtolower(trim($fname) . " " . trim($lname)));
-			$contact = ucwords(strtolower(trim($emergency_contact)));
+			$name = ucwords(strtolower(trim($fname ?? '') . " " . trim($lname ?? '')));
+			$contact = ucwords(strtolower(trim($emergency_contact ?? '')));
 			$output .= "<tr>";
 			$output .= "<td>{$name}</td>";
 			$output .= "<td>" . phonef($phone) . "</td>";
@@ -40,7 +40,7 @@ td {
 </style>
 </head>
 <body>
-	<div align="center" style="font-size:24px;">
+	<div style="font-size:24px; text-align:center;">
 		Contact List
 		<?= date('m/d/y');?>
 	</div>
