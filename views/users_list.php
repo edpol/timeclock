@@ -12,8 +12,8 @@
 					<form method="post">
 						<?= $session->csrfField(); ?>
 						<?= $table; ?><br />
-						<button type='submit' name='add'    class='edit_up' formaction='manage_users.php'>Add User</button>
-						<button type="submit" name="submit" class="edit_up" formaction="menu.php" >back</button>
+						<button type='submit' name='add'    class='edit_btn' formaction='manage_users.php'>Add User</button>
+						<button type="submit" name="submit" class="edit_btn" formaction="menu.php" >back</button>
 					</form>
 				</div>
 				<?php if(isset($message)) { echo $message; } ?><br />

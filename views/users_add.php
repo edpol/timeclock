@@ -29,8 +29,8 @@
 						<br class="clear" />
 
 						<div align="center">
-							<button type="submit" name="submit" class="edit_up" formaction="manage_users.php">back</button>
-							<button id="frmContact" type='submit' name='save'   class='edit_up' formaction='manage_users.php'>Submit</button>
+							<button type="submit" name="submit" class="edit_btn" formaction="manage_users.php">back</button>
+							<button id="frmContact" type='submit' name='save'   class='edit_btn' formaction='manage_users.php'>Submit</button>
 						</div>
 					</form>
 				</div>

@@ -22,8 +22,8 @@
 					</div>
 					<br class="clear" />
 					<div style="padding-top:20px; text-align:center;">
-						<button type="submit" name="submit" class="edit_up" >submit</button>
-						<button type="submit" name="submit" class="edit_up" formaction="menu.php" >back</button>
+						<button type="submit" name="submit" class="edit_btn" >submit</button>
+						<button type="submit" name="submit" class="edit_btn" formaction="menu.php" >back</button>
 					</div>
 				</form>
 				<div id="date_time">

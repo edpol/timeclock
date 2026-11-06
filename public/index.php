@@ -64,8 +64,8 @@
 					<input type="hidden"   name="calling_url" value="index.php" />
 					<div style="clear:both; padding-top:20px;">
 						<input type="submit" style="display: none" />
-						<a id="login"   class="blue_up" href="admin/login.php">Sign In</a>
-						<a id="inquire" class="blue_up" href="inquire.php"    >Inquire</a>
+						<a id="login"   class="blue_btn" href="admin/login.php">Sign In</a>
+						<a id="inquire" class="blue_btn" href="inquire.php"    >Inquire</a>
 					</div>
 <?php				if(isset($message)) { echo "<div style='padding-top: 20px;'>$message</div>"; } ?>
 				</form>

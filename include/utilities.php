@@ -173,8 +173,8 @@ class Utilities extends Common {
             $output .= "\t\t\t\t\t\t\t<tr>\n";
             $output .= "\t\t\t\t\t\t\t\t<td>" . htmlentities($name) . "</td>\n";
             $output .= "\t\t\t\t\t\t\t\t<td>" . htmlentities($user["username"]). "</td>\n";
-            $output .= "\t\t\t\t\t\t\t\t<td><button type='submit' class='edit_up' name='edit'   value='$userid' formaction='$edit_page'>Edit</button></td>\n";
-            $output .= "\t\t\t\t\t\t\t\t<td><button type='submit' class='del_up'  name='delete' value='$userid' formaction='$delete_page'>X</button></td>\n";
+            $output .= "\t\t\t\t\t\t\t\t<td><button type='submit' class='edit_btn' name='edit'   value='$userid' formaction='$edit_page'>Edit</button></td>\n";
+            $output .= "\t\t\t\t\t\t\t\t<td><button type='submit' class='del_btn'  name='delete' value='$userid' formaction='$delete_page'>X</button></td>\n";
             $output .= "\t\t\t\t\t\t\t</tr>\n";
         }
         $output .= "\t\t\t\t\t\t</table>\n";

@@ -56,7 +56,7 @@
 
 					<!-- Login -->
 					<div style="display:inline-block;"> <!-- so the time is centered on username password, not buttons -->
-					<div align="center">
+					<div class="centered-div">
 						<span id="time"></span><br />
 						<?= showDate(); ?>
 					</div>
@@ -71,9 +71,9 @@
 					<br class="clear" />
 
 					<!-- Buttons -->
-					<div align="center" style="padding-top:20px;">
-						<a style=" padding:14px 65px;" href="../index.php" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'">back</a>
-						<input type="submit" name="submit" value="submit"  class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
+					<div class="centered-div" style="padding-top:20px;">
+						<a style="padding:14px 65px;" href="../index.php" class="admin_btn">back</a>
+						<input type="submit" name="submit" value="submit"  class="admin_btn" />
 					</div>
 					<?php if(isset($message)) echo $message; ?>
 				</form>

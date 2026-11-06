@@ -31,8 +31,8 @@
 
                     <?php } ?>
                     <div class="center">
-                        <button type="submit" name="submit" class="edit_up" formaction="manage_users.php">back</button>
-                        <button type='submit' name='update' class='edit_up' formaction='manage_users.php'>Submit</button>
+                        <button type="submit" name="submit" class="edit_btn" formaction="manage_users.php">back</button>
+                        <button type='submit' name='update' class='edit_btn' formaction='manage_users.php'>Submit</button>
                     </div>
                 </form>
             </div>

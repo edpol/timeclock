@@ -47,8 +47,8 @@
 					</div>
 					<br class="clear" />
 					<div style="padding-top:20px; text-align:center;">
-						<input type="button" name="submit" value="back"   class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" onClick="parent.location='menu.php'" />
-						<input type="submit" name="submit" value="submit" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
+						<input type="button" name="submit" value="back"   class="admin_btn" onClick="parent.location='menu.php'" />
+						<input type="submit" name="submit" value="submit" class="admin_btn" />
 					</div>
 				</form>
 			</span>

@@ -57,7 +57,7 @@
 					</div>
 					<br class="clear" />
 					<div style="padding:30px 0 0px 0;">
-						<input type="button" name="index" value="Go Back To Punch In" class="pink_up" onClick="parent.location='index.php'" />
+						<input type="button" name="index" value="Go Back To Punch In" class="pink_btn" onClick="parent.location='index.php'" />
 					</div>
 <?php if(isset($message)) { echo $message; } ?>
 				</form>

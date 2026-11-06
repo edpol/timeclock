@@ -18,15 +18,15 @@
 				<span id="time"></span><br />
 				<?= date('m/d/y'); ?><br />
 				<form id="main_menu">
-                    <button type="submit" class="admin_up" formaction="add_employee.php"    >Add Employee   </button><br />
-                    <button type="submit" class="admin_up" formaction="edit_employee.php"   >Edit Employee  </button><br />
-                    <button type="submit" class="admin_up" formaction="delete_employee.php" >Delete Employee</button><br />
-                    <button type="submit" class="admin_up" formaction="change_time.php"     >Change Time    </button><br />
-                    <button type="submit" class="admin_up" formaction="reports.php"         >Reports        </button><br />
-                    <button type="submit" class="admin_up" formaction="emergency.php"       >Contacts       </button><br />
-                    <button type="submit" class="admin_up" formaction="../index.php"        >Timeclock      </button><br />
-                    <button type="submit" class="admin_up" formaction="manage_users.php"    >Manage Users   </button><br />
-                    <button type="submit" class="admin_up" formaction="logout.php"          >Log Out        </button><br />
+                    <button type="submit" class="admin_btn" formaction="add_employee.php"    >Add Employee   </button><br />
+                    <button type="submit" class="admin_btn" formaction="edit_employee.php"   >Edit Employee  </button><br />
+                    <button type="submit" class="admin_btn" formaction="delete_employee.php" >Delete Employee</button><br />
+                    <button type="submit" class="admin_btn" formaction="change_time.php"     >Change Time    </button><br />
+                    <button type="submit" class="admin_btn" formaction="reports.php"         >Reports        </button><br />
+                    <button type="submit" class="admin_btn" formaction="emergency.php"       >Contacts       </button><br />
+                    <button type="submit" class="admin_btn" formaction="../index.php"        >Timeclock      </button><br />
+                    <button type="submit" class="admin_btn" formaction="manage_users.php"    >Manage Users   </button><br />
+                    <button type="submit" class="admin_btn" formaction="logout.php"          >Log Out        </button><br />
 				</form>
 			</div>
 		</span>

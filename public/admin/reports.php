@@ -35,7 +35,7 @@
 	}
 
 	if (isset($submit) && $submit=="submit") {
-		if (isset($only_print_one) && $only_print_one == true) {
+		if (isset($only_print_one) && $only_print_one) {
 			$checked = "checked";
 			$display = "block";
 		}
@@ -61,7 +61,7 @@
 			<?= $session->csrfField(); ?>
 			<span class="employee">
 				<span style="margin:0 auto; display:table;">
-					<div align="center">Reports</div>
+					<div class="centered-div">Reports</div>
 					<div class="labels">
                         <p><label for="datepicker">Start:</label> </p>
                         <p><label for="datepicker2">End:</label> </p>
@@ -75,14 +75,16 @@
 						</select>
 					</div>
 					<br class="clear" />
-					<input type="checkbox" name="only_print_one" value="true" onChange="showHide('emp_id')" <?php echo $checked; ?>/> One Employee Only<br />
+					<input type="checkbox" id="only_print_one" name="only_print_one" value="true" onChange="showHide('emp_id')" <?php echo $checked; ?>/>&nbsp;
+                    <label for="only_print_one">One Employee Only</label> <br />
 					<div id="emp_id" style="display:<?php echo $display . "\n"; ?>">
-						Last Name: <input type="text"     name="lastname"    value="<?php echo $lastname;  ?>" />
+                        <label for="lastname">Last Name:</label>
+                        <input type="text" id="lastname"    name="lastname"    value="<?php echo $lastname;  ?>" />
 					</div>
 				</span>
-				<div align="center" style="clear:both; padding-top:6px;">
-					<input type="button" name="submit" value="back"   class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" onClick="parent.location='menu.php'" />
-					<input type="submit" name="submit" value="submit" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" /> <br />
+				<div class="centered-div" style="clear:both; padding-top:6px;">
+					<input type="button" name="submit" value="back"   class="admin_btn" onClick="parent.location='menu.php'" />
+					<input type="submit" name="submit" value="submit" class="admin_btn" /> <br />
 				</div>
 				<div style="margin-left:20%;">
 					<input type="radio" name="report_type" value="pdf" id="pdf" checked="checked" /> <label for="pdf">PDF Format</label><br />
@@ -97,6 +99,6 @@
 		</span>
 	</h2>
 </div>
-<?php render("footer", __DIR__, []); ?>
+<?php render("footer", __DIR__); ?>
 </body>
 <?php render("close_html", __DIR__);  ?>

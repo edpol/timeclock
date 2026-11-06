@@ -445,7 +445,7 @@ class Timeclock Extends Database{
 
 	public function inputTimeSetup($target_date): string
     {
-		$output  = "\t\t\t\t\t\t<input type='submit' name='submit'      value='add' class='edit_up' />\n";
+		$output  = "\t\t\t\t\t\t<input type='submit' name='submit'      value='add' class='edit_btn' />\n";
 		$output .= "\t\t\t\t\t\t<input type='text'   name='time'        value='' />\n";
 		$output .= "\t\t\t\t\t\t<input type='hidden' name='target_date' value='$target_date' />\n";
 		return $output;
@@ -453,8 +453,7 @@ class Timeclock Extends Database{
 
 	public function inputTimeSetup2($target_date): string
     {
-		$output  = "\t\t" . '<input type="submit" name="submit" value="add" class="admin_up" onMouseUp="this.className';
-		$output .= "'admin_up'" . '" onMouseDown="this.className=' . "'admin_down'" . '" />' . "\n";
+		$output  = "\t\t<input type='submit' name='submit' value='add' class='admin_btn' />\n";
 
 		$output .= "\t\t" . '<select style="width:50px;" name="hour">' . "\n";
 		for ($i=1; $i<=12; $i++) { 
@@ -482,9 +481,7 @@ class Timeclock Extends Database{
 	public function buildDeleteButton($id): string
     {
 		$del  = '<button onClick="submitForm(' . "'change_time.php'" . ')" ';
-		$del .= "name='delete' value='$id' class='del_up' ";
-		$del .= 'onMouseUp="this.className=' . "'del_up'" . '" ';
-		$del .= 'onMouseDown="this.className=' . "'del_down'" . '">del</button>';
+		$del .= "name='delete' value='$id' class='del_btn' >del</button>";
 		return $del;
 	}
 

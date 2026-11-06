@@ -128,8 +128,8 @@
                 </table>
 
                 <div class="centered-div">
-                    <input type="button" name="submit" value="back"   class="admin_up" onClick="parent.location='menu.php'" />
-                    <input type="submit" name="submit" value="submit" class="admin_up" />
+                    <input type="button" name="submit" value="back"   class="admin_btn" onClick="parent.location='menu.php'" />
+                    <input type="submit" name="submit" value="submit" class="admin_btn" />
                 </div>
             </span>
             <div class="labels">

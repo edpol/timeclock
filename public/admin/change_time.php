@@ -79,8 +79,6 @@
 
 	$data = array("background_image"=>"Clock-Wallpaper-2.jpg", "background_color"=>"FFC", "tab"=>"Change", "background_body_color"=>"#07111A");
 	render("header", __DIR__, $data); 
-
-	$admin = 'class="admin_up" ' .'onMouseUp="this.className=' . "'admin_up'" . '" ' . 'onMouseDown="this.className=' . "'admin_down'" . '" '; 
 ?>
 
 <body>
@@ -103,8 +101,8 @@
 				</div>
 				<br class="clear" />
 				<div style="padding-top:20px; text-align:center;">
-					<input type="button" tabindex=3 name="submit" value="menu"   <?= $admin; ?> onClick="parent.location='menu.php'" />
-					<input type="submit" tabindex=4 name="submit" value="submit" <?= $admin; ?> />
+					<input type="button" tabindex=3 name="submit" value="menu"   class="admin_btn" onClick="parent.location='menu.php'" />
+					<input type="submit" tabindex=4 name="submit" value="submit" class="admin_btn" />
 				</div>
 			</form>
 			<br />

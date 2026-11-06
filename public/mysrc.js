@@ -20,12 +20,11 @@ function pressed(e) {
 /*
  *  Restrict a text input to digits as the user types.
  *
- *  Replaces the old onKeyPress="return numbersOnly(event);" pattern used on
- *  the phone/social/emergency_number fields: numbersOnly() was never
- *  actually defined anywhere in this codebase, so those fields have never
- *  enforced numeric input (every keystroke just threw a silent
- *  "numbersOnly is not defined" console error). The `keypress` event this
- *  relied on is also deprecated (WHATWG DOM / MDN) in favor of `input`.
+ *  Replaces the old onKeyPress="return numbersOnly(event);" pattern used on the
+ *  phone/social/emergency_number fields: numbersOnly() was never actually defined
+ *  anywhere in this codebase, so those fields have never enforced numeric input
+ *  (every keystroke just threw a silent "numbersOnly is not defined" console error).
+ *  The `keypress` event this relied on is also deprecated (WHATWG DOM / MDN) in favor of `input`.
  *  Usage: <input oninput="digitsOnly(this);" ... />
  */
 function digitsOnly(input) {
@@ -144,34 +143,6 @@ function numbersOnly(e) {
     }
 }
 
-/*
- * set up listeners on class blue, pink and admin
- */
-function buttonSetup(button) {
-
-    function makeItHappenDown(x, buttonDown) {
-        return function () {
-            x.className = buttonDown;
-        }
-    }
-
-    function makeItHappenUp(x, buttonUp) {
-        return function () {
-            x.className = buttonUp;
-        }
-    }
-
-    if (document.getElementsByClassName(button + "_up")) {
-        let a = document.getElementsByClassName(button + "_up");
-        let x;
-        for (let i = 0; i < a.length; ++i) {
-            x = a[i];
-            x.addEventListener("mousedown", makeItHappenDown(x, button + "_down"), false);
-            x.addEventListener("mouseup", makeItHappenUp(x, button + "_up"), false);
-        }
-    }
-}
-
 // handle the form submit event
 function prepareEventHandlers() {
     document.getElementById("frmContact").onclick = function () {
@@ -208,12 +179,6 @@ window.onload = function () {
     if (document.getElementById('focus')) {
         document.getElementById('focus').focus();
     }
-
-    buttonSetup("del");
-    buttonSetup("edit");
-    buttonSetup("blue");
-    buttonSetup("pink");
-    buttonSetup("admin");
 
     if (document.getElementById('frmContact')) {
         prepareEventHandlers();

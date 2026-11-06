@@ -33,15 +33,15 @@ or ask what group do you want to move them to
 		<form id="form1" action="edit_employee2.php" autocomplete="off" method="post"> <!-- onKeyDown="pressed(event)"> -->
 			<span class="employee">
 				<span style=" margin:0 auto; display:table; float:left;">
-					<div align="center">Edit Groups</div>
+					<div class="centered-div">Edit Groups</div>
 
 					<div class="info">
 						<p><?= $list; ?></p>
 					</div>
 					<br />
-					<div align="center">
-						<input type="submit" name="submit" value="add"  class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
-						<input type="submit" name="submit" value="save" class="admin_up" onMouseUp="this.className='admin_up'" onMouseDown="this.className='admin_down'" />
+					<div class="centered-div">
+						<input type="submit" name="submit" value="add"  class="admin_btn" />
+						<input type="submit" name="submit" value="save" class="admin_btn" />
 					</div>
 				</span>
 			</span>
