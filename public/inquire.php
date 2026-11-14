@@ -42,23 +42,24 @@
 		<h1>
 			<div style="color:#FCF; font-weight:bold; font-size:36px; padding-bottom:18px;">Inquire</div>
 			<div class="bluebox">
-				<div align="center">
+				<div class="centered-div">
 					<span id="time"></span><br />
 					<?= showDate(); ?>
 				</div>
-				<form id="form2" action="find_id.php" autocomplete="off" method="post" data-enter-submit> <!-- doesnt need a submit button, just press return -->
+				<form id="form2" action="find_id.php" autocomplete="off" method="post" data-enter-submit> <!-- doesn't need a submit button, just press return -->
 					<div class="labels">
-						<p>ID Number: </p>
-						<p>Last Name: </p>
+                        <p><label for="focus">ID Number:</label> </p>
+                        <p><label for="lastname">Last Name:</label> </p>
 					</div>
 					<div style="float:left;">
 						<input type="password" name="barcode"  value="<?php echo $barcode;  ?>" id="focus" autofocus style="margin-bottom:6px;"/><br />
-						<input type="text"     name="lastname" value="<?php echo $lastname; ?>" /><br />  <!-- onclick="openWindow('hello.htm')" --> 
+						<input type="text"     name="lastname" value="<?php echo $lastname; ?>" id="lastname" /><br />  <!-- onclick="openWindow('hello.htm')" -->
 					</div>
 					<br class="clear" />
-					<div style="padding:30px 0 0px 0;">
+					<div style="padding:30px 0 0 0;">
 						<input type="button" name="index" value="Go Back To Punch In" class="pink_btn" onClick="parent.location='index.php'" />
 					</div>
+                    <button type="submit" style="display: none;"></button>
 <?php if(isset($message)) { echo $message; } ?>
 				</form>
 			</div>
@@ -68,6 +69,8 @@
     // if we are on this page we are not in edit mode
     if (isset($_SESSION["edit_employee"])) { unset($_SESSION["edit_employee"]); }
 ?>
-    <?php render("footer", __DIR__, []); ?>
+    <?php render("footer", __DIR__); ?>
 </body>
-</html>
+<?php
+render("html_close", __DIR__);
+?>
