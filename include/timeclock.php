@@ -98,7 +98,9 @@ class Timeclock Extends Database{
 		*	return to index and diplay this list (cancel button?)
 		*	they select the person they want, and they are punched in by the barcode number (or index?)
 		*/
+		global $session;
 		$output  = "\t\t<form action='" . $_SESSION["popup_next_page"] . "' method='post'>\n";
+		$output .= "\t\t" . $session->csrfField();
 		$output .= "\t\t<h1>Select Employee</h1><br />\n";
 		if ($this->num_rows>10) $output .= "\t\t<div class='divScrollAuto'> \n";
 		for ($i=1; $i<=$this->num_rows; $i++) {

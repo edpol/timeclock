@@ -107,7 +107,7 @@
 			</form>
 			<br />
 
-			<div class="greenbox" style="width:360px;">
+			<div class="greenbox">
 				<form id="form1" action="change_time.php" autocomplete="off" method="post">
 				<?= $session->csrfField(); ?>
 

@@ -1,0 +1,109 @@
+/*
+ *	Buttons
+ */
+:root {
+    /* colors */
+    --btn-top:    #59707E;
+    --btn-bottom: #0E1F33;
+    --btn-shadow: #07101B99;
+    --btn-border: #07101B;
+    --btn-highlight: #ffffff59;
+}
+/* Core Tactile Button Styles */
+.blue_btn, .red_btn, .green_btn, .pink_btn, .admin_btn, .del_btn, .edit_btn {
+    background: linear-gradient(180deg, var(--btn-top), var(--btn-bottom));
+    color: #ffffff;
+    border: 1px solid var(--btn-border);
+    border-radius: 24px;
+    padding: 14px 20px;
+    box-shadow:
+            inset 0  1px 0    var(--btn-highlight),
+            inset 0 -2px 0    #0003,
+            0  1px 2px  #0006,
+            0  8px 24px -6px var(--btn-shadow);
+    transition: translate 0.12s ease, box-shadow 0.12s ease;
+    text-decoration: none;
+    letter-spacing:.05em;
+    font-weight: bold;
+    font-size: 18px;
+    font-family:Arial, Helvetica, sans-serif;
+    min-width: 100px;
+    display: inline-block;
+    text-align: center;
+    margin: 3px 6px;
+}
+
+.red_btn, .del_btn {
+    --btn-top:    #FF8888;
+    --btn-bottom: #CC3333;
+    --btn-shadow: #8A1C1C99;
+    --btn-border: #8A1C1C;
+    background: linear-gradient(180deg, var(--btn-top), var(--btn-bottom));
+    border: 1px solid var(--btn-border);
+    box-shadow:
+            inset 0  1px 0    var(--btn-highlight),
+            inset 0 -2px 0    #0003,
+            0  1px 2px  #0006,
+            0  8px 24px -6px var(--btn-shadow);
+}
+.green_btn {
+    --btn-top:       #BBC577;
+    --btn-bottom:    #61923B;
+    --btn-border:    #3B5C22;   /* Deep forest green border to ground the lighter sage top */
+    --btn-shadow:    #3b5c2273;
+    background: linear-gradient(180deg, var(--btn-top), var(--btn-bottom));
+    border: 1px solid var(--btn-border);
+    box-shadow:
+            inset 0  1px 0    var(--btn-highlight),
+            inset 0 -2px 0    #0003,
+            0  1px 2px  #0006,
+            0  8px 24px -6px var(--btn-shadow);
+}
+.pink_btn {
+    --btn-top:       #D966D9;   /* Rich orchid-magenta (replaces bright #FFBBFF) */
+    --btn-bottom:    #991F99;   /* Deep berry-magenta (replaces neon #FF66FF) */
+    --btn-border:    #5C0F5C;   /* Dark plum border to frame the deeper gradient */
+    --btn-highlight: #ffffff4d; /* 30% white top bevel (subtle and balanced on the darker top) */
+    --btn-shadow:    #5c0f5c73; /* Deep plum drop shadow at 45% opacity */
+    background: linear-gradient(180deg, var(--btn-top), var(--btn-bottom));
+    border: 1px solid var(--btn-border);
+    box-shadow:
+            inset 0  1px 0    var(--btn-highlight),
+            inset 0 -2px 0    #0003,
+            0  1px 2px  #0006,
+            0  8px 24px -6px var(--btn-shadow);
+}
+.admin_btn, .edit_btn {
+    --btn-top:       #6F735A;
+    --btn-bottom:    #070D0D;
+    --btn-border:    #020404;   /* Near-pure black border to crisp up the dark bottom edge */
+    --btn-highlight: #ffffff33; /* 20% white top bevel (subtle so it doesn't look harsh on muted #6F735A) */
+    --btn-shadow:    #070d0d80; /* Deep charcoal drop shadow at 50% opacity */
+    background: linear-gradient(180deg, var(--btn-top), var(--btn-bottom));
+    border: 1px solid var(--btn-border);
+    box-shadow:
+            inset 0  1px 0    var(--btn-highlight),
+            inset 0 -2px 0    #0003,
+            0  1px 2px  #0006,
+            0  8px 24px -6px var(--btn-shadow);
+}
+
+.blue_btn:hover, .red_btn:hover, .green_btn:hover, .pink_btn:hover, .admin_btn:hover, .del_btn:hover, .edit_btn:hover {
+    filter: brightness(1.10);
+}
+.blue_btn:active, .red_btn:active, .green_btn:active, .pink_btn:active, .admin_btn:active, .del_btn:active, .edit_btn:active {
+    translate: 0 1px;
+    box-shadow: inset 0 2px 4px #0004 !important;
+    filter: brightness(0.97);
+}
+
+.pink_btn { width:240px; }
+.edit_btn { min-width:140px; }
+.admin_btn { width:200px; }
+
+.del_btn {
+    min-width:36px;
+    padding:10px 0;
+    font-size:14px;
+}
+

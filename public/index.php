@@ -43,31 +43,23 @@
 		<h2>
             <?= $display; ?>
 			<div class="bluebox">
-				<div class="centered-div">
+				<div class="centered-div" style="margin-bottom:6px;">
 					<span id="time"></span><br />
 					<?= showDate(); ?>
 				</div>
                 <form id="form1" action="find_id.php" autocomplete="off" method="post" data-enter-submit>
                     <!-- doesn't need a submit button, just press return -->
-					<div class="labels">
-                        <p><label for="focus"   >ID Number:</label> </p>
-                        <p><label for="lastname">Last Name:</label> </p>  <!-- onclick="openWindow('hello.htm')" -->
-					</div>
-					<div style="float:left; padding-top:0;">
-						<input type="password" name="barcode"  value="" id="focus" autofocus style="margin-bottom:6px;"  /><br />
-						<input type="text"     name="lastname" value="" id="lastname" /><br />
-                        <!-- onclick="openWindow('hello.htm')" -->
-					</div>
-					<br class="clear" />
+                    <div class="form-group">
+                        <label>ID Number: <input type="password" name="barcode" value="" id="barcode" autofocus /></label>
+                        <label>Last Name: <input type="text" name="lastname" value="" id="lastname" /></label>
+                    </div>
 
                     <!-- Buttons on the bottom -->
-					<input type="hidden"   name="calling_url" value="index.php" />
-					<div style="clear:both; padding-top:20px;">
-						<input type="submit" style="display: none" />
-						<a id="login"   class="blue_btn" href="admin/login.php">Sign In</a>
-						<a id="inquire" class="blue_btn" href="inquire.php"    >Inquire</a>
-					</div>
-<?php				if(isset($message)) { echo "<div style='padding-top: 20px;'>$message</div>"; } ?>
+                    <div style="clear:both; padding-top:10px;">
+                        <a id="login"   class="blue_btn" href="admin/login.php">Sign In</a>
+                        <a id="inquire" class="blue_btn" href="inquire.php"    >Inquire</a>
+                    </div>
+                    <?php if(!empty($message)) { echo "<div style='padding-top: 20px;'>$message</div>"; } ?>
 				</form>
 			</div>
 		</h2>

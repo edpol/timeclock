@@ -65,7 +65,7 @@ h2 {text-align:left;}
 input { border-radius: 4px; }
 input, select, button {margin-top:4px; margin-bottom:3px; }
 input, select { width:160px; text-align:center; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:18px; background-color:#DDD; color:black; padding: 2px;}
-input:focus, select:focus   { background-color: #00FFFF; }
+
 select {margin-top:4px; margin-bottom:3px; width:186px; }
 input[type='checkbox'] { margin-top:12px;}
 input[type='radio'],input[type='checkbox'] { width:10px; }
@@ -74,7 +74,7 @@ input[type='radio'],input[type='checkbox'] { width:10px; }
 .info {line-height:1.6em;}
 
 table {color:black; font-size:12px;}
-td, th, caption {font-size:24px; color:white; text-align:left; padding:6px; }
+td, th, caption {font-size:24px; color:white; text-align:left; padding:4px; }
 caption {text-align:center;}
 .labels td, .labels th {font-size:24px; color:white; text-align:left; width:160px; }
 .labels { float:left; color:#EEEEEE; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:24px; padding:0 8px 0 0;}
@@ -89,51 +89,9 @@ caption {text-align:center;}
 
 #date_time { text-align:center; padding-bottom:10px; }
 
-/*
- *	Buttons
- */
 
 form {display:inline;}
 
-.red_btn, .green_btn, .blue_btn, .pink_btn, .admin_btn, .del_btn, .edit_btn {
-	min-width:160px;
-	padding:12px 20px; 
-	font-size:18px; 
-	border-radius:24px; 
-	color:white; 
-	border:none; 
-	font-weight:bold; 
-	font-family:Arial, Helvetica, sans-serif;
-	text-decoration:none; 
-/*	letter-spacing:.1em;  */
-}
-
-.red_btn          { background-image:linear-gradient(to bottom, #FF8888 0%, #CC3333 100%); }
-.red_btn:active   { background-image:linear-gradient(to bottom, #CC3333 0%, #FF8888 100%); }
-.green_btn        { background-image:linear-gradient(to bottom, #BBc577 0%, #61923b 100%); }
-.green_btn:active { background-image:linear-gradient(to bottom, #61923b 0%, #BBc577 100%); }
-.blue_btn         { background-image:linear-gradient(to bottom, #59707E 0%, #0E1F33 100%); }
-.blue_btn:active  { background-image:linear-gradient(to bottom, #0E1F33 0%, #59707E 100%); }
-.pink_btn         { background-image:linear-gradient(to bottom, #FFBBFF 0%, #FF66FF 100%); }
-.pink_btn:active  { background-image:linear-gradient(to bottom, #FF66FF 0%, #FFBBFF 100%); }
-.del_btn          { background-image:linear-gradient(to bottom, #FF8888 0%, #CC3333 100%); }
-.del_btn:active   { background-image:linear-gradient(to bottom, #CC3333 0%, #FF8888 100%); }
-.edit_btn,
-.admin_btn   { background-image:linear-gradient(to bottom, #6F735A 0%, #070D0D 100%); }
-.edit_btn:active,
-.admin_btn:active { background-image:linear-gradient(to bottom, #070D0D 0%, #6F735A 100%); }
-
-.pink_btn { width:220px; }
-.edit_btn { min-width:110px; }
-
-a.blue_btn, a.pink_btn {
-	padding:12px 50px; 
-}
-.del_btn {
-	min-width:28px;
-	padding:6px 0;
-	font-size:11px; 
-}
 
 .greenbox {
 	padding:20px; border-radius:20px;
@@ -223,4 +181,11 @@ input[type='checkbox'] { transform: scale(2); }
     width: 100%; /* Give the div a specific width */
     margin: 0 auto; /* This centers the div horizontally */
     text-align: center;
+}
+
+.form-group label {
+	display: grid;
+	grid-template-columns: 140px 160px; /* 1st value = label width, 2nd = input width */
+	align-items: center;
+	margin-bottom: 6px;
 }

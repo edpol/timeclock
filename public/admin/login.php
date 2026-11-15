@@ -72,10 +72,10 @@
 
 					<!-- Buttons -->
 					<div class="centered-div" style="padding-top:20px;">
-						<a style="padding:14px 65px;" href="../index.php" class="admin_btn">back</a>
-						<input type="submit" name="submit" value="submit"  class="admin_btn" />
+                        <button class="admin_btn" type="submit" name="submit" value="submit">submit</button>
+                        <button class="admin_btn" type="submit" formaction="../index.php" formnovalidate>back</button>
 					</div>
-					<?php if(isset($message)) echo $message; ?>
+					<?php if(!empty($message)) echo $message; ?>
 				</form>
 			</div>
 		</span>

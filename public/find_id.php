@@ -1,5 +1,6 @@
 <?php
 	require_once("../include/initialize.php");
+    global $session;
 /* 	all this script does is get the record number of the employee
 	we need this function for the inquire page so we cant check for logged in
 	if(!$session->isLoggedIn()) {
@@ -39,7 +40,7 @@
 
 	// have last name, find id
 	$calling_url = isset($_SESSION['calling_url']) ? htmlspecialchars($_SESSION['calling_url'],ENT_QUOTES) : "index.php";
-	if ( (isset($_POST['employeeid']) && !empty($_POST['employeeid']) ) || $getout) {
+	if ( (!empty($_POST['employeeid'])) || $getout) {
 		if (isset($_POST['employeeid'])) $_SESSION['employeeid'] = $_POST["employeeid"];
 		redirectTo($calling_url);
 	}

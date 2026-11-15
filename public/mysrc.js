@@ -175,11 +175,6 @@ window.onload = function () {
         showClock();
     }
 
-    //	document.forms['form1'].elements['barcode'].focus();
-    if (document.getElementById('focus')) {
-        document.getElementById('focus').focus();
-    }
-
     if (document.getElementById('frmContact')) {
         prepareEventHandlers();
     }
