@@ -1,6 +1,7 @@
 {
     "name": "root/timeclock",
     "description": "Timeclock Utility",
+    "license": "proprietary",
     "autoload": {
         "classmap": ["include/"]
     },
