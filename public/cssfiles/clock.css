@@ -1,0 +1,81 @@
+/* Layout idea: one centered stage, analog face above a digital readout below. */
+:root {
+    --bg: #eef0f2;
+    --surface: #fbfbfc;
+    --ink: #1b2430;
+    --muted: #6b7684;
+    --accent: #d2452b;
+    --line: #d5d9de;
+    --font-display: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    --font-mono: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #12171d;
+        --surface: #1b222b;
+        --ink: #e8ecf0;
+        --muted: #8f9aa8;
+        --accent: #ff7a5c;
+        --line: #2f3945;
+        color-scheme: dark;
+    }
+}
+:root[data-theme="dark"] {
+    --bg: #12171d;
+    --surface: #1b222b;
+    --ink: #e8ecf0;
+    --muted: #8f9aa8;
+    --accent: #ff7a5c;
+    --line: #2f3945;
+    color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+}
+main {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+}
+.face {
+    width: min(100%, 200px);
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+}
+.face svg { width: 100%; height: 100%; display: block; }
+.tick { stroke: var(--muted); stroke-width: 1; }
+.tick.major { stroke: var(--ink); stroke-width: 2.5; }
+.num { fill: var(--ink); font-family: var(--font-display); font-size: 17px; text-anchor: middle; dominant-baseline: central; }
+.hand { stroke-linecap: round; }
+.hand.hour, .hand.minute { stroke: var(--ink); }
+.hand.second { stroke: var(--accent); stroke-width: 1.6; }
+.hub { fill: var(--accent); }
+
+.readout { text-align: center; display: flex; flex-direction: column; gap: 6px; }
+.time {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.4rem, 12vw, 3.4rem);
+    letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+}
+.time .ampm { font-family: var(--font-mono); font-size: 0.35em; color: var(--muted); margin-left: 0.4em; letter-spacing: 0.08em; }
+.date { color: var(--muted); font-size: 0.95rem; text-wrap: balance; }
+.zone { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }

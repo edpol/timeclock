@@ -8,6 +8,7 @@
 	<link rel="shortcut icon" href=<?= "'$host_public/images/index.ico'"; ?> type="image/x-icon"  />
 	<link rel="stylesheet" type="text/css" href=<?= "'$host_public/cssfiles/styles.css'";  ?> />
     <link rel="stylesheet" type="text/css" href=<?= "'$host_public/cssfiles/buttons.css'"; ?> />
+    <link rel="stylesheet" type="text/css" href=<?= "'$host_public/cssfiles/clock.css'"; ?> />
     <link rel="stylesheet" type="text/css" href=<?= "'$host_public/cssfiles/popup.css'";   ?> />
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js" type="application/javascript"></script>

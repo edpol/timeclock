@@ -61,19 +61,19 @@
 						<?= showDate(); ?>
 					</div>
 					<div class="labels">
-                        <p><label for="focus">username:</label> </p>
+                        <p><label for="username">username:</label> </p>
                         <p><label for="password">password:</label> </p>
 					</div>
 					<div style="float:left;">
-						<input type="text"     name="username" value="" id="focus" autofocus /><br />
-						<input type="password" name="password" value="" id="password" /><br />
+						<input type="text"     name="username" value="" id="username" autocomplete="off" autofocus /><br />
+						<input type="password" name="password" value="" id="password" autocomplete="new-password" /><br />
 					</div>
 					<br class="clear" />
 
 					<!-- Buttons -->
 					<div class="centered-div" style="padding-top:20px;">
-                        <button class="admin_btn" type="submit" name="submit" value="submit">submit</button>
-                        <button class="admin_btn" type="submit" formaction="../index.php" formnovalidate>back</button>
+                        <button style="width:150px;" class="admin_btn login_btn" type="submit" name="submit" value="submit">submit</button>
+                        <a style="width:150px;" class="admin_btn login_btn" href="../index.php">back</a>
 					</div>
 					<?php if(!empty($message)) echo $message; ?>
 				</form>
