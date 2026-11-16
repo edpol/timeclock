@@ -3,19 +3,19 @@
     --bg: #eef0f2;
     --surface: #fbfbfc;
     --ink: #1b2430;
-    --muted: #6b7684;
+    --muted: #647684;
     --accent: #d2452b;
     --line: #d5d9de;
     --font-display: Arial, "Helvetica Neue", Helvetica, sans-serif;
     --font-mono: Arial, "Helvetica Neue", Helvetica, sans-serif;
-    color-scheme: light;
+    color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
         --bg: #12171d;
         --surface: #1b222b;
         --ink: #e8ecf0;
-        --muted: #8f9aa8;
+        --muted: #ffffffCC; /*#8f9aa8;*/
         --accent: #ff7a5c;
         --line: #2f3945;
         color-scheme: dark;
@@ -25,7 +25,7 @@
     --bg: #12171d;
     --surface: #1b222b;
     --ink: #e8ecf0;
-    --muted: #8f9aa8;
+    --muted: #ffffffCC; /*#8f9aa8;*/
     --accent: #ff7a5c;
     --line: #2f3945;
     color-scheme: dark;
