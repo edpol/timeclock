@@ -54,7 +54,7 @@ render("header", __DIR__, $data);
                 </div>
 
                 <!-- Buttons on the bottom -->
-                <div style="clear:both; padding-top:10px;">
+                <div style="clear:both; padding-top:10px;" class="centered-div">
                     <a id="login"   class="blue_btn" href="admin/login.php">Sign In</a>
                     <a id="inquire" class="blue_btn" href="inquire.php"    >Inquire</a>
                 </div>

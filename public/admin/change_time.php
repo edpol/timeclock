@@ -91,12 +91,12 @@
 			<form id="form1" action="../find_id.php" autocomplete="off" method="post" data-enter-submit>
 				<?= $session->csrfField(); ?>
 				<div class="labels">
-                    <p><label for="focus">Last Name:</label> </p>
-                    <p><label for="datepicker">Date:</label> </p>
+                    <p><label for="lastname">Last Name:</label> </p>
+                    <p><label for="target_date">Date:</label> </p>
 				</div>
 				<div style="padding-left:4px; float:left;">
-					<input type="text"   tabindex=1 onClick="submitForm('../find_id.php')" name="lastname"    value="<?php echo $lastname;?>"    id="focus" /><br />  <!-- onclick="openWindow('hello.htm')" --> 
-					<input type="text"   tabindex=2 onClick="submitForm('../find_id.php')" name="target_date" value="<?php echo $target_date;?>" id="datepicker" /><br />
+					<input type="text"   tabindex=1 onClick="submitForm('../find_id.php')" name="lastname"    value="<?php echo $lastname;?>"    id="lastname" autofocus /><br />  <!-- onclick="openWindow('hello.htm')" -->
+					<input type="text"   tabindex=2 onClick="submitForm('../find_id.php')" name="target_date" value="<?php echo $target_date;?>" id="target_date" /><br />
 					<input type="hidden" name="calling_url" value="admin/change_time.php" />
 				</div>
 				<br class="clear" />
